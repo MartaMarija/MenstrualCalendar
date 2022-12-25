@@ -1,2 +1,0 @@
-# MenstrualniKalendar
-Projekt za TBP
