@@ -1,7 +1,7 @@
 import { AppDataSource } from './db/entrypoint/db_connection';
 import cors from 'cors';
 import express, { NextFunction, Request, Response } from 'express';
-import { AppError } from './model/enums/AppError';
+import { AppError } from './model/constants/AppError';
 //const userRoutes = require('./controller/user.controller');
 
 const main = async () => {

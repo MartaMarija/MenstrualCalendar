@@ -9,7 +9,7 @@ export const AppDataSource = new DataSource({
   host: process.env.DB_HOST || 'localhost',
   port: parseInt(process.env.DB_PORT!) || 5757,
   database: process.env.DB_NAME || 'mencaldb',
-  schema: process.env.DB_SCHEMA || 'menstrualni_kalendar',
+  schema: process.env.DB_SCHEMA || 'mencal',
   username: process.env.DB_USER || 'mencalusr',
   password: process.env.DB_PASSWORD || 'mencalpas',
   synchronize: false,

@@ -1,4 +1,4 @@
-CREATE SCHEMA menstrualni_kalendar;
+CREATE SCHEMA mencal;
 
 -- CREATE USER mencalusr WITH PASSWORD 'mencalpas';
 
