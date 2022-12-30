@@ -5,7 +5,8 @@
   "main": "index.ts",
   "scripts": {
     "watch": "tsc -w",
-    "start": "nodemon dist/index.js"
+    "start": "nodemon dist/index.js",
+    "pretty": "yarn prettier --write ."
   },
   "repository": "https://github.com/MartaMarija/MenstrualniKalendar.git",
   "author": "MartaMarija <mpicic@student.foi.hr>",

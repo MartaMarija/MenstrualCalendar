@@ -1,7 +1,7 @@
-import { AppDataSource } from './db/entrypoint/db_connection';
-import cors from 'cors';
-import express, { NextFunction, Request, Response } from 'express';
-import { AppError } from './model/constants/AppError';
+import { AppDataSource } from "./db/entrypoint/db_connection";
+import cors from "cors";
+import express, { NextFunction, Request, Response } from "express";
+import { AppError } from "./model/constants/AppError";
 //const userRoutes = require('./controller/user.controller');
 
 const main = async () => {
@@ -14,7 +14,7 @@ const main = async () => {
 
   //Reached only when no other middleware gives a response. Basically, for handling unsupported routes
   app.use((_, __, next) => {
-    return next(new AppError('Unsupported route', 404));
+    return next(new AppError("Unsupported route", 404));
   });
 
   app.use((error: AppError, _: Request, res: Response, next: NextFunction) => {
@@ -24,7 +24,7 @@ const main = async () => {
     }
 
     res.status(error.code || 500);
-    res.json({ error: error.message || 'Unknown error occurred!' });
+    res.json({ error: error.message || "Unknown error occurred!" });
   });
 
   app.listen(parseInt(process.env.API_PORT!) || 8000);
@@ -32,6 +32,6 @@ const main = async () => {
 
 AppDataSource.initialize()
   .then((conn) => conn.runMigrations())
-  .then(() => console.log('Successfully connected to the database!'))
+  .then(() => console.log("Successfully connected to the database!"))
   .then(main)
   .catch((error) => console.log(error));

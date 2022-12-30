@@ -1,14 +1,13 @@
-import { MigrationInterface, QueryRunner } from "typeorm"
+import { MigrationInterface, QueryRunner } from "typeorm";
 
 export class table1672245702970 implements MigrationInterface {
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    const schemaName: string = process.env.DB_SCHEMA || "mencal";
 
-    public async up(queryRunner: QueryRunner): Promise<void> {
-        const schemaName: string = process.env.DB_SCHEMA || 'mencal';
+    await queryRunner.query(`set schema '${schemaName}';`);
 
-        await queryRunner.query(`set schema '${schemaName}';`);
-
-        await queryRunner.query(
-            `
+    await queryRunner.query(
+      `
                 DROP TABLE IF EXISTS "user" CASCADE;
                 CREATE TABLE "user" (
                     "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -93,10 +92,10 @@ export class table1672245702970 implements MigrationInterface {
                     REFERENCES "user"(id)
                 );
             `
-        );
-    }
+    );
+  }
 
-    down(): Promise<any> {
-        throw new Error('Method not implemented.');
-    }
+  down(): Promise<any> {
+    throw new Error("Method not implemented.");
+  }
 }
