@@ -10,9 +10,9 @@ export class tableData1672247404926 implements MigrationInterface {
         await queryRunner.query(
             `
                 INSERT INTO "user" VALUES
-                ('27700306-06aa-4bd1-a3f4-67570384b5e1', 'Ana', 'Anić', 'ana@gmail.com', 'pass', 28, 4),
-                ('0ff0abcf-519c-4d47-b0f2-f65079284120', 'Jana', 'Janić', 'jana@gmail.com', 'pass', 31, 5),
-                ('1cfd14e8-cbb1-40a3-a892-a4f8a185f024', 'Lana', 'Lanić', 'lana@gmail.com', 'pass', 27, 6);
+                ('27700306-06aa-4bd1-a3f4-67570384b5e1', 'Ana', 'Anić', 'ana@gmail.com', 'pass', 28, 4, 14),
+                ('0ff0abcf-519c-4d47-b0f2-f65079284120', 'Jana', 'Janić', 'jana@gmail.com', 'pass', 31, 5, 14),
+                ('1cfd14e8-cbb1-40a3-a892-a4f8a185f024', 'Lana', 'Lanić', 'lana@gmail.com', 'pass', 27, 6, 14);
 
                 INSERT INTO "gynecologist" VALUES
                 ('dceb1b3e-917f-4adc-b894-a84ef856d90f', 'Dom zdravlja', 'Fiona Horvat', '021/600-600', 'Zagrebačka ulica 3, 10000 Zagreb', '27700306-06aa-4bd1-a3f4-67570384b5e1'),
@@ -55,13 +55,13 @@ export class tableData1672247404926 implements MigrationInterface {
                 ('10709605-9696-4ece-96ca-85f7589f74c8', 'Sour', 'f5eb1061-c136-4c9c-89aa-dbbbb4f067df');
 
                 INSERT INTO "day" VALUES
-                ('2022-11-10', '27700306-06aa-4bd1-a3f4-67570384b5e1', '935a9250-35cb-491e-ac57-e8061177f152'),
-                ('2022-01-01', '27700306-06aa-4bd1-a3f4-67570384b5e1', '7c0933ff-e6f0-4740-9c8d-9dc89f3c9c94'),
-                ('2022-01-02', '27700306-06aa-4bd1-a3f4-67570384b5e1', '8f8fe73d-ed61-4acb-9f34-9b28eb5bd77c'),
-                ('2022-01-02', '27700306-06aa-4bd1-a3f4-67570384b5e1', '7c0933ff-e6f0-4740-9c8d-9dc89f3c9c94'),
-                ('2022-12-20', '27700306-06aa-4bd1-a3f4-67570384b5e1', '7a2708da-f7e3-4541-8439-df1eade7ba96'),
-                ('2022-12-20', '27700306-06aa-4bd1-a3f4-67570384b5e1', '7c0933ff-e6f0-4740-9c8d-9dc89f3c9c94'),
-                ('2022-12-25', '27700306-06aa-4bd1-a3f4-67570384b5e1', '10709605-9696-4ece-96ca-85f7589f74c8');
+                ('0a1f35fe-6b76-45d6-9b0c-c1092e5f4a28', '2022-11-10', '27700306-06aa-4bd1-a3f4-67570384b5e1', '935a9250-35cb-491e-ac57-e8061177f152'),
+                ('6a9356cc-95d6-4662-b8f4-951ce17241a5', '2022-01-01', '27700306-06aa-4bd1-a3f4-67570384b5e1', '7c0933ff-e6f0-4740-9c8d-9dc89f3c9c94'),
+                ('fe270b38-b809-40e7-85a3-2be483b8a838', '2022-01-02', '27700306-06aa-4bd1-a3f4-67570384b5e1', '8f8fe73d-ed61-4acb-9f34-9b28eb5bd77c'),
+                ('2e2121ee-66a2-4c1a-b4fa-f269ab9abf08', '2022-01-02', '27700306-06aa-4bd1-a3f4-67570384b5e1', '7c0933ff-e6f0-4740-9c8d-9dc89f3c9c94'),
+                ('d30c7cd3-2503-495e-ac93-30d0b2322f9b', '2022-12-20', '27700306-06aa-4bd1-a3f4-67570384b5e1', '7a2708da-f7e3-4541-8439-df1eade7ba96'),
+                ('bd3c7ede-572a-4502-8b89-0711a098b809', '2022-12-20', '27700306-06aa-4bd1-a3f4-67570384b5e1', '7c0933ff-e6f0-4740-9c8d-9dc89f3c9c94'),
+                ('99995040-7717-493d-8749-0b89e997eea6', '2022-12-25', '27700306-06aa-4bd1-a3f4-67570384b5e1', '10709605-9696-4ece-96ca-85f7589f74c8');
 
                 INSERT INTO "menstrual_cycle" VALUES
                 ('0a1f35fe-6b76-45d6-9b0c-c1092e5f4a28', 29, 3, 14, '2022-09-12', '27700306-06aa-4bd1-a3f4-67570384b5e1'),

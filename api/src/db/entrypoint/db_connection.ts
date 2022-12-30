@@ -2,6 +2,12 @@ import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 import * as dotenv from 'dotenv';
 import { User } from '../../model/entity/User';
+import { Day } from '../../model/entity/Day';
+import { Description } from '../../model/entity/Description';
+import { DescriptionType } from '../../model/entity/DescriptionType';
+import { MedicalExam } from '../../model/entity/MedicalExam';
+import { Gynecologist } from '../../model/entity/Gynecologist';
+import { MenstrualCycle } from '../../model/entity/MenstrualCycle';
 dotenv.config();
 
 export const AppDataSource = new DataSource({
@@ -14,7 +20,7 @@ export const AppDataSource = new DataSource({
   password: process.env.DB_PASSWORD || 'mencalpas',
   synchronize: false,
   logging: process.env.LOG_SQL === 'true', // Logs sql that gets executed on the database
-  entities: [User],
+  entities: [User, Day, Description, DescriptionType, MedicalExam, Gynecologist, MenstrualCycle],
   migrations: ['dist/db/migrations/*.js'],
   migrationsTableName: 'changelog_master',
 });
