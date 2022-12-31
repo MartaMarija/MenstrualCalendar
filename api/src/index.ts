@@ -2,7 +2,7 @@ import { AppDataSource } from "./db/entrypoint/db_connection";
 import cors from "cors";
 import express, { NextFunction, Request, Response } from "express";
 import { AppError } from "./model/constants/AppError";
-//const userRoutes = require('./controller/user.controller');
+const userRoutes = require("./controllers/userController");
 
 const main = async () => {
   const app = express();
@@ -10,7 +10,7 @@ const main = async () => {
   app.use(express.json());
   app.use(cors());
 
-  //app.use('/api/users', userRoutes);
+  app.use("/api/users", userRoutes);
 
   //Reached only when no other middleware gives a response. Basically, for handling unsupported routes
   app.use((_, __, next) => {

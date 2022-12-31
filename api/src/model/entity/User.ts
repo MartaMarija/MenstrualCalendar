@@ -10,10 +10,10 @@ export class User {
   id: string;
 
   @Column("varchar", { length: 45, nullable: false })
-  firstName: string;
+  first_name: string;
 
   @Column("varchar", { length: 45, nullable: false })
-  lastName: string;
+  last_name: string;
 
   @Column("varchar", { length: 45, nullable: false, unique: true })
   email: string;
@@ -22,13 +22,13 @@ export class User {
   password: string;
 
   @Column("int", { nullable: false })
-  avgDurationOfMenstrualCycle: number;
+  avg_duration_of_menstrual_cycle: number;
 
   @Column("int", { nullable: false })
-  avgDurationOfMenstruation: number;
+  avg_duration_of_menstruation: number;
 
   @Column("int", { nullable: false })
-  avgDurationOfLutealPhase: number;
+  avg_duration_of_luteal_phase: number;
 
   @OneToMany(() => Day, (day) => day.user)
   days: Day[];
@@ -51,12 +51,12 @@ export class User {
     avgDurationOfMenstruation: number,
     avgDurationOfLutealPhase: number
   ) {
-    this.firstName = firstName;
-    this.lastName = lastName;
+    this.first_name = firstName;
+    this.last_name = lastName;
     this.email = email;
     this.password = password;
-    this.avgDurationOfMenstrualCycle = avgDurationOfMenstrualCycle;
-    this.avgDurationOfMenstruation = avgDurationOfMenstruation;
-    this.avgDurationOfLutealPhase = avgDurationOfLutealPhase;
+    this.avg_duration_of_menstrual_cycle = avgDurationOfMenstrualCycle;
+    this.avg_duration_of_menstruation = avgDurationOfMenstruation;
+    this.avg_duration_of_luteal_phase = avgDurationOfLutealPhase;
   }
 }
