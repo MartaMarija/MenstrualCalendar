@@ -49,7 +49,8 @@ export class User {
     password: string,
     avgDurationOfMenstrualCycle: number,
     avgDurationOfMenstruation: number,
-    avgDurationOfLutealPhase: number
+    avgDurationOfLutealPhase: number,
+    menstrualCycles: MenstrualCycle[]
   ) {
     this.first_name = firstName;
     this.last_name = lastName;
@@ -58,5 +59,6 @@ export class User {
     this.avg_duration_of_menstrual_cycle = avgDurationOfMenstrualCycle;
     this.avg_duration_of_menstruation = avgDurationOfMenstruation;
     this.avg_duration_of_luteal_phase = avgDurationOfLutealPhase;
+    this.menstrualCycles = menstrualCycles;
   }
 }

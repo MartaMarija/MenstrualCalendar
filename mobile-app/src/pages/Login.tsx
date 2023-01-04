@@ -1,15 +1,16 @@
 import { useState } from 'react'
 import { View, Text, TextInput, StyleSheet, Pressable } from 'react-native'
 import { LoginData } from '../api/request/LoginData'
-import { loginUser } from '../api/users'
+import { useAuth } from '../contexts/Auth'
 
 const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    async function checkLoginData() {
+    const auth = useAuth();
+
+    function logIn(){
         let loginData: LoginData = { email: email, password: password }
-        let jwt = await loginUser(loginData)
-        console.log(jwt)
+        auth.signIn(loginData);
     }
 
     return (
@@ -25,7 +26,7 @@ const Login = () => {
                 placeholder="Password"
                 onChangeText={password => setPassword(password)}
             />
-            <Pressable style={styles.button} onPress={checkLoginData}>
+            <Pressable style={styles.button} onPress={logIn}>
                 <Text style={styles.buttonText}>Login</Text>
             </Pressable>
         </View>
