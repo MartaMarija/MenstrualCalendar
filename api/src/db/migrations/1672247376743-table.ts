@@ -58,9 +58,11 @@ export class table1672245702970 implements MigrationInterface {
                     "menstruation_duration" int,
                     "luteal_phase_duration" int,
                     "cycle_start_date" date,
-                    "user_id" uuid,
+                    "menstruation_end_date" date,
+                    "ovulation_date" date,
+                    "userId" uuid,
                     CONSTRAINT "menstrual_cycle_user_fk"
-                    FOREIGN KEY("user_id") 
+                    FOREIGN KEY("userId") 
                     REFERENCES "user"(id)
                 );
 

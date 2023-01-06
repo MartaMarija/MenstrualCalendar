@@ -7,17 +7,23 @@ export class MenstrualCycle {
   id: string;
 
   @Column("int")
-  cycleDuration: number;
+  cycle_duration: number;
 
   @Column("int")
-  menstruationDuration: number;
+  menstruation_duration: number;
 
   @Column("int")
-  lutealPhaseDuration: number;
+  luteal_phase_duration: number;
 
   @Column("date")
-  cycleStartDate: Date;
+  cycle_start_date: Date;
 
+  @Column("date")
+  menstruation_end_date: Date;
+
+  @Column("date")
+  ovulation_date: Date;
+  
   @ManyToOne(() => User, (user) => user.menstrualCycles)
   user: User;
 }

@@ -25,6 +25,23 @@ export const AuthContextProvider: React.FC<Props> = ({ children }) => {
 
     const [loading, setLoading] = useState(true)
 
+    useEffect(() => {
+        loadStorageData()
+    }, [])
+
+    async function loadStorageData(): Promise<void> {
+        try {
+            const authDataSerialized = await AsyncStorage.getItem('@AuthData')
+            if (authDataSerialized) {
+                const token: AuthData = JSON.parse(authDataSerialized)
+                setAuthData(token)
+            }
+        } catch (error) {
+        } finally {
+            setLoading(false)
+        }
+    }
+
     const signIn = async (loginData: LoginData) => {
         let jwt = await loginUser(loginData);
         let token : AuthData = { token: jwt.token };
@@ -33,8 +50,9 @@ export const AuthContextProvider: React.FC<Props> = ({ children }) => {
     }
 
     const signOut = async () => {
-        setAuthData(undefined)
-        await AsyncStorage.removeItem('@AuthData')
+        setAuthData({token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3NzAwMzA2LTA2YWEtNGJkMS1hM2Y0LTY3NTcwMzg0YjVlMSIsImlhdCI6MTY3Mjg0Mzk2OX0.petZj_kEsD294Am1bdeSyuBMCLS7ZCvm1_YHHmVGLHo'});
+        //setAuthData(undefined)
+        //await AsyncStorage.removeItem('@AuthData')
     }
 
     return (

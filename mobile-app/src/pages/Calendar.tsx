@@ -7,7 +7,6 @@ import {
     TouchableOpacity,
 } from 'react-native'
 import { Calendar, DateData } from 'react-native-calendars'
-import { MarkingProps } from 'react-native-calendars/src/calendar/day/marking'
 import { MarkedDates } from 'react-native-calendars/src/types'
 import OptionList from '../components/OptionList'
 
@@ -16,20 +15,24 @@ const screen = Dimensions.get('window')
 const CalendarScreen = () => {
     const [pressed, setPressed] = useState(false)
     const [dayPressed, setDayPressed] = useState<DateData>()
+    const [canDeletePeriod, setcanDeletePeriod] = useState(false)
 
     const b = {
         days: [
             {
                 date: '2023-01-01',
                 color: 'red',
+                startingDay: 'true',
             },
             {
                 date: '2023-01-02',
                 color: 'red',
+                startingDay: 'true',
             },
             {
                 date: '2023-01-24',
                 color: 'red',
+                startingDay: 'true',
             },
         ],
     }
@@ -69,44 +72,53 @@ const CalendarScreen = () => {
     //     }
     // `;
 
+
+
     return (
         <View>
             <Calendar
-                onDayPress={day => {
-                    setDayPressed(day)
+                onDayPress={date => {
+                    // const date : string = `${day.year}-${day.month}-${day.day}`;
+                    // for (let i = 0; i < b['days'].length; i++) {
+                    //     if(b['days'][i].date == date && b['days'][i].startingDay == 'true')
+                    //     {
+                    //         setcanDeletePeriod(true)
+                    //     }
+                    // }
+                    setDayPressed(date)
                     setPressed(true)
                 }}
                 markingType={'period'}
                 markedDates={markedDatesArray}
                 onMonthChange={(date: DateData) => {
                     //Moram uzeti raspon od 2 mjeseca. Trenutni i prethodni
-                    let begginigMonth = date.month - 1
-                    if (begginigMonth == 0) {
-                        let month = '12'
-                        let year = date.year - 1
-                        console.log('\nPOČETAK: ' + year + '-' + month + '-01')
-                    } else {
-                        console.log(
-                            '\nPOČETAK: ' +
-                                date.year +
-                                '-' +
-                                begginigMonth +
-                                '-01'
-                        )
-                    }
+                    // let begginigMonth = date.month - 1
+                    // if (begginigMonth == 0) {
+                    //     let month = '12'
+                    //     let year = date.year - 1
+                    //     console.log('\nPOČETAK: ' + year + '-' + month + '-01')
+                    // } else {
+                    //     console.log(
+                    //         '\nPOČETAK: ' +
+                    //             date.year +
+                    //             '-' +
+                    //             begginigMonth +
+                    //             '-01'
+                    //     )
+                    // }
 
-                    if (date.month + 1 == 13) {
-                        let month = '01'
-                        let year = date.year + 1
-                        console.log(year + '-' + month + '-01')
-                    } else {
-                        let month = date.month + 1
-                        if (month.toString().length == 1) {
-                            console.log(date.year + '-' + 0 + month + '-01')
-                        } else {
-                            console.log(date.year + '-' + month + '-01')
-                        }
-                    }
+                    // if (date.month + 1 == 13) {
+                    //     let month = '01'
+                    //     let year = date.year + 1
+                    //     console.log(year + '-' + month + '-01')
+                    // } else {
+                    //     let month = date.month + 1
+                    //     if (month.toString().length == 1) {
+                    //         console.log(date.year + '-' + 0 + month + '-01')
+                    //     } else {
+                    //         console.log(date.year + '-' + month + '-01')
+                    //     }
+                    // }
                 }}
             />
             {pressed && (
@@ -115,7 +127,7 @@ const CalendarScreen = () => {
                     onPress={() => setPressed(false)}
                 >
                     <View style={styles.container2}>
-                        <OptionList day={dayPressed!} />
+                        <OptionList date={dayPressed!} />
                     </View>
                 </TouchableOpacity>
             )}
