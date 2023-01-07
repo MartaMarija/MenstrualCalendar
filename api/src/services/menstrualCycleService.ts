@@ -3,7 +3,6 @@ import { User } from "src/model/entity/User";
 import { MenstrualCycleRepository } from "../dao/menstrualCycleRepository";
 import * as userService from "../services/userService";
 import { DateSettings } from "../model/response/DateSettings";
-import { Between } from "typeorm";
 
 export const getDates = async (id: string): Promise<DateSettings[]> => {
   const menstrualCycles: MenstrualCycle[] = await MenstrualCycleRepository.find(

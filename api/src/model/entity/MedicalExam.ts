@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Gynecologist } from "./Gynecologist";
 import { User } from "./User";
 
@@ -13,9 +13,9 @@ export class MedicalExam {
   @Column("varchar", { length: 200 })
   description: string;
 
-  @OneToMany(() => Gynecologist, (gynecologist) => gynecologist.medicalExams)
+  @ManyToOne(() => Gynecologist, (gynecologist) => gynecologist.medicalExams)
   gynecologist: Gynecologist;
 
-  @OneToMany(() => User, (user) => user.medicalExams)
+  @ManyToOne(() => User, (user) => user.medicalExams)
   user: User;
 }

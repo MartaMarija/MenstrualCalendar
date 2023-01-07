@@ -84,13 +84,13 @@ export class table1672245702970 implements MigrationInterface {
                     "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
                     "date" date,
                     "description" varchar(200),
-                    "gynecologist_id" uuid,
-                    "user_id" uuid NOT NULL,
+                    "gynecologistId" uuid,
+                    "userId" uuid NOT NULL,
                     CONSTRAINT "medical_exam_gynecologist_fk"
-                    FOREIGN KEY("gynecologist_id") 
-                    REFERENCES gynecologist(id),
+                    FOREIGN KEY("gynecologistId") 
+                    REFERENCES gynecologist(id) ON DELETE SET NULL,
                     CONSTRAINT "medical_exam_user_fk"
-                    FOREIGN KEY("user_id")
+                    FOREIGN KEY("userId")
                     REFERENCES "user"(id)
                 );
             `

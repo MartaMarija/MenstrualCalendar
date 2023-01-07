@@ -14,10 +14,10 @@ export class Gynecologist {
   id: string;
 
   @Column("varchar", { length: 45, nullable: false })
-  firstName: string;
+  first_name: string;
 
   @Column("varchar", { length: 45 })
-  lastName: string;
+  last_name: string;
 
   @Column("varchar", { length: 20 })
   telephone: string;
@@ -28,6 +28,6 @@ export class Gynecologist {
   @OneToMany(() => User, (user) => user.gynecologists)
   user: User;
 
-  @ManyToOne(() => MedicalExam, (medicalExam) => medicalExam.gynecologist)
+  @OneToMany(() => MedicalExam, (medicalExam) => medicalExam.gynecologist)
   medicalExams: MedicalExam[];
 }
