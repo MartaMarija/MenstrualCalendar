@@ -10,11 +10,7 @@ router.get("/dates", async (req, res, next) => {
   let jwtTokenResult = jwtService.authenticateToken(token);
   if (jwtTokenResult == null) return next(new AppError("Invalid token!", 400));
 
-  return res.json(
-    await menstrualCycleService.getDates(
-      jwtTokenResult.id
-    )
-  );
+  return res.json(await menstrualCycleService.getDates(jwtTokenResult.id));
 });
 
 router.get("/optionRemovePeriod/:date", async (req, res, next) => {

@@ -5,41 +5,44 @@ import * as userService from "../services/userService";
 import { DateSettings } from "../model/response/DateSettings";
 import { Between } from "typeorm";
 
-export const getDates = async (
-  id: string
-): Promise<DateSettings[]> => {
-  const menstrualCycles: MenstrualCycle[] = await MenstrualCycleRepository.find({
-    select: {
-      cycle_start_date: true,
-      menstruation_end_date: true,
-      ovulation_date: true,
-    },
-    where: [
-      { user: { id: id }},
-    ],
-  });
- 
-  let dates : DateSettings[] = [];
-  menstrualCycles.forEach(cycle => {
-    let cycleStartDay : string = fromDataToString(new Date(cycle.cycle_start_date));
-    dates.push(new DateSettings(cycleStartDay, 'red', 'white', true, false));
+export const getDates = async (id: string): Promise<DateSettings[]> => {
+  const menstrualCycles: MenstrualCycle[] = await MenstrualCycleRepository.find(
+    {
+      select: {
+        cycle_start_date: true,
+        menstruation_end_date: true,
+        ovulation_date: true,
+      },
+      where: [{ user: { id: id } }],
+    }
+  );
 
-    let menstruationEndDate : string = fromDataToString(new Date(cycle.menstruation_end_date));
-    dates.push(new DateSettings(menstruationEndDate, 'red', 'white', false, true));
+  let dates: DateSettings[] = [];
+  menstrualCycles.forEach((cycle) => {
+    let cycleStartDay: string = fromDataToString(
+      new Date(cycle.cycle_start_date)
+    );
+    dates.push(new DateSettings(cycleStartDay, "red", "white", true, false));
 
-    let ovulationDate : string = fromDataToString(new Date(cycle.ovulation_date));
-    dates.push(new DateSettings(ovulationDate, '#F564A9', 'white', true, true));
+    let menstruationEndDate: string = fromDataToString(
+      new Date(cycle.menstruation_end_date)
+    );
+    dates.push(
+      new DateSettings(menstruationEndDate, "red", "white", false, true)
+    );
 
-
+    let ovulationDate: string = fromDataToString(
+      new Date(cycle.ovulation_date)
+    );
+    dates.push(new DateSettings(ovulationDate, "#F564A9", "white", true, true));
 
     const dateBetween = new Date(cycle.cycle_start_date);
     dateBetween.setDate(dateBetween.getDate() + 1);
     while (dateBetween < new Date(cycle.menstruation_end_date)) {
-      let _dateBetween : string = fromDataToString(dateBetween);
-      dates.push(new DateSettings(_dateBetween, 'red', 'white', false, false));
+      let _dateBetween: string = fromDataToString(dateBetween);
+      dates.push(new DateSettings(_dateBetween, "red", "white", false, false));
       dateBetween.setDate(dateBetween.getDate() + 1);
     }
-    
   });
   return dates;
 };
@@ -129,7 +132,7 @@ export const AddPeriod = async (id: string, date: Date): Promise<boolean> => {
 function fromDataToString(date: Date) {
   let month = date.toLocaleDateString("en-US", { month: "2-digit" });
   let day = date.toLocaleDateString("en-US", { day: "2-digit" });
-  return `${date.getFullYear()}-${month}-${day}`
+  return `${date.getFullYear()}-${month}-${day}`;
 }
 
 async function getLastCycleId(id: string) {

@@ -2,17 +2,21 @@ import { useEffect, useState } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { DateData } from 'react-native-calendars'
 import { showLoginOptions, updateDatabase } from '../api/menstrualCycle'
-import { MenstrualCycle } from '../api/response/MenstrualCycle'
 import { useAuth } from '../contexts/Auth'
 
 interface Props {
-    date: DateData;
-    pressed: boolean;
-    setPressed: (pressed: boolean | ((prevCityId: boolean) => boolean)) => void;
+    date: DateData
+    pressed: boolean
+    setPressed: (pressed: boolean | ((prevCityId: boolean) => boolean)) => void
     getDateSettings: Function
 }
 
-const OptionList: React.FC<Props> = ({ date, pressed, setPressed, getDateSettings}) => {
+const OptionList: React.FC<Props> = ({
+    date,
+    pressed,
+    setPressed,
+    getDateSettings,
+}) => {
     const auth = useAuth()
     const [showRemovePeriod, setShowRemovePeriod] = useState(false)
     const [showEndPeriod, setShowEndPeriod] = useState(false)
@@ -53,20 +57,42 @@ const OptionList: React.FC<Props> = ({ date, pressed, setPressed, getDateSetting
         })()
     }, [date])
 
-
-    async function choosenOption(route:string) {
-        const data = await updateDatabase(auth.authData?.token,
+    async function choosenOption(route: string) {
+        const data = await updateDatabase(
+            auth.authData?.token,
             fromDateDataToString(),
-            route);
-        setPressed(false);
+            route
+        )
+        setPressed(false)
         getDateSettings()
-      }
+    }
 
     return (
         <View style={styles.container}>
-            {showAddPeriod && <Text style={styles.font} onPress={() => choosenOption('addPeriod')}>Add period</Text>}
-            {showEndPeriod && <Text style={styles.font} onPress={() => choosenOption('endPeriod')}>End period</Text>}
-            {showRemovePeriod && <Text style={styles.font} onPress={() => choosenOption('removePeriod')}>Remove period</Text>}
+            {showAddPeriod && (
+                <Text
+                    style={styles.font}
+                    onPress={() => choosenOption('addPeriod')}
+                >
+                    Add period
+                </Text>
+            )}
+            {showEndPeriod && (
+                <Text
+                    style={styles.font}
+                    onPress={() => choosenOption('endPeriod')}
+                >
+                    End period
+                </Text>
+            )}
+            {showRemovePeriod && (
+                <Text
+                    style={styles.font}
+                    onPress={() => choosenOption('removePeriod')}
+                >
+                    Remove period
+                </Text>
+            )}
             <Text style={styles.font}>Add description</Text>
         </View>
     )

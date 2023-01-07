@@ -6,11 +6,11 @@ import { useAuth } from '../contexts/Auth'
 const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const auth = useAuth();
+    const auth = useAuth()
 
-    function logIn(){
+    function logIn() {
         let loginData: LoginData = { email: email, password: password }
-        auth.signIn(loginData);
+        auth.signIn(loginData)
     }
 
     return (

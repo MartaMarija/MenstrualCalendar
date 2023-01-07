@@ -1,11 +1,5 @@
 import { useEffect, useState } from 'react'
-import {
-    View,
-    Text,
-    StyleSheet,
-    Dimensions,
-    TouchableOpacity,
-} from 'react-native'
+import { View, StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
 import { Calendar, DateData } from 'react-native-calendars'
 import { MarkedDates } from 'react-native-calendars/src/types'
 import { getDateSetting } from '../api/menstrualCycle'
@@ -18,19 +12,18 @@ const screen = Dimensions.get('window')
 const CalendarScreen = () => {
     const auth = useAuth()
     const [pressed, setPressed] = useState(false)
-    const [optionChoosen, setOptionChoosen] = useState(false)
     const [dayPressed, setDayPressed] = useState<DateData>()
     const [markedDatesArray, setMarkedDatesArray] = useState<MarkedDates>()
 
     useEffect(() => {
-        (async () => {
+        ;(async () => {
             getDateSettings()
-        })();
-      }, []);
+        })()
+    }, [])
 
     async function getDateSettings() {
         const dateSettings: DateSettings[] = await getDateSetting(
-            auth.authData?.token,
+            auth.authData?.token
         )
         if (dateSettings) {
             let markedDates: MarkedDates = {}

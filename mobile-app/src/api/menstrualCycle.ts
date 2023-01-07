@@ -1,10 +1,11 @@
-import { useAuth } from '../contexts/Auth'
 import apiOrigin from './api'
-import { PeriodDates } from './request/PeriodDates'
 import { DateSettings } from './response/DateSettings'
-import { MenstrualCycle } from './response/MenstrualCycle'
 
-export const showLoginOptions = async (token: string | undefined, date: string, route: string):Promise<boolean> => {
+export const showLoginOptions = async (
+    token: string | undefined,
+    date: string,
+    route: string
+): Promise<boolean> => {
     let data
     try {
         data = await fetch(`${apiOrigin}/menstrualCycles/${route}/${date}`, {
@@ -13,16 +14,20 @@ export const showLoginOptions = async (token: string | undefined, date: string, 
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + token,
-            }
+            },
         })
     } catch (error) {
         console.log(error)
         throw error
     }
-    return await data.json() as boolean;
+    return (await data.json()) as boolean
 }
 
-export const updateDatabase = async (token: string | undefined, date: string, route: string):Promise<boolean> => {
+export const updateDatabase = async (
+    token: string | undefined,
+    date: string,
+    route: string
+): Promise<boolean> => {
     let data
     try {
         data = await fetch(`${apiOrigin}/menstrualCycles/${route}/${date}`, {
@@ -31,16 +36,18 @@ export const updateDatabase = async (token: string | undefined, date: string, ro
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + token,
-            }
+            },
         })
     } catch (error) {
         console.log(error)
         throw error
     }
-    return await data.json() as boolean;
+    return (await data.json()) as boolean
 }
 
-export const getDateSetting =async (token:string | undefined): Promise<DateSettings[]> => {
+export const getDateSetting = async (
+    token: string | undefined
+): Promise<DateSettings[]> => {
     let data
     try {
         data = await fetch(`${apiOrigin}/menstrualCycles/dates/`, {
@@ -49,11 +56,11 @@ export const getDateSetting =async (token:string | undefined): Promise<DateSetti
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + token,
-            }
+            },
         })
     } catch (error) {
         console.log(error)
         throw error
     }
-    return await data.json() as DateSettings[];
+    return (await data.json()) as DateSettings[]
 }
