@@ -9,13 +9,11 @@ interface Props {
     date: DateData;
     pressed: boolean;
     setPressed: (pressed: boolean | ((prevCityId: boolean) => boolean)) => void;
+    getDateSettings: Function
 }
 
-const OptionList: React.FC<Props> = ({ date, pressed, setPressed }) => {
+const OptionList: React.FC<Props> = ({ date, pressed, setPressed, getDateSettings}) => {
     const auth = useAuth()
-    const [menstrualCyclesList, setMenstrualCyclesList] = useState<
-        MenstrualCycle[] | null
-    >(null)
     const [showRemovePeriod, setShowRemovePeriod] = useState(false)
     const [showEndPeriod, setShowEndPeriod] = useState(false)
     const [showAddPeriod, setShowAddPeriod] = useState(false)
@@ -60,13 +58,12 @@ const OptionList: React.FC<Props> = ({ date, pressed, setPressed }) => {
         const data = await updateDatabase(auth.authData?.token,
             fromDateDataToString(),
             route);
-        console.log(data);
         setPressed(false);
+        getDateSettings()
       }
 
     return (
         <View style={styles.container}>
-            {/* onPress={() => {pozovi funkcije koje rade ovo} */}
             {showAddPeriod && <Text style={styles.font} onPress={() => choosenOption('addPeriod')}>Add period</Text>}
             {showEndPeriod && <Text style={styles.font} onPress={() => choosenOption('endPeriod')}>End period</Text>}
             {showRemovePeriod && <Text style={styles.font} onPress={() => choosenOption('removePeriod')}>Remove period</Text>}

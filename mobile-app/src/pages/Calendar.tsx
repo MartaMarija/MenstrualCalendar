@@ -18,14 +18,20 @@ const screen = Dimensions.get('window')
 const CalendarScreen = () => {
     const auth = useAuth()
     const [pressed, setPressed] = useState(false)
+    const [optionChoosen, setOptionChoosen] = useState(false)
     const [dayPressed, setDayPressed] = useState<DateData>()
     const [markedDatesArray, setMarkedDatesArray] = useState<MarkedDates>()
+
+    useEffect(() => {
+        (async () => {
+            getDateSettings()
+        })();
+      }, []);
 
     async function getDateSettings() {
         const dateSettings: DateSettings[] = await getDateSetting(
             auth.authData?.token,
         )
-        console.log(dateSettings);
         if (dateSettings) {
             let markedDates: MarkedDates = {}
             for (let i = 0; i < dateSettings.length; i++) {
@@ -49,9 +55,6 @@ const CalendarScreen = () => {
                 }}
                 markingType={'period'}
                 markedDates={markedDatesArray}
-                onMonthChange={() => {
-                    getDateSettings()
-                }}
             />
             {pressed && (
                 <TouchableOpacity
@@ -63,6 +66,7 @@ const CalendarScreen = () => {
                             date={dayPressed!}
                             pressed={pressed}
                             setPressed={setPressed}
+                            getDateSettings={getDateSettings}
                         />
                     </View>
                 </TouchableOpacity>
