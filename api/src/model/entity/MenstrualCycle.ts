@@ -23,7 +23,7 @@ export class MenstrualCycle {
 
   @Column("date")
   ovulation_date: Date;
-  
+
   @ManyToOne(() => User, (user) => user.menstrualCycles)
   user: User;
 }

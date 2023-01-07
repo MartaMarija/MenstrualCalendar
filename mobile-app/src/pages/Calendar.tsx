@@ -8,117 +8,71 @@ import {
 } from 'react-native'
 import { Calendar, DateData } from 'react-native-calendars'
 import { MarkedDates } from 'react-native-calendars/src/types'
+import { getDateSetting } from '../api/menstrualCycle'
+import { DateSettings } from '../api/response/DateSettings'
 import OptionList from '../components/OptionList'
+import { useAuth } from '../contexts/Auth'
 
 const screen = Dimensions.get('window')
 
 const CalendarScreen = () => {
+    const auth = useAuth()
     const [pressed, setPressed] = useState(false)
     const [dayPressed, setDayPressed] = useState<DateData>()
-    const [canDeletePeriod, setcanDeletePeriod] = useState(false)
+    const [markedDatesArray, setMarkedDatesArray] = useState<MarkedDates>()
 
-    const b = {
-        dates: [
-            {
-                date: '2023-01-01',
-                color: 'red',
-                startingDay: 'true',
-            },
-            {
-                date: '2023-01-02',
-                color: 'red',
-                startingDay: 'true',
-            },
-            {
-                date: '2023-01-24',
-                color: 'red',
-                startingDay: 'true',
-            },
-        ],
-    }
-
-    let markedDatesArray: MarkedDates = {}
-
-    for (let i = 0; i < b['dates'].length; i++) {
-        markedDatesArray[b['dates'][i].date] = {
-            color: b['dates'][i].color,
-            textColor: 'white',
+    async function getDateSettings(beginning: string, end: string) {
+        const dateSettings: DateSettings[] = await getDateSetting(
+            auth.authData?.token,
+            beginning,
+            end
+        )
+        if (dateSettings) {
+            let markedDates: MarkedDates = {}
+            for (let i = 0; i < dateSettings.length; i++) {
+                markedDates[dateSettings[i].date] = {
+                    color: dateSettings[i].color,
+                    textColor: dateSettings[i].textColor,
+                    startingDay: dateSettings[i].startingDay,
+                    endingDay: dateSettings[i].endingDay,
+                }
+            }
+            setMarkedDatesArray(markedDates)
         }
     }
-    //console.log(markedDatesArray)
 
-    //arr = JSON.parse(b);
-
-    // `
-    //     '2023-01-11': {
-    //         startingDay: true,
-    //         color: 'red',
-    //         textColor: 'white',
-    //     },
-    //     '2023-01-13': {
-    //         endingDay: true,
-    //         color: 'red',
-    //         textColor: 'white',
-    //     },
-    //     '2023-01-12': {
-    //         color: 'red',
-    //         textColor: 'white',
-    //     },
-    //     '2023-01-24':{
-    //         startingDay: true,
-    //         endingDay: true,
-    //         color: '#F564A9',
-    //         textColor: 'white'
-    //     }
-    // `;
-
-
+    function fromDateToString(date:Date) {
+        let month: string = (date.getMonth() + 1).toString()
+        let day: string = date.getDate().toString()
+        if (month.length == 1) {
+            month = '0' + month
+        }
+        if (day.length == 1) {
+            day = '0' + day
+        }
+        return `${date.getFullYear()}-${month}-${day}`
+    }
 
     return (
         <View>
             <Calendar
                 onDayPress={date => {
-                    // const date : string = `${day.year}-${day.month}-${day.day}`;
-                    // for (let i = 0; i < b['days'].length; i++) {
-                    //     if(b['days'][i].date == date && b['days'][i].startingDay == 'true')
-                    //     {
-                    //         setcanDeletePeriod(true)
-                    //     }
-                    // }
                     setDayPressed(date)
                     setPressed(true)
                 }}
                 markingType={'period'}
                 markedDates={markedDatesArray}
                 onMonthChange={(date: DateData) => {
-                    //Moram uzeti raspon od 2 mjeseca. Trenutni i prethodni
-                    // let begginigMonth = date.month - 1
-                    // if (begginigMonth == 0) {
-                    //     let month = '12'
-                    //     let year = date.year - 1
-                    //     console.log('\nPOČETAK: ' + year + '-' + month + '-01')
-                    // } else {
-                    //     console.log(
-                    //         '\nPOČETAK: ' +
-                    //             date.year +
-                    //             '-' +
-                    //             begginigMonth +
-                    //             '-01'
-                    //     )
-                    // }
-
-                    // if (date.month + 1 == 13) {
-                    //     let month = '01'
-                    //     let year = date.year + 1
-                    //     console.log(year + '-' + month + '-01')
-                    // } else {
-                    //     let month = date.month + 1
-                    //     if (month.toString().length == 1) {
-                    //         console.log(date.year + '-' + 0 + month + '-01')
-                    //     } else {
-                    //         console.log(date.year + '-' + month + '-01')
-                    //     }
-                    // }
+                    let startDate: Date = new Date(date.year, date.month - 1, 1)
+                    let endDate: Date = new Date(
+                        date.year,
+                        date.month,
+                        1
+                    )
+                    getDateSettings(
+                        fromDateToString(startDate),
+                        fromDateToString(endDate)
+                    )
                 }}
             />
             {pressed && (
@@ -127,7 +81,11 @@ const CalendarScreen = () => {
                     onPress={() => setPressed(false)}
                 >
                     <View style={styles.container2}>
-                        <OptionList date={dayPressed!} pressed={pressed} setPressed={setPressed} />
+                        <OptionList
+                            date={dayPressed!}
+                            pressed={pressed}
+                            setPressed={setPressed}
+                        />
                     </View>
                 </TouchableOpacity>
             )}
