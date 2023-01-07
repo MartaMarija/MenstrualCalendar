@@ -1,7 +1,7 @@
 export type Gynecologist = {
     id: string
-    first_name: string
-    last_name: string
+    firstName: string
+    lastName: string
     telephone: string
     address: string
 }

@@ -25,7 +25,7 @@ export class Gynecologist {
   @Column("varchar", { length: 60 })
   address: string;
 
-  @OneToMany(() => User, (user) => user.gynecologists)
+  @ManyToOne(() => User, (user) => user.gynecologists)
   user: User;
 
   @OneToMany(() => MedicalExam, (medicalExam) => medicalExam.gynecologist)

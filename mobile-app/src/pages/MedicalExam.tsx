@@ -1,18 +1,24 @@
 import { useState } from 'react'
 import { Pressable, Text, View, StyleSheet } from 'react-native'
+import AddGynecologist from '../components/AddGynecologist'
 import ViewMedicalExam from '../components/ViewMedicalExam'
 
 const MedicalExam = () => {
     const [viewMedicalExams, setViewMedicalExams] = useState(false)
+    const [addGynecologist, setAddGynecologist] = useState(false)
     return (
         <View>
             {viewMedicalExams && <ViewMedicalExam setViewMedicalExams={setViewMedicalExams}/>}
+            {addGynecologist && <AddGynecologist setAddGynecologist={setAddGynecologist}/>}
             <View style={styles.container}>
-                <Pressable style={styles.button}>
+                <Pressable style={styles.button} onPress={()=>setAddGynecologist(true)}>
                     <Text style={styles.buttonText}>Add gynecologist</Text>
                 </Pressable>
                 <Pressable style={styles.button}>
                     <Text style={styles.buttonText}>Add medical exam</Text>
+                </Pressable>
+                <Pressable style={styles.button} onPress={()=>setViewMedicalExams(true)}>
+                    <Text style={styles.buttonText}>View gynecologists</Text>
                 </Pressable>
                 <Pressable style={styles.button} onPress={()=>setViewMedicalExams(true)}>
                     <Text style={styles.buttonText}>View medical exams</Text>
@@ -30,6 +36,7 @@ const styles = StyleSheet.create({
     buttonText: {
         color: 'white',
         fontSize: 20,
+        fontWeight: '500',
     },
     button: {
         alignItems: 'center',

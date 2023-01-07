@@ -73,9 +73,9 @@ export class table1672245702970 implements MigrationInterface {
                     "last_name" varchar(45),
                     "telephone" varchar(20),
                     "address" varchar(60),
-                    "user_id" uuid,
+                    "userId" uuid,
                     CONSTRAINT "gynecologist_user_fk"
-                    FOREIGN KEY("user_id") 
+                    FOREIGN KEY("userId") 
                     REFERENCES "user"(id)
                 );
 

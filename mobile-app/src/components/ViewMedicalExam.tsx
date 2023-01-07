@@ -14,7 +14,7 @@ import { useAuth } from '../contexts/Auth'
 
 interface Props {
     setViewMedicalExams: (
-        pressed: boolean | ((prevCityId: boolean) => boolean)
+        pressed: boolean | ((prevPressed: boolean) => boolean)
     ) => void
 }
 
@@ -47,17 +47,17 @@ const ViewMedicalExam: React.FC<Props> = ({ setViewMedicalExams }) => {
             </View>
             <View style={styles.labelTextContainer2}>
             <Text style={styles.label}>GYN name: </Text>
-            <Text style={styles.text}>{gynecologist.first_name} {gynecologist.last_name}</Text>
+            <Text style={styles.text}>{gynecologist.firstName} {gynecologist.lastName}</Text>
             </View>
         </View>
     )
 
     const renderItem = ({ item }: { item: MedicalExam }) => {
         let gynecologistFirstName = ''
-        let gynecologistLstName = ''
+        let gynecologistLastName = ''
         if (item.gynecologist) {
-            gynecologistFirstName = `${item.gynecologist.first_name}`
-            gynecologistFirstName = `${item.gynecologist.last_name}`
+            gynecologistFirstName = `${item.gynecologist.firstName}`
+            gynecologistLastName = `${item.gynecologist.lastName}`
         }
         return (
             <Item
@@ -66,8 +66,8 @@ const ViewMedicalExam: React.FC<Props> = ({ setViewMedicalExams }) => {
                 description={item.description}
                 gynecologist={{
                     id: '',
-                    first_name: gynecologistFirstName,
-                    last_name: gynecologistLstName,
+                    firstName: gynecologistFirstName,
+                    lastName: gynecologistLastName,
                     telephone: '',
                     address: '',
                 }}
@@ -90,7 +90,7 @@ const ViewMedicalExam: React.FC<Props> = ({ setViewMedicalExams }) => {
                     style={styles.button}
                     onPress={() => setViewMedicalExams(false)}
                 >
-                    <Text style={styles.buttonText}>Cancle</Text>
+                    <Text style={styles.buttonText}>Cancel</Text>
                 </Pressable>
             </View>
         </Modal>
@@ -123,7 +123,8 @@ const styles = StyleSheet.create({
     titleBackground: {
         backgroundColor: 'red',
         padding: 15,
-        width: screen.width
+        width: screen.width,
+        marginBottom: 10
     },
     title: {
         color: 'white',
@@ -133,6 +134,7 @@ const styles = StyleSheet.create({
     buttonText: {
         color: 'white',
         fontSize: 20,
+        fontWeight: '500',
     },
     button: {
         alignItems: 'center',
