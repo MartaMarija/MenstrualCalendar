@@ -40,10 +40,10 @@ export const updateDatabase = async (token: string | undefined, date: string, ro
     return await data.json() as boolean;
 }
 
-export const getDateSetting =async (token:string | undefined, beginning: string, end : string): Promise<DateSettings[]> => {
+export const getDateSetting =async (token:string | undefined): Promise<DateSettings[]> => {
     let data
     try {
-        data = await fetch(`${apiOrigin}/menstrualCycles/dates/${beginning}/${end}`, {
+        data = await fetch(`${apiOrigin}/menstrualCycles/dates/`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',

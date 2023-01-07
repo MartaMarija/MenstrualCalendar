@@ -21,12 +21,11 @@ const CalendarScreen = () => {
     const [dayPressed, setDayPressed] = useState<DateData>()
     const [markedDatesArray, setMarkedDatesArray] = useState<MarkedDates>()
 
-    async function getDateSettings(beginning: string, end: string) {
+    async function getDateSettings() {
         const dateSettings: DateSettings[] = await getDateSetting(
             auth.authData?.token,
-            beginning,
-            end
         )
+        console.log(dateSettings);
         if (dateSettings) {
             let markedDates: MarkedDates = {}
             for (let i = 0; i < dateSettings.length; i++) {
@@ -41,18 +40,6 @@ const CalendarScreen = () => {
         }
     }
 
-    function fromDateToString(date:Date) {
-        let month: string = (date.getMonth() + 1).toString()
-        let day: string = date.getDate().toString()
-        if (month.length == 1) {
-            month = '0' + month
-        }
-        if (day.length == 1) {
-            day = '0' + day
-        }
-        return `${date.getFullYear()}-${month}-${day}`
-    }
-
     return (
         <View>
             <Calendar
@@ -62,17 +49,8 @@ const CalendarScreen = () => {
                 }}
                 markingType={'period'}
                 markedDates={markedDatesArray}
-                onMonthChange={(date: DateData) => {
-                    let startDate: Date = new Date(date.year, date.month - 1, 1)
-                    let endDate: Date = new Date(
-                        date.year,
-                        date.month,
-                        1
-                    )
-                    getDateSettings(
-                        fromDateToString(startDate),
-                        fromDateToString(endDate)
-                    )
+                onMonthChange={() => {
+                    getDateSettings()
                 }}
             />
             {pressed && (

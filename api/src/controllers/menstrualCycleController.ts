@@ -4,7 +4,7 @@ import * as menstrualCycleService from "../services/menstrualCycleService";
 import * as jwtService from "../services/jwtService";
 const router = express.Router();
 
-router.get("/dates/:beginning/:end", async (req, res, next) => {
+router.get("/dates", async (req, res, next) => {
   const token = req.headers["authorization"]?.split(" ")[1];
   if (!token) return next(new AppError("Invalid token!", 400));
   let jwtTokenResult = jwtService.authenticateToken(token);
@@ -12,9 +12,7 @@ router.get("/dates/:beginning/:end", async (req, res, next) => {
 
   return res.json(
     await menstrualCycleService.getDates(
-      jwtTokenResult.id,
-      new Date(req.params.beginning),
-      new Date(req.params.end)
+      jwtTokenResult.id
     )
   );
 });
