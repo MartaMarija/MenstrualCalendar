@@ -56,7 +56,7 @@ router.get("/optionAddPeriod/:date", async (req, res, next) => {
   );
 });
 
-router.get("/removePeriod", async (req, res, next) => {
+router.get("/removePeriod/:date", async (req, res, next) => {
   const token = req.headers["authorization"]?.split(" ")[1];
   if (!token) return next(new AppError("Invalid token!", 400));
   let jwtTokenResult = jwtService.authenticateToken(token);

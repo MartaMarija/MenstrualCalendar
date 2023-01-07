@@ -2,6 +2,7 @@ import { MenstrualCycle } from "../model/entity/MenstrualCycle";
 import { User } from "src/model/entity/User";
 import { MenstrualCycleRepository } from "../dao/menstrualCycleRepository";
 import * as userService from "../services/userService";
+import { DateSettingsRequest } from "../model/response/DateSettings";
 
 export const getMenstrualCycleByUserId = async (
   id: string
@@ -59,9 +60,14 @@ export const canAddPeriod = async (
   if (lastCycle != null) {
     const lastCycleDate = new Date(lastCycle.cycle_start_date);
     lastCycleDate.setDate(lastCycleDate.getDate() + 10);
-    if (date >= lastCycleDate) return true;
+    const today = new Date();
+    if (date >= lastCycleDate && date <= today) {
+      return true;
+    } else {
+      return false;
+    }
   }
-  return false;
+  return true;
 };
 
 export const RemovePeriod = async (id: string): Promise<boolean> => {
@@ -76,11 +82,14 @@ export const RemovePeriod = async (id: string): Promise<boolean> => {
 export const EndPeriod = async (id: string, date: Date): Promise<boolean> => {
   const menstrualCycle: MenstrualCycle | null = await getLastCycleId(id);
   if (menstrualCycle != null) {
-    const menstrualCyclePom = new MenstrualCycle();
-    menstrualCyclePom.id = menstrualCycle.id;
-    menstrualCyclePom.menstruation_end_date = date;
-    MenstrualCycleRepository.save(menstrualCyclePom);
-    return true;
+    const today = new Date();
+    if (date <= today) {
+      const menstrualCyclePom = new MenstrualCycle();
+      menstrualCyclePom.id = menstrualCycle.id;
+      menstrualCyclePom.menstruation_end_date = date;
+      MenstrualCycleRepository.save(menstrualCyclePom);
+      return true;
+    }
   }
   return false;
 };

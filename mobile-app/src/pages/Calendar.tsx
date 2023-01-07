@@ -18,7 +18,7 @@ const CalendarScreen = () => {
     const [canDeletePeriod, setcanDeletePeriod] = useState(false)
 
     const b = {
-        days: [
+        dates: [
             {
                 date: '2023-01-01',
                 color: 'red',
@@ -39,9 +39,9 @@ const CalendarScreen = () => {
 
     let markedDatesArray: MarkedDates = {}
 
-    for (let i = 0; i < b['days'].length; i++) {
-        markedDatesArray[b['days'][i].date] = {
-            color: b['days'][i].color,
+    for (let i = 0; i < b['dates'].length; i++) {
+        markedDatesArray[b['dates'][i].date] = {
+            color: b['dates'][i].color,
             textColor: 'white',
         }
     }
@@ -127,7 +127,7 @@ const CalendarScreen = () => {
                     onPress={() => setPressed(false)}
                 >
                     <View style={styles.container2}>
-                        <OptionList date={dayPressed!} />
+                        <OptionList date={dayPressed!} pressed={pressed} setPressed={setPressed} />
                     </View>
                 </TouchableOpacity>
             )}
