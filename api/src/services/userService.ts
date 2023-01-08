@@ -15,8 +15,8 @@ export const getUserbyId = async (id: string) => {
 
 export const getMenstrualCycleInfoFromUser = async (
   id: string
-): Promise<User[] | null> => {
-  return UserRepository.find({
+): Promise<User | null> => {
+  return UserRepository.findOne({
     select: {
       avg_duration_of_menstrual_cycle: true,
       avg_duration_of_menstruation: true,

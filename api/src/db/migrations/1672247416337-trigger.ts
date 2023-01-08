@@ -29,7 +29,7 @@ export class trigger1672247416337 implements MigrationInterface {
         END IF;
         
         --update_user_avg_durations
-        FOR selected_row_id IN SELECT id FROM "mencal".menstrual_cycle WHERE "userId" = NEW."userId" ORDER BY cycle_start_date DESC OFFSET 1 ROWS LIMIT 7 LOOP
+        FOR selected_row_id IN SELECT id FROM "mencal".menstrual_cycle WHERE "userId" = NEW."userId" AND cycle_duration < 50 ORDER BY cycle_start_date DESC OFFSET 1 ROWS LIMIT 7 LOOP
           counter := counter + 1;
           SELECT cycle_duration INTO pomCD FROM "mencal".menstrual_cycle WHERE id = selected_row_id;
           SELECT menstruation_duration  INTO pomMD FROM "mencal".menstrual_cycle WHERE id = selected_row_id;
@@ -85,7 +85,7 @@ export class trigger1672247416337 implements MigrationInterface {
       DECLARE pomCD int = 0;
       DECLARE pomMD int = 0;
       BEGIN
-        FOR selected_row_id IN SELECT id FROM "mencal".menstrual_cycle WHERE "userId" = OLD."userId" ORDER BY cycle_start_date DESC OFFSET 1 ROWS LIMIT 7 LOOP
+        FOR selected_row_id IN SELECT id FROM "mencal".menstrual_cycle WHERE "userId" = OLD."userId" AND cycle_duration < 50 ORDER BY cycle_start_date DESC OFFSET 1 ROWS LIMIT 7 LOOP
           counter := counter + 1;
           SELECT cycle_duration INTO pomCD FROM "mencal".menstrual_cycle WHERE id = selected_row_id;
           SELECT menstruation_duration  INTO pomMD FROM "mencal".menstrual_cycle WHERE id = selected_row_id;

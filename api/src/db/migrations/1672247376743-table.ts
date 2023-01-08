@@ -30,7 +30,7 @@ export class table1672245702970 implements MigrationInterface {
                 DROP TABLE IF EXISTS "description" CASCADE;
                 CREATE TABLE "description" (
                     "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-                    "name" varchar(25),
+                    "name" varchar(25) NOT NULL,
                     "description_type_id" uuid,
                     CONSTRAINT "description_description_type_fk"
                     FOREIGN KEY("description_type_id") 
@@ -60,7 +60,7 @@ export class table1672245702970 implements MigrationInterface {
                     "cycle_start_date" date,
                     "menstruation_end_date" date,
                     "ovulation_date" date,
-                    "userId" uuid,
+                    "userId" uuid NOT NULL,
                     CONSTRAINT "menstrual_cycle_user_fk"
                     FOREIGN KEY("userId") 
                     REFERENCES "user"(id)
@@ -73,7 +73,7 @@ export class table1672245702970 implements MigrationInterface {
                     "last_name" varchar(45),
                     "telephone" varchar(20),
                     "address" varchar(60),
-                    "userId" uuid,
+                    "userId" uuid NOT NULL,
                     CONSTRAINT "gynecologist_user_fk"
                     FOREIGN KEY("userId") 
                     REFERENCES "user"(id)

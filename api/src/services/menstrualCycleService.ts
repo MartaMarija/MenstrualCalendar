@@ -43,6 +43,39 @@ export const getDates = async (id: string): Promise<DateSettings[]> => {
       dateBetween.setDate(dateBetween.getDate() + 1);
     }
   });
+
+  //first next cycle
+  let user= await userService.getMenstrualCycleInfoFromUser(id);
+  if(user!= null)
+  {
+    let lastCycle = await getLastCycleStartDate(id);
+    let lastCycleDate = new Date(lastCycle!.cycle_start_date);
+    lastCycleDate.setDate(lastCycleDate.getDate() + user.avg_duration_of_menstrual_cycle);
+    let cycleStartDay: string = fromDataToString(
+      new Date(lastCycleDate));
+    dates.push(new DateSettings(cycleStartDay, "blue", "white", true, false));
+
+    let menstruationEndDate: string = fromDataToString(
+      new Date(lastCycleDate.setDate(lastCycleDate.getDate() + user.avg_duration_of_menstruation - 1))
+    );
+    dates.push(
+      new DateSettings(menstruationEndDate, "blue", "white", false, true)
+    );
+
+    let ovulationDate: string = fromDataToString(
+      new Date(lastCycleDate.setDate(lastCycleDate.getDate() + user.avg_duration_of_luteal_phase - 1))
+    );
+    dates.push(new DateSettings(ovulationDate, "blue", "white", true, true));
+
+    const dateBetween = new Date(cycleStartDay);
+    dateBetween.setDate(dateBetween.getDate() + 1);
+    while (dateBetween < new Date(menstruationEndDate)) {
+      let _dateBetween: string = fromDataToString(dateBetween);
+      dates.push(new DateSettings(_dateBetween, "blue", "white", false, false));
+      dateBetween.setDate(dateBetween.getDate() + 1);
+    }
+  }
+
   return dates;
 };
 
