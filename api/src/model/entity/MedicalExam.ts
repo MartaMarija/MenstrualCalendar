@@ -14,7 +14,7 @@ export class MedicalExam {
   description: string;
 
   @ManyToOne(() => Gynecologist, (gynecologist) => gynecologist.medicalExams)
-  gynecologist: Gynecologist;
+  gynecologist: Gynecologist | null;
 
   @ManyToOne(() => User, (user) => user.medicalExams)
   user: User;

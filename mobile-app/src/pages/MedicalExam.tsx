@@ -1,23 +1,29 @@
 import { useState } from 'react'
 import { Pressable, Text, View, StyleSheet } from 'react-native'
 import AddGynecologist from '../components/AddGynecologist'
+import AddMedicalExam from '../components/AddMedicalExam'
+import ViewGynecologists from '../components/ViewGynecologists'
 import ViewMedicalExam from '../components/ViewMedicalExam'
 
 const MedicalExam = () => {
     const [viewMedicalExams, setViewMedicalExams] = useState(false)
     const [addGynecologist, setAddGynecologist] = useState(false)
+    const [viewGynecologists, setViewGynecologists] = useState(false)
+    const [addMedicalExam, setAddMedicalExam] = useState(false)
     return (
         <View>
             {viewMedicalExams && <ViewMedicalExam setViewMedicalExams={setViewMedicalExams}/>}
             {addGynecologist && <AddGynecologist setAddGynecologist={setAddGynecologist}/>}
+            {viewGynecologists && <ViewGynecologists setViewGynecologists={setViewGynecologists}/>}
+            {addMedicalExam && <AddMedicalExam setAddMedicalExam={setAddMedicalExam}/>}
             <View style={styles.container}>
                 <Pressable style={styles.button} onPress={()=>setAddGynecologist(true)}>
                     <Text style={styles.buttonText}>Add gynecologist</Text>
                 </Pressable>
-                <Pressable style={styles.button}>
+                <Pressable style={styles.button} onPress={()=>setAddMedicalExam(true)}>
                     <Text style={styles.buttonText}>Add medical exam</Text>
                 </Pressable>
-                <Pressable style={styles.button} onPress={()=>setViewMedicalExams(true)}>
+                <Pressable style={styles.button} onPress={()=>setViewGynecologists(true)}>
                     <Text style={styles.buttonText}>View gynecologists</Text>
                 </Pressable>
                 <Pressable style={styles.button} onPress={()=>setViewMedicalExams(true)}>

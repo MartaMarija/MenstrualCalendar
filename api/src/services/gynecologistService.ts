@@ -13,7 +13,12 @@ export const insertGynecologist = async (id: string, gyn: Gynecologist) => {
   const user: User | null = await userService.getUserbyId(id);
   if (user != null) {
     gyn.user = user;
-    return await GynecologistRepository.save(gyn);
+    await GynecologistRepository.save(gyn);
+    return true;
   }
   return false;
+};
+
+export const getGynecologistbyId = async (id: string) => {
+  return GynecologistRepository.findOne({ where: { id: id } });
 };

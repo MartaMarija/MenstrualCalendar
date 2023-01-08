@@ -15,8 +15,8 @@ export const insertGynecologist = async (
                 Authorization: 'Bearer ' + token,
             },
             body: JSON.stringify({
-                firstName: gynData.firstName,
-                lastName: gynData.lastName,
+                firstName: gynData.first_name,
+                lastName: gynData.last_name,
                 telephone: gynData.telephone,
                 address: gynData.address,
             }),
@@ -26,4 +26,24 @@ export const insertGynecologist = async (
         throw error
     }
     return (await data.json()) as boolean
+}
+
+export const getGynecologists = async (
+    token: string | undefined
+): Promise<Gynecologist[]> => {
+    let data
+    try {
+        data = await fetch(`${apiOrigin}/gyn`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + token,
+            },
+        })
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+    return (await data.json()) as Gynecologist[]
 }

@@ -16,15 +16,4 @@ router.post("/login", async (req, res, next) => {
   res.json({ token: jwtService.getToken(user.id) });
 });
 
-//Primjer
-// router.post("/test", async (req, res, next) => {
-//   const token = req.headers['authorization']?.split(' ')[1];
-//   if(token != undefined){
-//     res.json({id: jwtService.authenticateToken(token)})
-//   }
-//   else{
-//     res.json({token: 'a'});
-//   }
-// })
-
 module.exports = router;

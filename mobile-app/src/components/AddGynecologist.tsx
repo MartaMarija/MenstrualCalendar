@@ -32,8 +32,8 @@ const AddGynecologist: React.FC<Props> = ({ setAddGynecologist }) => {
             <Formik
                 initialValues={{
                     id: '',
-                    firstName: '',
-                    lastName: '',
+                    first_name: '',
+                    last_name: '',
                     telephone: '',
                     address: '',
                 }}
@@ -47,17 +47,17 @@ const AddGynecologist: React.FC<Props> = ({ setAddGynecologist }) => {
                         <View>
                             <Text style={styles.text}>First name:</Text>
                             <TextInput
-                                onChangeText={props.handleChange('firstName')}
-                                onBlur={props.handleBlur('firstName')}
-                                value={props.values.firstName}
+                                onChangeText={props.handleChange('first_name')}
+                                onBlur={props.handleBlur('first_name')}
+                                value={props.values.first_name}
                                 style={styles.labelTextContainer}
                                 selectionColor="red"
                             />
                             <Text style={styles.text}>Last name:</Text>
                             <TextInput
-                                onChangeText={props.handleChange('lastName')}
-                                onBlur={props.handleBlur('lastName')}
-                                value={props.values.lastName}
+                                onChangeText={props.handleChange('last_name')}
+                                onBlur={props.handleBlur('last_name')}
+                                value={props.values.last_name}
                                 style={styles.labelTextContainer}
                                 selectionColor="red"
                             />

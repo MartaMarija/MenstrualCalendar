@@ -8,69 +8,63 @@ import {
     FlatList,
     Dimensions,
 } from 'react-native'
-import { getMedicalExams } from '../api/medicalExam'
-import { MedicalExam } from '../api/response/MedicalExam'
+import { getGynecologists } from '../api/gynecologist'
+import { Gynecologist } from '../api/response/Gynecologist'
 import { useAuth } from '../contexts/Auth'
 
 interface Props {
-    setViewMedicalExams: (
+    setViewGynecologists: (
         pressed: boolean | ((prevPressed: boolean) => boolean)
     ) => void
 }
 
 const screen = Dimensions.get('window')
 
-const ViewMedicalExam: React.FC<Props> = ({ setViewMedicalExams }) => {
+const ViewGynecologists: React.FC<Props> = ({ setViewGynecologists }) => {
     const auth = useAuth()
-    const [medicalExams, setMedicalExams] = useState<MedicalExam[]>()
+    const [gynecologists, setGynecologists] = useState<Gynecologist[]>()
 
     useEffect(() => {
         ;(async () => {
-            fetchExams()
+            fetchGyns()
         })()
     }, [])
 
-    async function fetchExams() {
-        const medicalExams = await getMedicalExams(auth.authData?.token)
-        setMedicalExams(medicalExams)
+    async function fetchGyns() {
+        const gynecologists = await getGynecologists(auth.authData?.token)
+        setGynecologists(gynecologists)
     }
 
-    const Item = ({ date, description, gynecologist }: MedicalExam) => (
+    const Item = ({ first_name, last_name, address, telephone }: Gynecologist) => (
         <View style={styles.labelTextContainer}>
             <View style={styles.labelTextContainer2}>
-            <Text style={styles.label}>Date: </Text>
-            <Text style={styles.text}>{date.toString()}</Text>
+            <Text style={styles.label}>First name:: </Text>
+            <Text style={styles.text}>{first_name}</Text>
             </View>
             <View style={styles.labelTextContainer2}>
-            <Text style={styles.label}>Description: </Text>
-            <Text style={styles.text}>{description}</Text>
+            <Text style={styles.label}>Last name: </Text>
+            <Text style={styles.text}>{last_name}</Text>
             </View>
             <View style={styles.labelTextContainer2}>
-            <Text style={styles.label}>GYN name: </Text>
-            <Text style={styles.text}>{gynecologist.first_name} {gynecologist.last_name}</Text>
+            <Text style={styles.label}>Address: </Text>
+            <Text style={styles.text}>{address}</Text>
+            </View>
+            <View style={styles.labelTextContainer2}>
+            <Text style={styles.label}>Telephone: </Text>
+            <Text style={styles.text}>{telephone}</Text>
             </View>
         </View>
     )
 
-    const renderItem = ({ item }: { item: MedicalExam }) => {
-        let gynecologistFirstName = ''
-        let gynecologistLastName = ''
-        if (item.gynecologist) {
-            gynecologistFirstName = `${item.gynecologist.first_name}`
-            gynecologistLastName = `${item.gynecologist.last_name}`
-        }
+    const renderItem = ({ item }: { item: Gynecologist }) => {
+
         return (
             <Item
-                date={item.date}
-                id={''}
-                description={item.description}
-                gynecologist={{
-                    id: '',
-                    first_name: gynecologistFirstName,
-                    last_name: gynecologistLastName,
-                    telephone: '',
-                    address: '',
-                }}
+                first_name={item.first_name}
+                last_name={item.last_name}
+                address={item.address}
+                telephone={item.telephone}
+                id={item.id}
             />
         )
     }
@@ -82,13 +76,13 @@ const ViewMedicalExam: React.FC<Props> = ({ setViewMedicalExams }) => {
                     <Text style={styles.title}>Medical Exam</Text>
                 </View>
                 <FlatList
-                    data={medicalExams}
+                    data={gynecologists}
                     renderItem={renderItem}
                     keyExtractor={item => item.id}
                 />
                 <Pressable
                     style={styles.button}
-                    onPress={() => setViewMedicalExams(false)}
+                    onPress={() => setViewGynecologists(false)}
                 >
                     <Text style={styles.buttonText}>Cancel</Text>
                 </Pressable>
@@ -150,4 +144,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default ViewMedicalExam
+export default ViewGynecologists

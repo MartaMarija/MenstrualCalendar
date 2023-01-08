@@ -48,6 +48,7 @@ const CalendarScreen = () => {
                 }}
                 markingType={'period'}
                 markedDates={markedDatesArray}
+                enableSwipeMonths
             />
             {pressed && (
                 <TouchableOpacity
