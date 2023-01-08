@@ -7,8 +7,9 @@ import {
     Modal,
     FlatList,
     Dimensions,
+    TouchableWithoutFeedback,
 } from 'react-native'
-import { getGynecologists } from '../api/gynecologist'
+import { getGynecologists, delteGynecologist } from '../api/gynecologist'
 import { Gynecologist } from '../api/response/Gynecologist'
 import { useAuth } from '../contexts/Auth'
 
@@ -28,56 +29,78 @@ const ViewGynecologists: React.FC<Props> = ({ setViewGynecologists }) => {
         ;(async () => {
             fetchGyns()
         })()
-    }, [])
+    }, [deleteGyn])
 
     async function fetchGyns() {
         const gynecologists = await getGynecologists(auth.authData?.token)
         setGynecologists(gynecologists)
     }
 
-    const Item = ({ first_name, last_name, address, telephone }: Gynecologist) => (
-        <View style={styles.labelTextContainer}>
-            <View style={styles.labelTextContainer2}>
-            <Text style={styles.label}>First name:: </Text>
-            <Text style={styles.text}>{first_name}</Text>
-            </View>
-            <View style={styles.labelTextContainer2}>
-            <Text style={styles.label}>Last name: </Text>
-            <Text style={styles.text}>{last_name}</Text>
-            </View>
-            <View style={styles.labelTextContainer2}>
-            <Text style={styles.label}>Address: </Text>
-            <Text style={styles.text}>{address}</Text>
-            </View>
-            <View style={styles.labelTextContainer2}>
-            <Text style={styles.label}>Telephone: </Text>
-            <Text style={styles.text}>{telephone}</Text>
-            </View>
-        </View>
-    )
-
-    const renderItem = ({ item }: { item: Gynecologist }) => {
-
-        return (
-            <Item
-                first_name={item.first_name}
-                last_name={item.last_name}
-                address={item.address}
-                telephone={item.telephone}
-                id={item.id}
-            />
+    async function deleteGyn(gynId: string) {
+        const medicalExams = await delteGynecologist(
+            auth.authData?.token,
+            gynId
         )
     }
 
     return (
         <Modal>
             <View style={styles.container}>
-                <View  style={styles.titleBackground}>
+                <View style={styles.titleBackground}>
                     <Text style={styles.title}>Medical Exam</Text>
                 </View>
                 <FlatList
+                    style={styles.flatList}
                     data={gynecologists}
-                    renderItem={renderItem}
+                    renderItem={({ item }) => (
+                        <TouchableWithoutFeedback>
+                            <View style={styles.labelTextContainer}>
+                                <View style={styles.labelTextContainer2}>
+                                    <Text style={styles.label}>
+                                        First name::{' '}
+                                    </Text>
+                                    <Text style={styles.text}>
+                                        {item.first_name}
+                                    </Text>
+                                </View>
+                                <View style={styles.labelTextContainer2}>
+                                    <Text style={styles.label}>
+                                        Last name:{' '}
+                                    </Text>
+                                    <Text style={styles.text}>
+                                        {item.last_name}
+                                    </Text>
+                                </View>
+                                <View style={styles.labelTextContainer2}>
+                                    <Text style={styles.label}>Address: </Text>
+                                    <Text style={styles.text}>
+                                        {item.address}
+                                    </Text>
+                                </View>
+                                <View style={styles.labelTextContainer2}>
+                                    <Text style={styles.label}>
+                                        Telephone:{' '}
+                                    </Text>
+                                    <Text style={styles.text}>
+                                        {item.telephone}
+                                    </Text>
+                                </View>
+
+                                <TouchableWithoutFeedback
+                                onPress={() => deleteGyn(item.id)}
+                                >
+                                    <Pressable
+                                        style={styles.buttonSmall}
+                                        onPress={() => deleteGyn(item.id)}
+                                    >
+                                        <Text style={styles.buttonText}>
+                                            Delete
+                                        </Text>
+                                    </Pressable>
+                                </TouchableWithoutFeedback>
+                            </View>
+                        </TouchableWithoutFeedback>
+                    )}
                     keyExtractor={item => item.id}
                 />
                 <Pressable
@@ -92,6 +115,9 @@ const ViewGynecologists: React.FC<Props> = ({ setViewGynecologists }) => {
 }
 
 const styles = StyleSheet.create({
+    flatList: {
+        width: screen.width - 30,
+    },
     container: {
         flex: 1,
         alignItems: 'center',
@@ -102,10 +128,10 @@ const styles = StyleSheet.create({
         borderColor: 'red',
         borderWidth: 3,
         marginBottom: 10,
-        marginTop: 5 
+        marginTop: 5,
     },
     labelTextContainer2: {
-        margin: 5
+        margin: 5,
     },
     label: {
         fontSize: 18,
@@ -118,7 +144,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'red',
         padding: 15,
         width: screen.width,
-        marginBottom: 10
+        marginBottom: 10,
     },
     title: {
         color: 'white',
@@ -141,6 +167,19 @@ const styles = StyleSheet.create({
         backgroundColor: 'red',
         height: 63,
         margin: 10,
+    },
+    buttonSmall: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingHorizontal: 32,
+        width: 150,
+        borderRadius: 8,
+        elevation: 5,
+        backgroundColor: 'red',
+        height: 53,
+        margin: 10,
+        borderStartColor: 'blue',
+        zIndex: 5,
     },
 })
 

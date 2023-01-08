@@ -32,4 +32,18 @@ router.post(
   }
 );
 
+router.get(
+  "/removeGyn/:gynId",
+  async (req: Request, res: Response, next: NextFunction) => {
+    let jwt = jwtService.authenticateToken(req);
+    if (jwt) {
+      console.log(req.params.gynId);
+      return res.json(
+        await gynecologistService.deleteGynecologist(req.params.gynId)
+      );
+    }
+    return next(new AppError("Invalid token!", 400));
+  }
+);
+
 module.exports = router;

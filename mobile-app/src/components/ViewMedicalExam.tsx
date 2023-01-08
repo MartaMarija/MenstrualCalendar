@@ -7,8 +7,9 @@ import {
     Modal,
     FlatList,
     Dimensions,
+    TouchableWithoutFeedback,
 } from 'react-native'
-import { getMedicalExams } from '../api/medicalExam'
+import { getMedicalExams, delteMedicalExam } from '../api/medicalExam'
 import { MedicalExam } from '../api/response/MedicalExam'
 import { useAuth } from '../contexts/Auth'
 
@@ -28,62 +29,70 @@ const ViewMedicalExam: React.FC<Props> = ({ setViewMedicalExams }) => {
         ;(async () => {
             fetchExams()
         })()
-    }, [])
+    }, [deleteExam])
 
     async function fetchExams() {
         const medicalExams = await getMedicalExams(auth.authData?.token)
         setMedicalExams(medicalExams)
     }
 
-    const Item = ({ date, description, gynecologist }: MedicalExam) => (
-        <View style={styles.labelTextContainer}>
-            <View style={styles.labelTextContainer2}>
-            <Text style={styles.label}>Date: </Text>
-            <Text style={styles.text}>{date.toString()}</Text>
-            </View>
-            <View style={styles.labelTextContainer2}>
-            <Text style={styles.label}>Description: </Text>
-            <Text style={styles.text}>{description}</Text>
-            </View>
-            <View style={styles.labelTextContainer2}>
-            <Text style={styles.label}>GYN name: </Text>
-            <Text style={styles.text}>{gynecologist.first_name} {gynecologist.last_name}</Text>
-            </View>
-        </View>
-    )
-
-    const renderItem = ({ item }: { item: MedicalExam }) => {
-        let gynecologistFirstName = ''
-        let gynecologistLastName = ''
-        if (item.gynecologist) {
-            gynecologistFirstName = `${item.gynecologist.first_name}`
-            gynecologistLastName = `${item.gynecologist.last_name}`
-        }
-        return (
-            <Item
-                date={item.date}
-                id={''}
-                description={item.description}
-                gynecologist={{
-                    id: '',
-                    first_name: gynecologistFirstName,
-                    last_name: gynecologistLastName,
-                    telephone: '',
-                    address: '',
-                }}
-            />
+    async function deleteExam(examId: string) {
+        const medicalExams = await delteMedicalExam(
+            auth.authData?.token,
+            examId
         )
     }
 
     return (
         <Modal>
             <View style={styles.container}>
-                <View  style={styles.titleBackground}>
+                <View style={styles.titleBackground}>
                     <Text style={styles.title}>Medical Exam</Text>
                 </View>
                 <FlatList
+                    style={styles.flatList}
                     data={medicalExams}
-                    renderItem={renderItem}
+                    renderItem={({ item }) => (
+                        <TouchableWithoutFeedback>
+                            <View style={styles.labelTextContainer}>
+                                <View style={styles.labelTextContainer2}>
+                                    <Text style={styles.label}>Date: </Text>
+                                    <Text style={styles.text}>
+                                        {item.date.toString()}
+                                    </Text>
+                                </View>
+                                <View style={styles.labelTextContainer2}>
+                                    <Text style={styles.label}>
+                                        Description:{' '}
+                                    </Text>
+                                    <Text style={styles.text}>
+                                        {item.description}
+                                    </Text>
+                                </View>
+                                <View style={styles.labelTextContainer2}>
+                                    <Text style={styles.label}>GYN name: </Text>
+                                    {item.gynecologist && (
+                                        <Text style={styles.text}>
+                                            {item.gynecologist.first_name}{' '}
+                                            {item.gynecologist.last_name}
+                                        </Text>
+                                    )}
+                                </View>
+                                <TouchableWithoutFeedback
+                                    onPress={() => deleteExam(item.id)}
+                                >
+                                    <Pressable
+                                        style={styles.buttonSmall}
+                                        onPress={() => deleteExam(item.id)}
+                                    >
+                                        <Text style={styles.buttonText}>
+                                            Delete
+                                        </Text>
+                                    </Pressable>
+                                </TouchableWithoutFeedback>
+                            </View>
+                        </TouchableWithoutFeedback>
+                    )}
                     keyExtractor={item => item.id}
                 />
                 <Pressable
@@ -98,6 +107,9 @@ const ViewMedicalExam: React.FC<Props> = ({ setViewMedicalExams }) => {
 }
 
 const styles = StyleSheet.create({
+    flatList:{
+        width: screen.width - 30
+    },
     container: {
         flex: 1,
         alignItems: 'center',
@@ -108,10 +120,10 @@ const styles = StyleSheet.create({
         borderColor: 'red',
         borderWidth: 3,
         marginBottom: 10,
-        marginTop: 5 
+        marginTop: 5,
     },
     labelTextContainer2: {
-        margin: 5
+        margin: 5,
     },
     label: {
         fontSize: 18,
@@ -124,7 +136,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'red',
         padding: 15,
         width: screen.width,
-        marginBottom: 10
+        marginBottom: 10,
     },
     title: {
         color: 'white',
@@ -147,6 +159,19 @@ const styles = StyleSheet.create({
         backgroundColor: 'red',
         height: 63,
         margin: 10,
+    },
+    buttonSmall: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingHorizontal: 32,
+        width: 150,
+        borderRadius: 8,
+        elevation: 5,
+        backgroundColor: 'red',
+        height: 53,
+        margin: 10,
+        borderStartColor: 'blue',
+        zIndex: 5,
     },
 })
 

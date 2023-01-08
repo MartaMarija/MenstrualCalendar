@@ -46,3 +46,25 @@ export const insertMedicalExam = async (
     }
     return (await data.json()) as boolean
 }
+
+
+export const delteMedicalExam = async (
+    token: string | undefined,
+    examId: string
+): Promise<boolean> => {
+    let data
+    try {
+        data = await fetch(`${apiOrigin}/medicalExams/removeExam/${examId}`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + token,
+            }
+        })
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+    return (await data.json()) as boolean
+}

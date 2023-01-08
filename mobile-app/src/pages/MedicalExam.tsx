@@ -11,12 +11,12 @@ const MedicalExam = () => {
     const [viewGynecologists, setViewGynecologists] = useState(false)
     const [addMedicalExam, setAddMedicalExam] = useState(false)
     return (
-        <View>
+        <View style={styles.container}>
             {viewMedicalExams && <ViewMedicalExam setViewMedicalExams={setViewMedicalExams}/>}
             {addGynecologist && <AddGynecologist setAddGynecologist={setAddGynecologist}/>}
             {viewGynecologists && <ViewGynecologists setViewGynecologists={setViewGynecologists}/>}
             {addMedicalExam && <AddMedicalExam setAddMedicalExam={setAddMedicalExam}/>}
-            <View style={styles.container}>
+            <View>
                 <Pressable style={styles.button} onPress={()=>setAddGynecologist(true)}>
                     <Text style={styles.buttonText}>Add gynecologist</Text>
                 </Pressable>
@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems:'center',
+        justifyContent:'center'
     },
     buttonText: {
         color: 'white',

@@ -19,7 +19,9 @@ export const insertMedicalExam = async (
   gynId: string
 ) => {
   const user: User | null = await userService.getUserbyId(id);
-  const gyn: Gynecologist | null = await gynecologistService.getGynecologistbyId(gynId);
+  const gyn: Gynecologist | null =
+    await gynecologistService.getGynecologistbyId(gynId);
+  console.log(gynId);
   if (user != null) {
     medicalExam.user = user;
     medicalExam.gynecologist = gyn;
@@ -27,4 +29,9 @@ export const insertMedicalExam = async (
     return true;
   }
   return false;
+};
+
+export const deleteMedicalExam = async (examId: string) => {
+  MedicalExamRepository.delete(examId);
+  return true;
 };

@@ -22,3 +22,8 @@ export const insertGynecologist = async (id: string, gyn: Gynecologist) => {
 export const getGynecologistbyId = async (id: string) => {
   return GynecologistRepository.findOne({ where: { id: id } });
 };
+
+export const deleteGynecologist = async (gynId: string) => {
+  GynecologistRepository.delete(gynId);
+  return true;
+};

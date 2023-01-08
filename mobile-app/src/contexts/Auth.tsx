@@ -51,8 +51,8 @@ export const AuthContextProvider: React.FC<Props> = ({ children }) => {
 
     const signOut = async () => {
         setAuthData({
-            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFjZmQxNGU4LWNiYjEtNDBhMy1hODkyLWE0ZjhhMTg1ZjAyNCIsImlhdCI6MTY3MzExMDIzOH0.uY7iHuqyDXRwisW38N3sB05Og_WVf4vwG7E37HMY6hs'
-            //token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3NzAwMzA2LTA2YWEtNGJkMS1hM2Y0LTY3NTcwMzg0YjVlMSIsImlhdCI6MTY3Mjg0Mzk2OX0.petZj_kEsD294Am1bdeSyuBMCLS7ZCvm1_YHHmVGLHo',
+            //token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFjZmQxNGU4LWNiYjEtNDBhMy1hODkyLWE0ZjhhMTg1ZjAyNCIsImlhdCI6MTY3MzExMDIzOH0.uY7iHuqyDXRwisW38N3sB05Og_WVf4vwG7E37HMY6hs'
+            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3NzAwMzA2LTA2YWEtNGJkMS1hM2Y0LTY3NTcwMzg0YjVlMSIsImlhdCI6MTY3Mjg0Mzk2OX0.petZj_kEsD294Am1bdeSyuBMCLS7ZCvm1_YHHmVGLHo',
         })
         //setAuthData(undefined)
         //await AsyncStorage.removeItem('@AuthData')
