@@ -10,6 +10,7 @@ export class trigger1672247416337 implements MigrationInterface {
       CREATE OR REPLACE FUNCTION update_menstrual_cycle()
       RETURNS TRIGGER AS $$
       DECLARE last_cycle "mencal".menstrual_cycle%ROWTYPE;
+      DECLARE _user "mencal"."user"%ROWTYPE;
       DECLARE selected_row_id uuid;
       DECLARE new_avg_cycle_duration int = 0;
       DECLARE new_avg_menstruation_duration int = 0;
@@ -29,7 +30,7 @@ export class trigger1672247416337 implements MigrationInterface {
         END IF;
         
         --update_user_avg_durations
-        FOR selected_row_id IN SELECT id FROM "mencal".menstrual_cycle WHERE "userId" = NEW."userId" AND cycle_duration < 50 ORDER BY cycle_start_date DESC OFFSET 1 ROWS LIMIT 7 LOOP
+        FOR selected_row_id IN SELECT id FROM "mencal".menstrual_cycle WHERE "userId" = NEW."userId" AND cycle_duration < 50 ORDER BY cycle_start_date DESC LIMIT 7 LOOP
           counter := counter + 1;
           SELECT cycle_duration INTO pomCD FROM "mencal".menstrual_cycle WHERE id = selected_row_id;
           SELECT menstruation_duration  INTO pomMD FROM "mencal".menstrual_cycle WHERE id = selected_row_id;
@@ -46,12 +47,12 @@ export class trigger1672247416337 implements MigrationInterface {
         END IF;
         
         --update_new_menstrual_cycle
-        NEW.cycle_duration = (SELECT avg_duration_of_menstrual_cycle FROM "mencal"."user" WHERE id = NEW."userId");
-        NEW.menstruation_duration = (SELECT avg_duration_of_menstruation FROM "mencal"."user" WHERE id = NEW."userId");
-        NEW.luteal_phase_duration = (SELECT avg_duration_of_luteal_phase FROM "mencal"."user" WHERE id = NEW."userId");
+        SELECT * INTO _user FROM "mencal"."user" WHERE "id" = NEW."userId";
+        NEW.cycle_duration = _user.avg_duration_of_menstrual_cycle;
+        NEW.menstruation_duration = _user.avg_duration_of_menstruation;
+        NEW.luteal_phase_duration = _user.avg_duration_of_luteal_phase;
         NEW.menstruation_end_date = NEW.cycle_start_date + NEW.menstruation_duration - INTERVAL '1 day';
-        NEW.ovulation_date = NEW.cycle_start_date + NEW.cycle_duration - NEW.luteal_phase_duration - INTERVAL '1 day';
-            
+        NEW.ovulation_date = NEW.cycle_start_date + NEW.cycle_duration - NEW.luteal_phase_duration - INTERVAL '1 day';    
         RETURN NEW;
       END;
       $$ LANGUAGE plpgsql;

@@ -37,7 +37,6 @@ router.get(
   async (req: Request, res: Response, next: NextFunction) => {
     let jwt = jwtService.authenticateToken(req);
     if (jwt) {
-      console.log(req.params.gynId);
       return res.json(
         await gynecologistService.deleteGynecologist(req.params.gynId)
       );

@@ -7,16 +7,17 @@ import UserProfile from './UserProfile'
 import Login from './Login'
 import { useAuth } from '../contexts/Auth'
 import { Loading } from '../components/Loading'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Tab = createBottomTabNavigator()
 
 const Navigator = () => {
-    const { authData } = useAuth()
-    console.log(authData)
+    const { authData, loading } = useAuth()
+    if (loading) {
+        return <Loading />
+    }
     return (
         <NavigationContainer>
-            {authData ? (
+            {authData?.token ? (
                 <Tab.Navigator
                     screenOptions={{
                         tabBarStyle: { height: 60, backgroundColor: 'red' },

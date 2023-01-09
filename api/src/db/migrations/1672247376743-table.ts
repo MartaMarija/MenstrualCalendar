@@ -44,11 +44,11 @@ export class table1672245702970 implements MigrationInterface {
                     "user_id" uuid NOT NULL,
                     CONSTRAINT "day_user_fk"
                     FOREIGN KEY("user_id") 
-                    REFERENCES "user"(id),
+                    REFERENCES "user"(id) ON DELETE CASCADE,
                     "description_id" uuid NOT NULL,
                     CONSTRAINT "day_description_fk"
                     FOREIGN KEY("description_id") 
-                    REFERENCES "description"(id)
+                    REFERENCES "description"(id) ON DELETE CASCADE
                 );
 
                 DROP TABLE IF EXISTS "menstrual_cycle" CASCADE;
@@ -63,7 +63,7 @@ export class table1672245702970 implements MigrationInterface {
                     "userId" uuid NOT NULL,
                     CONSTRAINT "menstrual_cycle_user_fk"
                     FOREIGN KEY("userId") 
-                    REFERENCES "user"(id)
+                    REFERENCES "user"(id) ON DELETE CASCADE
                 );
 
                 DROP TABLE IF EXISTS "gynecologist" CASCADE;
@@ -76,7 +76,7 @@ export class table1672245702970 implements MigrationInterface {
                     "userId" uuid NOT NULL,
                     CONSTRAINT "gynecologist_user_fk"
                     FOREIGN KEY("userId") 
-                    REFERENCES "user"(id)
+                    REFERENCES "user"(id) ON DELETE CASCADE
                 );
 
                 DROP TABLE IF EXISTS "medical_exam" CASCADE;
@@ -91,7 +91,7 @@ export class table1672245702970 implements MigrationInterface {
                     REFERENCES gynecologist(id) ON DELETE SET NULL,
                     CONSTRAINT "medical_exam_user_fk"
                     FOREIGN KEY("userId")
-                    REFERENCES "user"(id)
+                    REFERENCES "user"(id) ON DELETE CASCADE
                 );
             `
     );

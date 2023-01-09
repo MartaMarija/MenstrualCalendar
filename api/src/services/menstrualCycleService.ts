@@ -114,7 +114,7 @@ export const canAddPeriod = async (
   const lastCycle = await getLastCycleStartDate(id);
   if (lastCycle != null) {
     const lastCycleDate = new Date(lastCycle.cycle_start_date);
-    lastCycleDate.setDate(lastCycleDate.getDate() + 10);
+    lastCycleDate.setDate(lastCycleDate.getDate() + 13);
     const today = new Date();
     if (date >= lastCycleDate && date <= today) {
       return true;

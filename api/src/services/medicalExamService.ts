@@ -21,7 +21,6 @@ export const insertMedicalExam = async (
   const user: User | null = await userService.getUserbyId(id);
   const gyn: Gynecologist | null =
     await gynecologistService.getGynecologistbyId(gynId);
-  console.log(gynId);
   if (user != null) {
     medicalExam.user = user;
     medicalExam.gynecologist = gyn;

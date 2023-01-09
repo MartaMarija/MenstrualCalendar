@@ -47,7 +47,7 @@ const ViewGynecologists: React.FC<Props> = ({ setViewGynecologists }) => {
         <Modal>
             <View style={styles.container}>
                 <View style={styles.titleBackground}>
-                    <Text style={styles.title}>Medical Exam</Text>
+                    <Text style={styles.title}>Gynecologist</Text>
                 </View>
                 <FlatList
                     style={styles.flatList}
