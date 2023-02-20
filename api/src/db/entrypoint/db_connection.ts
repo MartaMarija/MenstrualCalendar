@@ -10,11 +10,11 @@ import { Gynecologist } from '../../model/entity/Gynecologist';
 import { MenstrualCycle } from '../../model/entity/MenstrualCycle';
 dotenv.config();
 
-export const AppDataSource = new DataSource({
+export const AppDataSource = new DataSource( {
 	type: 'postgres',
 	host: process.env.DB_HOST || 'localhost',
 	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	port: parseInt(process.env.DB_PORT!) || 5757,
+	port: parseInt( process.env.DB_PORT! ) || 5757,
 	database: process.env.DB_NAME || 'mencaldb',
 	schema: process.env.DB_SCHEMA || 'mencal',
 	username: process.env.DB_USER || 'mencalusr',
@@ -32,4 +32,4 @@ export const AppDataSource = new DataSource({
 	],
 	migrations: ['dist/db/migrations/*.js'],
 	migrationsTableName: 'changelog_master',
-});
+} );

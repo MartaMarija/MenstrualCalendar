@@ -5,17 +5,17 @@ import { User } from './User';
 @Entity()
 export class Day 
 {
-	@PrimaryGeneratedColumn('uuid')
+	@PrimaryGeneratedColumn( 'uuid' )
 		id: string;
 
-	@ManyToOne(() => User, (user) => user.days, { nullable: false })
+	@ManyToOne( () => User, ( user ) => user.days, { nullable: false } )
 		user: User;
 
-	@ManyToOne(() => Description, (description) => description.days, {
+	@ManyToOne( () => Description, ( description ) => description.days, {
 		nullable: false,
-	})
+	} )
 		description: Description;
 
-	@Column('date', { nullable: false })
+	@Column( 'date', { nullable: false } )
 		date: string;
 }

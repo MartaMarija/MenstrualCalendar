@@ -2,11 +2,11 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class table1672245702970 implements MigrationInterface 
 {
-	public async up(queryRunner: QueryRunner): Promise<void> 
+	public async up( queryRunner: QueryRunner ): Promise<void> 
 	{
 		const schemaName: string = process.env.DB_SCHEMA || 'mencal';
 
-		await queryRunner.query(`set schema '${schemaName}';`);
+		await queryRunner.query( `set schema '${schemaName}';` );
 
 		await queryRunner.query(
 			`
@@ -101,6 +101,6 @@ export class table1672245702970 implements MigrationInterface
 
 	down(): Promise<void> 
 	{
-		throw new Error('Method not implemented.');
+		throw new Error( 'Method not implemented.' );
 	}
 }

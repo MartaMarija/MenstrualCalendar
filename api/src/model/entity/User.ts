@@ -7,40 +7,40 @@ import { MenstrualCycle } from './MenstrualCycle';
 @Entity()
 export class User 
 {
-	@PrimaryGeneratedColumn('uuid')
+	@PrimaryGeneratedColumn( 'uuid' )
 		id: string;
 
-	@Column('varchar', { length: 45, nullable: false })
+	@Column( 'varchar', { length: 45, nullable: false } )
 		first_name: string;
 
-	@Column('varchar', { length: 45, nullable: false })
+	@Column( 'varchar', { length: 45, nullable: false } )
 		last_name: string;
 
-	@Column('varchar', { length: 45, nullable: false, unique: true })
+	@Column( 'varchar', { length: 45, nullable: false, unique: true } )
 		email: string;
 
-	@Column('varchar', { nullable: false }) // Defaults to 255 characters
+	@Column( 'varchar', { nullable: false } ) // Defaults to 255 characters
 		password: string;
 
-	@Column('int', { nullable: false })
+	@Column( 'int', { nullable: false } )
 		avg_duration_of_menstrual_cycle: number;
 
-	@Column('int', { nullable: false })
+	@Column( 'int', { nullable: false } )
 		avg_duration_of_menstruation: number;
 
-	@Column('int', { nullable: false })
+	@Column( 'int', { nullable: false } )
 		avg_duration_of_luteal_phase: number;
 
-	@OneToMany(() => Day, (day) => day.user)
+	@OneToMany( () => Day, ( day ) => day.user )
 		days: Day[];
 
-	@OneToMany(() => MenstrualCycle, (menstrualCycle) => menstrualCycle.user)
+	@OneToMany( () => MenstrualCycle, ( menstrualCycle ) => menstrualCycle.user )
 		menstrualCycles: MenstrualCycle[];
 
-	@OneToMany(() => Gynecologist, (gynecologist) => gynecologist.user)
+	@OneToMany( () => Gynecologist, ( gynecologist ) => gynecologist.user )
 		gynecologists: Gynecologist[];
 
-	@OneToMany(() => MedicalExam, (medicalExam) => medicalExam.user)
+	@OneToMany( () => MedicalExam, ( medicalExam ) => medicalExam.user )
 		medicalExams: MedicalExam[];
 
 	constructor(

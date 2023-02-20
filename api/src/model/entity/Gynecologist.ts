@@ -11,24 +11,24 @@ import { User } from './User';
 @Entity()
 export class Gynecologist 
 {
-	@PrimaryGeneratedColumn('uuid')
+	@PrimaryGeneratedColumn( 'uuid' )
 		id: string;
 
-	@Column('varchar', { length: 45, nullable: false })
+	@Column( 'varchar', { length: 45, nullable: false } )
 		first_name: string;
 
-	@Column('varchar', { length: 45 })
+	@Column( 'varchar', { length: 45 } )
 		last_name: string;
 
-	@Column('varchar', { length: 20 })
+	@Column( 'varchar', { length: 20 } )
 		telephone: string;
 
-	@Column('varchar', { length: 60 })
+	@Column( 'varchar', { length: 60 } )
 		address: string;
 
-	@ManyToOne(() => User, (user) => user.gynecologists)
+	@ManyToOne( () => User, ( user ) => user.gynecologists )
 		user: User;
 
-	@OneToMany(() => MedicalExam, (medicalExam) => medicalExam.gynecologist)
+	@OneToMany( () => MedicalExam, ( medicalExam ) => medicalExam.gynecologist )
 		medicalExams: MedicalExam[];
 }

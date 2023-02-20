@@ -6,22 +6,22 @@ import * as jwtService from '../services/jwtService';
 import { MedicalExam } from '../model/entity/MedicalExam';
 const router = express.Router();
 
-router.get('/', async (req: Request, res: Response, next: NextFunction) => 
+router.get( '/', async ( req: Request, res: Response, next: NextFunction ) => 
 {
-	const jwt = jwtService.authenticateToken(req);
-	if (jwt) 
+	const jwt = jwtService.authenticateToken( req );
+	if ( jwt ) 
 	{
-		return res.json(await medicalExamService.getMedicalExams(jwt.id));
+		return res.json( await medicalExamService.getMedicalExams( jwt.id ) );
 	}
-	return next(new AppError('Invalid token!', 400));
-});
+	return next( new AppError( 'Invalid token!', 400 ) );
+} );
 
 router.post(
 	'/addExam',
-	async (req: Request, res: Response, next: NextFunction) => 
+	async ( req: Request, res: Response, next: NextFunction ) => 
 	{
-		const jwt = jwtService.authenticateToken(req);
-		if (jwt) 
+		const jwt = jwtService.authenticateToken( req );
+		if ( jwt ) 
 		{
 			const exam: MedicalExam = new MedicalExam();
 			exam.date = req.body.date;
@@ -34,22 +34,22 @@ router.post(
 				)
 			);
 		}
-		return next(new AppError('Invalid token!', 400));
+		return next( new AppError( 'Invalid token!', 400 ) );
 	}
 );
 
 router.get(
 	'/removeExam/:examId',
-	async (req: Request, res: Response, next: NextFunction) => 
+	async ( req: Request, res: Response, next: NextFunction ) => 
 	{
-		const jwt = jwtService.authenticateToken(req);
-		if (jwt) 
+		const jwt = jwtService.authenticateToken( req );
+		if ( jwt ) 
 		{
 			return res.json(
-				await medicalExamService.deleteMedicalExam(req.params.examId)
+				await medicalExamService.deleteMedicalExam( req.params.examId )
 			);
 		}
-		return next(new AppError('Invalid token!', 400));
+		return next( new AppError( 'Invalid token!', 400 ) );
 	}
 );
 

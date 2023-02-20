@@ -4,27 +4,27 @@ import { User } from './User';
 @Entity()
 export class MenstrualCycle 
 {
-	@PrimaryGeneratedColumn('uuid')
+	@PrimaryGeneratedColumn( 'uuid' )
 		id: string;
 
-	@Column('int')
+	@Column( 'int' )
 		cycle_duration: number;
 
-	@Column('int')
+	@Column( 'int' )
 		menstruation_duration: number;
 
-	@Column('int')
+	@Column( 'int' )
 		luteal_phase_duration: number;
 
-	@Column('date')
+	@Column( 'date' )
 		cycle_start_date: Date;
 
-	@Column('date')
+	@Column( 'date' )
 		menstruation_end_date: Date;
 
-	@Column('date')
+	@Column( 'date' )
 		ovulation_date: Date;
 
-	@ManyToOne(() => User, (user) => user.menstrualCycles)
+	@ManyToOne( () => User, ( user ) => user.menstrualCycles )
 		user: User;
 }

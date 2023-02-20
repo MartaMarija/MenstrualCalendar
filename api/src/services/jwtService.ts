@@ -8,17 +8,17 @@ export interface jwtData {
   iat: number;
 }
 
-export function getToken(userId: string) 
+export function getToken( userId: string ) 
 {
-	return jwt.sign({ id: userId }, process.env.ACCESS_TOKEN_KEY as string);
+	return jwt.sign( { id: userId }, process.env.ACCESS_TOKEN_KEY as string );
 }
 
-export function authenticateToken(req: Request) 
+export function authenticateToken( req: Request ) 
 {
 	try 
 	{
-		const token = req.headers['authorization']?.split(' ')[1];
-		if (!token) return null;
+		const token = req.headers['authorization']?.split( ' ' )[1];
+		if ( !token ) return null;
 		const jwtTokenResult = jwt.verify(
 			token,
       process.env.ACCESS_TOKEN_KEY as string

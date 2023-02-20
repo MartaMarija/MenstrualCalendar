@@ -42,6 +42,16 @@
         "no-mixed-spaces-and-tabs": 
         [
             "error"
+        ],
+        "space-in-parens": 
+        [
+            "error",
+            "always"
+        ],
+        "object-curly-spacing":
+        [
+            "error",
+            "always"
         ]
     }
 }
