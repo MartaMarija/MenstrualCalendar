@@ -1,13 +1,15 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class tableData1672247404926 implements MigrationInterface {
-  public async up(queryRunner: QueryRunner): Promise<void> {
-    const schemaName: string = process.env.DB_SCHEMA || "mencal";
+export class tableData1672247404926 implements MigrationInterface 
+{
+	public async up(queryRunner: QueryRunner): Promise<void> 
+	{
+		const schemaName: string = process.env.DB_SCHEMA || 'mencal';
 
-    await queryRunner.query(`set schema '${schemaName}';`);
+		await queryRunner.query(`set schema '${schemaName}';`);
 
-    await queryRunner.query(
-      `
+		await queryRunner.query(
+			`
                 INSERT INTO "user" VALUES
                 ('27700306-06aa-4bd1-a3f4-67570384b5e1', 'Ana', 'Anić', 'ana@gmail.com', 'pass', 28, 3, 14),
                 ('0ff0abcf-519c-4d47-b0f2-f65079284120', 'Jana', 'Janić', 'jana@gmail.com', 'pass', 31, 5, 14),
@@ -77,10 +79,11 @@ export class tableData1672247404926 implements MigrationInterface {
                 ('128b8c4e-72f1-4d44-9fd4-372e7c930a87', '2022-10-12', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', '0a1f35fe-6b76-45d6-9b0c-c1092e5f4a28', '27700306-06aa-4bd1-a3f4-67570384b5e1');
 
             `
-    );
-  }
+		);
+	}
 
-  down(): Promise<any> {
-    throw new Error("Method not implemented.");
-  }
+	down(): Promise<void> 
+	{
+		throw new Error('Method not implemented.');
+	}
 }

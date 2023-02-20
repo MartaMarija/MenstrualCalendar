@@ -3,6 +3,6 @@ dist
 tmp
 temp
 yarn-error.log
-#.env
+.env
 .idea
 .vscode
