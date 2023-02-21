@@ -1,15 +1,7 @@
-import * as EmailValidator from 'email-validator';
-import { User } from 'src/model/entity/User';
+// import * as EmailValidator from 'email-validator';
+// import { AppError } from '../model/constants/AppError';
+import { User } from '../model/entity/User';
 import { UserRepository } from '../dao/userRepository';
-
-export const getUserbyEmail = async ( email: string ) => 
-{
-	if ( EmailValidator.validate( email ) ) 
-	{
-		return UserRepository.findOne( { where: { email: email } } );
-	}
-	return null;
-};
 
 export const getUserbyId = async ( id: string ) => 
 {

@@ -6,6 +6,7 @@ import userRoutes from './controllers/userController';
 import menstrualCycleRoutes from './controllers/menstrualCycleController';
 import medicalExamRoutes from './controllers/medicalExamController';
 import gynecologistRoutes from './controllers/gynecologistController';
+import authRoutes from './controllers/authController';
 
 const main = async () => 
 {
@@ -18,6 +19,7 @@ const main = async () =>
 	app.use( '/api/menstrualCycles', menstrualCycleRoutes );
 	app.use( '/api/medicalExams', medicalExamRoutes );
 	app.use( '/api/gyn', gynecologistRoutes );
+	app.use( '/api/auth', authRoutes );
 
 	//Reached only when no other middleware gives a response. Basically, for handling unsupported routes
 	app.use( ( _, __, next ) => 
