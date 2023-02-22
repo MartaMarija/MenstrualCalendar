@@ -3,7 +3,10 @@ import { Request, Response, NextFunction } from 'express';
 import { AppError } from '../model/constants/AppError';
 import * as menstrualCycleService from '../services/menstrualCycleService';
 import * as jwtService from '../services/jwtService';
+import { authenticateUser } from '../auth/authenticateUser';
 const router = express.Router();
+
+router.use( authenticateUser );
 
 router.get(
 	'/dates',

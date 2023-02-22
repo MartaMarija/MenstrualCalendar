@@ -4,7 +4,10 @@ import { Gynecologist } from '../model/entity/Gynecologist';
 import { AppError } from '../model/constants/AppError';
 import * as gynecologistService from '../services/gynecologistService';
 import * as jwtService from '../services/jwtService';
+import { authenticateUser } from '../auth/authenticateUser';
 const router = express.Router();
+
+router.use( authenticateUser );
 
 router.get( '/', async ( req: Request, res: Response, next: NextFunction ) => 
 {

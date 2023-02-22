@@ -4,7 +4,10 @@ import { AppError } from '../model/constants/AppError';
 import * as medicalExamService from '../services/medicalExamService';
 import * as jwtService from '../services/jwtService';
 import { MedicalExam } from '../model/entity/MedicalExam';
+import { authenticateUser } from '../auth/authenticateUser';
 const router = express.Router();
+
+router.use( authenticateUser );
 
 router.get( '/', async ( req: Request, res: Response, next: NextFunction ) => 
 {
