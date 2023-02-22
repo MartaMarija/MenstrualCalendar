@@ -1,12 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, OneToMany } from 'typeorm';
 import { Description } from './Description';
+import { TemporalEntity } from './TemporalEntity';
 
 @Entity()
-export class DescriptionType 
+export class DescriptionType extends TemporalEntity
 {
-	@PrimaryGeneratedColumn( 'uuid' )
-		id: string;
-
 	@Column( 'varchar', { length: 25, nullable: false } )
 		name: string;
 
@@ -15,6 +13,7 @@ export class DescriptionType
 
 	constructor( name: string, description: Description[] ) 
 	{
+		super();
 		this.name = name;
 		this.descriptions = description;
 	}

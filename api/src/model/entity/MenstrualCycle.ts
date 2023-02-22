@@ -1,12 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
+import { TemporalEntity } from './TemporalEntity';
 import { User } from './User';
 
 @Entity()
-export class MenstrualCycle 
+export class MenstrualCycle extends TemporalEntity
 {
-	@PrimaryGeneratedColumn( 'uuid' )
-		id: string;
-
 	@Column( 'int' )
 		cycle_duration: number;
 

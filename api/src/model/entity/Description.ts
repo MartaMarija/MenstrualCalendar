@@ -1,19 +1,16 @@
 import {
 	Entity,
 	Column,
-	PrimaryGeneratedColumn,
 	ManyToOne,
 	OneToMany,
 } from 'typeorm';
 import { Day } from './Day';
 import { DescriptionType } from './DescriptionType';
+import { TemporalEntity } from './TemporalEntity';
 
 @Entity()
-export class Description 
+export class Description extends TemporalEntity
 {
-	@PrimaryGeneratedColumn( 'uuid' )
-		id: string;
-
 	@Column( 'varchar', { length: 25, nullable: false } )
 		name: string;
 
@@ -25,6 +22,7 @@ export class Description
 
 	constructor( name: string, descriptionType: DescriptionType ) 
 	{
+		super();
 		this.name = name;
 		this.descriptionType = descriptionType;
 	}

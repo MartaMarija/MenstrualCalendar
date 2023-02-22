@@ -1,13 +1,11 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
 import { Description } from './Description';
+import { TemporalEntity } from './TemporalEntity';
 import { User } from './User';
 
 @Entity()
-export class Day 
+export class Day extends TemporalEntity
 {
-	@PrimaryGeneratedColumn( 'uuid' )
-		id: string;
-
 	@ManyToOne( () => User, ( user ) => user.days, { nullable: false } )
 		user: User;
 

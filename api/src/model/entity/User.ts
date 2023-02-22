@@ -1,16 +1,14 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, OneToMany } from 'typeorm';
 import { Day } from './Day';
 import { Gynecologist } from './Gynecologist';
 import { MedicalExam } from './MedicalExam';
 import { MenstrualCycle } from './MenstrualCycle';
 import { RefreshToken } from './RefreshToken';
+import { TemporalEntity } from './TemporalEntity';
 
 @Entity()
-export class User
+export class User extends TemporalEntity
 {
-	@PrimaryGeneratedColumn( 'uuid' )
-		id: string;
-
 	@Column( 'varchar', { length: 45, nullable: false } )
 		first_name: string;
 
@@ -60,6 +58,7 @@ export class User
 		refreshToken: RefreshToken[]
 	) 
 	{
+		super();
 		this.first_name = firstName;
 		this.last_name = lastName;
 		this.email = email;

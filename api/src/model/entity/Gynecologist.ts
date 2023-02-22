@@ -2,18 +2,15 @@ import {
 	Column,
 	Entity,
 	ManyToOne,
-	OneToMany,
-	PrimaryGeneratedColumn,
+	OneToMany
 } from 'typeorm';
 import { MedicalExam } from './MedicalExam';
+import { TemporalEntity } from './TemporalEntity';
 import { User } from './User';
 
 @Entity()
-export class Gynecologist 
+export class Gynecologist extends TemporalEntity
 {
-	@PrimaryGeneratedColumn( 'uuid' )
-		id: string;
-
 	@Column( 'varchar', { length: 45, nullable: false } )
 		first_name: string;
 
