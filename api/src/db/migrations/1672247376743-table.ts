@@ -23,6 +23,19 @@ export class table1672245702970 implements MigrationInterface
                     CONSTRAINT "emailUnique" UNIQUE (email)
                 );
 
+                DROP TABLE IF EXISTS "refresh_token" CASCADE;
+                CREATE TABLE "refresh_tokens" (
+                    "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+                    "createdAt" timestamp NOT NULL DEFAULT now(),
+                    "updatedAt" timestamp NOT NULL DEFAULT now(),
+                    "deletedAt" timestamp NULL,
+                    "refresh_token" varchar NOT NULL,
+                    "userId" uuid NOT NULL,
+                    CONSTRAINT "refresh_tokens_user_fk"
+                    FOREIGN KEY ("userId") 
+                    REFERENCES "user"(id) ON DELETE CASCADE
+                );
+
                 DROP TABLE IF EXISTS "description_type" CASCADE;
                 CREATE TABLE "description_type" (
                     "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),

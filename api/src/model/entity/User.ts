@@ -3,9 +3,10 @@ import { Day } from './Day';
 import { Gynecologist } from './Gynecologist';
 import { MedicalExam } from './MedicalExam';
 import { MenstrualCycle } from './MenstrualCycle';
+import { RefreshToken } from './RefreshToken';
 
 @Entity()
-export class User 
+export class User
 {
 	@PrimaryGeneratedColumn( 'uuid' )
 		id: string;
@@ -43,6 +44,9 @@ export class User
 	@OneToMany( () => MedicalExam, ( medicalExam ) => medicalExam.user )
 		medicalExams: MedicalExam[];
 
+	@OneToMany( () => RefreshToken, ( refreshToken ) => refreshToken.user )
+		refreshToken: RefreshToken[];
+
 	constructor(
 		firstName: string,
 		lastName: string,
@@ -52,7 +56,8 @@ export class User
 		avgDurationOfMenstruation: number,
 		avgDurationOfLutealPhase: number,
 		menstrualCycles: MenstrualCycle[],
-		medicalExams: MedicalExam[]
+		medicalExams: MedicalExam[],
+		refreshToken: RefreshToken[]
 	) 
 	{
 		this.first_name = firstName;
@@ -64,5 +69,6 @@ export class User
 		this.avg_duration_of_luteal_phase = avgDurationOfLutealPhase;
 		this.menstrualCycles = menstrualCycles;
 		this.medicalExams = medicalExams;
+		this.refreshToken = refreshToken;
 	}
 }
