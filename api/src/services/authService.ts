@@ -26,29 +26,42 @@ export const loginUser = async ( req: Request ) : Promise<LoginResponse> =>
 		throw new AppError( 'Unauthorized', 401 );
 	}
 	const userData : UserData = { id: user.id };
-	const accessToken = getAccessToken( userData );
-	const refreshToken = getRefreshToken( userData );
-	return new LoginResponse( accessToken, refreshToken );
+	return getTokens( userData );
 };
 
-function getAccessToken( userData : UserData )
+export const refreshToken = async ( req: Request ) : Promise<LoginResponse> =>
+{
+	try 
+	{
+		const token = req.headers['x-refresh-token'];
+		if ( !token )
+		{
+			throw new Error( 'Header is not present!' );
+		}
+		const tokenKey = process.env.REFRESH_SECRET_KEY;
+		if( !tokenKey )
+		{
+			throw new Error( 'Refresh token key is not present!' );
+		}
+		const tokenPayload = jsonwebtoken.verify( token as string, tokenKey ) as jsonwebtoken.JwtPayload;
+		const userData : UserData = { id: tokenPayload.id };
+		return getTokens( userData );
+	}
+	catch
+	{
+		throw new AppError( 'Unauthorized', 401 );
+	}
+};
+
+function getTokens( userData : UserData ) : LoginResponse
 {
 	const accessTokenKey = process.env.ACCESS_TOKEN_KEY;
-	if( !accessTokenKey )
+	const refreshTokenKey = process.env.REFRESH_SECRET_KEY;
+	if( !accessTokenKey || !refreshTokenKey )
 	{
 		throw new AppError( 'Internal Server Error', 500 );
 	}
 	const accessToken = jsonwebtoken.sign( userData, accessTokenKey, { expiresIn: '1h' } );
-	return accessToken;
-}
-
-function getRefreshToken( userData : UserData )
-{
-	const refreshTokenKey = process.env.REFRESH_SECRET_KEY;
-	if( !refreshTokenKey )
-	{
-		throw new AppError( 'Internal Server Error', 500 );
-	}
 	const refreshToken = jsonwebtoken.sign( userData, refreshTokenKey, { expiresIn: '14d' } );
-	return refreshToken;
+	return new LoginResponse( accessToken, refreshToken );
 }

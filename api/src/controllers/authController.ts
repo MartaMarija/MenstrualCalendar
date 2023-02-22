@@ -20,6 +20,22 @@ router.post( '/login', async ( req: Request, res: Response, next: NextFunction )
 	res.json( loginResponse );
 } );
 
+router.post( '/refresh', async ( req: Request, res: Response, next: NextFunction ) => 
+{
+	let refreshResponse;
+	try
+	{
+		refreshResponse = await authService.refreshToken( req );
+	}
+	catch ( error )
+	{
+		const errorMessage = ( error instanceof AppError ) ? error.message : 'Unauthorized';		
+		const errorCode = ( error instanceof AppError ) ? error.code : 401;	
+		return next( new AppError( errorMessage, errorCode ) );
+	}
+	res.json( refreshResponse );
+} );
+
 //TODO /logout
 
 export default router;
