@@ -8,7 +8,6 @@ import { DescriptionType } from '../../model/entity/DescriptionType';
 import { MedicalExam } from '../../model/entity/MedicalExam';
 import { Gynecologist } from '../../model/entity/Gynecologist';
 import { MenstrualCycle } from '../../model/entity/MenstrualCycle';
-import { RefreshToken } from '../../model/entity/RefreshToken';
 dotenv.config();
 
 export const AppDataSource = new DataSource( {
@@ -29,8 +28,7 @@ export const AppDataSource = new DataSource( {
 		DescriptionType,
 		MedicalExam,
 		Gynecologist,
-		MenstrualCycle,
-		RefreshToken
+		MenstrualCycle
 	],
 	migrations: ['dist/db/migrations/*.js'],
 	migrationsTableName: 'changelog_master',

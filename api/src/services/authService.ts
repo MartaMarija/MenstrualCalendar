@@ -1,12 +1,12 @@
 import * as EmailValidator from 'email-validator';
 import { AppError } from '../model/constants/AppError';
-// import { User } from '../model/entity/User';
 import { UserRepository } from '../dao/userRepository';
 import { Request } from 'express';
 import * as argon2 from 'argon2';
 import { LoginResponse } from '../model/response/LoginResponse';
 import jsonwebtoken from 'jsonwebtoken';
-import { UserData } from 'src/model/request/AuthRequest';
+import { UserData } from '../model/request/AuthRequest';
+import * as userService from '../services/userService';
 
 export const loginUser = async ( req: Request ) : Promise<LoginResponse> => 
 {
@@ -63,5 +63,24 @@ function getTokens( userData : UserData ) : LoginResponse
 	}
 	const accessToken = jsonwebtoken.sign( userData, accessTokenKey, { expiresIn: '1h' } );
 	const refreshToken = jsonwebtoken.sign( userData, refreshTokenKey, { expiresIn: '14d' } );
+	saveRefreshToken( refreshToken, userData.id );
 	return new LoginResponse( accessToken, refreshToken );
+}
+
+async function saveRefreshToken( refreshToken : string, userId : string ) 
+{
+	const user = await userService.getUserbyId( userId );
+	if( !user )
+	{
+		throw new AppError( 'Unauthorized', 401 );
+	}
+	user.refreshToken = refreshToken;
+	try
+	{
+		await userService.saveUser( user );
+	}
+	catch
+	{
+		throw new AppError( 'Internal Server Error', 500 );
+	}
 }

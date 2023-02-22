@@ -20,23 +20,11 @@ export class table1672245702970 implements MigrationInterface
                     "last_name" varchar(45) NOT NULL,
                     "email" varchar(45) NOT NULL,
                     "password" varchar NOT NULL,
+                    "refresh_token" varchar NOT NULL,
                     "avg_duration_of_menstrual_cycle" int NOT NULL,
                     "avg_duration_of_menstruation" int NOT NULL,
                     "avg_duration_of_luteal_phase" int NOT NULL,
                     CONSTRAINT "emailUnique" UNIQUE (email)
-                );
-
-                DROP TABLE IF EXISTS "refresh_token" CASCADE;
-                CREATE TABLE "refresh_tokens" (
-                    "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-                    "createdAt" timestamp NOT NULL DEFAULT now(),
-                    "updatedAt" timestamp NOT NULL DEFAULT now(),
-                    "deletedAt" timestamp NULL,
-                    "refresh_token" varchar NOT NULL,
-                    "userId" uuid NOT NULL,
-                    CONSTRAINT "refresh_tokens_user_fk"
-                    FOREIGN KEY ("userId") 
-                    REFERENCES "user"(id) ON DELETE CASCADE
                 );
 
                 DROP TABLE IF EXISTS "description_type" CASCADE;

@@ -3,7 +3,6 @@ import { Day } from './Day';
 import { Gynecologist } from './Gynecologist';
 import { MedicalExam } from './MedicalExam';
 import { MenstrualCycle } from './MenstrualCycle';
-import { RefreshToken } from './RefreshToken';
 import { TemporalEntity } from './TemporalEntity';
 
 @Entity()
@@ -20,6 +19,9 @@ export class User extends TemporalEntity
 
 	@Column( 'varchar', { nullable: false } ) // Defaults to 255 characters
 		password: string;
+
+	@Column( 'varchar', { nullable: false } )
+		refreshToken: string;
 
 	@Column( 'int', { nullable: false } )
 		avg_duration_of_menstrual_cycle: number;
@@ -42,9 +44,6 @@ export class User extends TemporalEntity
 	@OneToMany( () => MedicalExam, ( medicalExam ) => medicalExam.user )
 		medicalExams: MedicalExam[];
 
-	@OneToMany( () => RefreshToken, ( refreshToken ) => refreshToken.user )
-		refreshToken: RefreshToken[];
-
 	constructor(
 		firstName: string,
 		lastName: string,
@@ -54,8 +53,7 @@ export class User extends TemporalEntity
 		avgDurationOfMenstruation: number,
 		avgDurationOfLutealPhase: number,
 		menstrualCycles: MenstrualCycle[],
-		medicalExams: MedicalExam[],
-		refreshToken: RefreshToken[]
+		medicalExams: MedicalExam[]
 	) 
 	{
 		super();
@@ -68,6 +66,5 @@ export class User extends TemporalEntity
 		this.avg_duration_of_luteal_phase = avgDurationOfLutealPhase;
 		this.menstrualCycles = menstrualCycles;
 		this.medicalExams = medicalExams;
-		this.refreshToken = refreshToken;
 	}
 }

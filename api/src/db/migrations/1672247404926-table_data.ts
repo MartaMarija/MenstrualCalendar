@@ -12,14 +12,9 @@ export class tableData1672247404926 implements MigrationInterface
 		await queryRunner.query(
 			`
                 INSERT INTO "user" VALUES
-                ('27700306-06aa-4bd1-a3f4-67570384b5e1', default, default, default, 'Ana', 'Anić', 'ana@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$4J45ikrVP6rZXCk9pb9Xog$LEmDbLehEEAlEtOfeH9dpEKu9sDTGmsLdrua0BPlAYk', 28, 3, 14),
-                ('0ff0abcf-519c-4d47-b0f2-f65079284120', default, default, default, 'Jana', 'Janić', 'jana@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$4J45ikrVP6rZXCk9pb9Xog$LEmDbLehEEAlEtOfeH9dpEKu9sDTGmsLdrua0BPlAYk', 31, 5, 14),
-                ('1cfd14e8-cbb1-40a3-a892-a4f8a185f024', default, default, default, 'Lana', 'Lanić', 'lana@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$4J45ikrVP6rZXCk9pb9Xog$LEmDbLehEEAlEtOfeH9dpEKu9sDTGmsLdrua0BPlAYk', 27, 6, 14);
-
-                INSERT INTO refresh_tokens VALUES
-                ('27700306-06aa-4bd1-a3f4-67570384b5e1', default, default, default, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3NzAwMzA2LTA2YWEtNGJkMS1hM2Y0LTY3NTcwMzg0YjVlMSIsImlhdCI6MTY3NzA2MTUzOSwiZXhwIjoxNjc4MjcxMTM5fQ.ewdB4619WYLHWUSxbeE6mRo8yio4tsvSeB7nPGMEc0M', '27700306-06aa-4bd1-a3f4-67570384b5e1'),
-                ('17700306-06aa-4bd1-a3f4-67570384b5e1', default, default, default, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3NzAwMzA2LTA2YWEtNGJkMS1hM2Y0LTY3NTcwMzg0YjVlMSIsImlhdCI6MTY3NzA2MjA5OSwiZXhwIjoxNjc4MjcxNjk5fQ.OmtIL4eDaDKoM1YNjx-wUI2XeSCa1v6mJscoUg3D_AQ', '27700306-06aa-4bd1-a3f4-67570384b5e1'),
-                ('37700306-06aa-4bd1-a3f4-67570384b5e1', default, default, null, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3NzAwMzA2LTA2YWEtNGJkMS1hM2Y0LTY3NTcwMzg0YjVlMSIsImlhdCI6MTY3NzA2MjExOSwiZXhwIjoxNjc4MjcxNzE5fQ.rGnhUOybLjvqXpqacTs5gdpXpsDvUgTKI3OBCHiiz0Q', '27700306-06aa-4bd1-a3f4-67570384b5e1');
+                ('27700306-06aa-4bd1-a3f4-67570384b5e1', default, default, default, 'Ana', 'Anić', 'ana@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$4J45ikrVP6rZXCk9pb9Xog$LEmDbLehEEAlEtOfeH9dpEKu9sDTGmsLdrua0BPlAYk', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3NzAwMzA2LTA2YWEtNGJkMS1hM2Y0LTY3NTcwMzg0YjVlMSIsImlhdCI6MTY3NzA2MjExOSwiZXhwIjoxNjc4MjcxNzE5fQ.rGnhUOybLjvqXpqacTs5gdpXpsDvUgTKI3OBCHiiz0Q', 28, 3, 14),
+                ('0ff0abcf-519c-4d47-b0f2-f65079284120', default, default, default, 'Jana', 'Janić', 'jana@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$4J45ikrVP6rZXCk9pb9Xog$LEmDbLehEEAlEtOfeH9dpEKu9sDTGmsLdrua0BPlAYk', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3NzAwMzA2LTA2YWEtNGJkMS1hM2Y0LTY3NTcwMzg0YjVlMSIsImlhdCI6MTY3NzA2MTUzOSwiZXhwIjoxNjc4MjcxMTM5fQ.ewdB4619WYLHWUSxbeE6mRo8yio4tsvSeB7nPGMEc0M', 31, 5, 14),
+                ('1cfd14e8-cbb1-40a3-a892-a4f8a185f024', default, default, default, 'Lana', 'Lanić', 'lana@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$4J45ikrVP6rZXCk9pb9Xog$LEmDbLehEEAlEtOfeH9dpEKu9sDTGmsLdrua0BPlAYk', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3NzAwMzA2LTA2YWEtNGJkMS1hM2Y0LTY3NTcwMzg0YjVlMSIsImlhdCI6MTY3NzA2MTUzOSwiZXhwIjoxNjc4MjcxMTM5fQ.ewdB4619WYLHWUSxbeE6mRo8yio4tsvSeB7nPGMEc0M', 27, 6, 14);
                 
                 INSERT INTO "gynecologist" VALUES
                 ('dceb1b3e-917f-4adc-b894-a84ef856d90f', default, default, default, 'Dom zdravlja', 'Fiona Horvat', '021/600-600', 'Zagrebačka ulica 3, 10000 Zagreb', '27700306-06aa-4bd1-a3f4-67570384b5e1'),

@@ -8,6 +8,11 @@ export const getUserbyId = async ( id: string ) =>
 	return UserRepository.findOne( { where: { id: id } } );
 };
 
+export const saveUser = async ( user : User ) => 
+{
+	return UserRepository.save( user );
+};
+
 export const getMenstrualCycleInfoFromUser = async (
 	id: string
 ): Promise<User | null> => 
