@@ -21,7 +21,7 @@ export class User extends TemporalEntity
 		password: string;
 
 	@Column( 'varchar', { nullable: false } )
-		refreshToken: string;
+		refresh_token: string;
 
 	@Column( 'int', { nullable: false } )
 		avg_duration_of_menstrual_cycle: number;
