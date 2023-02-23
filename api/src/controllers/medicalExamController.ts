@@ -41,7 +41,7 @@ router.post(
 	}
 );
 
-router.get(
+router.delete(
 	'/removeExam/:examId',
 	async ( req: Request, res: Response, next: NextFunction ) => 
 	{

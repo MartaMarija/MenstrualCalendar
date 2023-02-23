@@ -39,7 +39,7 @@ router.post(
 	}
 );
 
-router.get(
+router.delete(
 	'/removeGyn/:gynId',
 	async ( req: Request, res: Response, next: NextFunction ) => 
 	{

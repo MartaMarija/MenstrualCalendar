@@ -75,7 +75,7 @@ router.get(
 	}
 );
 
-router.get(
+router.delete(
 	'/removePeriod/:date',
 	async ( req: Request, res: Response, next: NextFunction ) => 
 	{
@@ -88,7 +88,7 @@ router.get(
 	}
 );
 
-router.get(
+router.patch(
 	'/endPeriod/:date',
 	async ( req: Request, res: Response, next: NextFunction ) => 
 	{
@@ -103,7 +103,7 @@ router.get(
 	}
 );
 
-router.get(
+router.post(
 	'/addPeriod/:date',
 	async ( req: Request, res: Response, next: NextFunction ) => 
 	{
