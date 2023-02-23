@@ -1,34 +1,64 @@
 import { Gynecologist } from '../model/entity/Gynecologist';
-import { User } from 'src/model/entity/User';
+// import { User } from 'src/model/entity/User';
 import { GynecologistRepository } from '../dao/gynecologistRepository';
 import * as userService from '../services/userService';
+import { AuthRequest } from '../model/request/AuthRequest';
+import { AppError } from '../model/constants/AppError';
+import { GynecologistRequest } from '../model/request/GynecologistRequest';
 
-export const getGynecologist = async ( id: string ): Promise<Gynecologist[]> => 
+export const getGynecologist = async ( req: AuthRequest ): Promise<Gynecologist[]> => 
 {
-	return await GynecologistRepository.find( {
-		where: [{ user: { id: id } }],
-	} );
+	try
+	{
+		return await GynecologistRepository.find( {
+			where: [{ user: { id: req.userData.id } }],
+		} );
+	}
+	catch
+	{
+		throw new AppError( 'Internal Server Error', 500 );
+	}
 };
 
-export const insertGynecologist = async ( id: string, gyn: Gynecologist ) => 
+export const insertGynecologist = async ( req: AuthRequest ) => 
 {
-	const user: User | null = await userService.getUserbyId( id );
-	if ( user != null ) 
+	const user = await userService.getUserbyId( req.userData.id );
+	if ( !user ) 
 	{
-		gyn.user = user;
-		await GynecologistRepository.save( gyn );
-		return true;
+		throw new AppError ( 'Unauthorized', 401 );
 	}
-	return false;
+	let gynecologist: Gynecologist;
+	try
+	{
+		gynecologist = await GynecologistRequest.toEntity( req.body as GynecologistRequest, user );
+		await GynecologistRepository.save( gynecologist );
+	}
+	catch ( error )
+	{
+		throw new AppError ( 'Bad request', 400 );
+	}
 };
 
 export const getGynecologistbyId = async ( id: string ) => 
 {
-	return GynecologistRepository.findOne( { where: { id: id } } );
+	try
+	{
+		return await GynecologistRepository.findOne( { where: { id: id } } );
+	}
+	catch
+	{
+		throw new AppError( 'Internal Server Error', 500 );
+	}
 };
 
-export const deleteGynecologist = async ( gynId: string ) => 
+export const deleteGynecologist = async ( id: string ) => 
 {
-	GynecologistRepository.delete( gynId );
-	return true;
+	try
+	{
+		await GynecologistRepository.delete( id );
+	}
+	catch
+	{
+		throw new AppError( 'Internal Server Error', 500 );
+	}
 };

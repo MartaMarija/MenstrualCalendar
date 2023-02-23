@@ -28,4 +28,20 @@ export class Gynecologist extends TemporalEntity
 
 	@OneToMany( () => MedicalExam, ( medicalExam ) => medicalExam.gynecologist )
 		medicalExams: MedicalExam[];
+
+	constructor(
+		first_name: string,
+		last_name: string,
+		telephone: string,
+		address: string,
+		user: User
+	) 
+	{
+		super();
+		this.first_name = first_name;
+		this.last_name = last_name;
+		this.telephone = telephone;
+		this.address = address;
+		this.user = user;
+	}
 }
