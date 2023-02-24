@@ -2,58 +2,53 @@ import express from 'express';
 import { Request, Response, NextFunction } from 'express';
 import { AppError } from '../model/constants/AppError';
 import * as medicalExamService from '../services/medicalExamService';
-import * as jwtService from '../services/jwtService';
-import { MedicalExam } from '../model/entity/MedicalExam';
 import { authenticateUser } from '../auth/authenticateUser';
+import { AuthRequest } from '../model/request/AuthRequest';
+import { MedicalExamResponse } from '../model/response/MedicalExamResponse';
 const router = express.Router();
 
 router.use( authenticateUser );
 
 router.get( '/', async ( req: Request, res: Response, next: NextFunction ) => 
 {
-	const jwt = jwtService.authenticateToken( req );
-	if ( jwt ) 
+	let medicalExams;
+	try
 	{
-		return res.json( await medicalExamService.getMedicalExams( jwt.id ) );
+		medicalExams = await medicalExamService.getMedicalExams(  req as AuthRequest );
 	}
-	return next( new AppError( 'Invalid token!', 400 ) );
+	catch ( error )
+	{
+		return next( new AppError( error.message, error.code ) );
+	}
+	res.json( MedicalExamResponse.toDtos( medicalExams ) );
 } );
 
-router.post(
-	'/addExam',
-	async ( req: Request, res: Response, next: NextFunction ) => 
+router.post( '/', async ( req: Request, res: Response, next: NextFunction ) => 
+{
+	try
 	{
-		const jwt = jwtService.authenticateToken( req );
-		if ( jwt ) 
-		{
-			const exam: MedicalExam = new MedicalExam();
-			exam.date = req.body.date;
-			exam.description = req.body.description;
-			return res.json(
-				await medicalExamService.insertMedicalExam(
-					jwt.id,
-					exam,
-					req.body.gynecologistId
-				)
-			);
-		}
-		return next( new AppError( 'Invalid token!', 400 ) );
+		await medicalExamService.insertMedicalExam( req as AuthRequest );
 	}
+	catch ( error )
+	{
+		return next( new AppError( error.message, error.code ) );
+	}
+	res.status( 201 ).json( { message: 'Medical exam added successfully!' } );
+}
 );
 
-router.delete(
-	'/removeExam/:examId',
-	async ( req: Request, res: Response, next: NextFunction ) => 
+router.delete( '/:medicalExamId', async ( req: Request, res: Response, next: NextFunction ) => 
+{
+	try 
 	{
-		const jwt = jwtService.authenticateToken( req );
-		if ( jwt ) 
-		{
-			return res.json(
-				await medicalExamService.deleteMedicalExam( req.params.examId )
-			);
-		}
-		return next( new AppError( 'Invalid token!', 400 ) );
+		await medicalExamService.deleteMedicalExam( req.params.medicalExamId );
 	}
+	catch ( error )
+	{
+		return next( new AppError( error.message, error.code ) );
+	}
+	res.status( 204 );
+}
 );
 
 export default router;

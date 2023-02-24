@@ -21,4 +21,18 @@ export class MedicalExam extends TemporalEntity
 
 	@ManyToOne( () => User, ( user ) => user.medicalExams )
 		user: User;
+
+	constructor(
+		date: Date,
+		description: string,
+		gynecologist: Gynecologist,
+		user: User
+	) 
+	{
+		super();
+		this.date = date;
+		this.description = description;
+		this.gynecologist = gynecologist;
+		this.user = user;
+	}
 }

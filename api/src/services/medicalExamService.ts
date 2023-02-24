@@ -1,40 +1,53 @@
 import { MedicalExam } from '../model/entity/MedicalExam';
-import { User } from '../model/entity/User';
 import { MedicalExamRepository } from '../dao/medicalExamRepository';
 import * as userService from '../services/userService';
-import { Gynecologist } from '../model/entity/Gynecologist';
 import * as gynecologistService from './gynecologistService';
+import { AuthRequest } from '../model/request/AuthRequest';
+import { AppError } from '../model/constants/AppError';
+import { MedicalExamCreateRequest } from '../model/request/MedicalExamCreateRequest';
 
-export const getMedicalExams = async ( id: string ): Promise<MedicalExam[]> => 
+export const getMedicalExams = async ( req : AuthRequest ): Promise<MedicalExam[]> => 
 {
 	return await MedicalExamRepository.createQueryBuilder( 'medicalExam' )
 		.leftJoinAndSelect( 'medicalExam.gynecologist', 'gynecologist' )
-		.where( 'medicalExam.user.id = :userId', { userId: id } )
+		.where( 'medicalExam.user.id = :userId', { userId: req.userData.id } )
 		.orderBy( 'date', 'DESC' )
-		.getMany();
+		.getMany()
+		.catch( ()=>
+		{
+			throw new AppError( 'Internal Server Error', 500 );
+		} );
 };
 
-export const insertMedicalExam = async (
-	id: string,
-	medicalExam: MedicalExam,
-	gynId: string
-) => 
+export const insertMedicalExam = async ( req : AuthRequest ) => 
 {
-	const user: User | null = await userService.getUserbyId( id );
-	const gyn: Gynecologist | null =
-    await gynecologistService.getGynecologistbyId( gynId );
-	if ( user != null ) 
+	const user = await userService.getUserbyId( req.userData.id );
+	const gyn = await gynecologistService.getGynecologistbyId( req.body.gynId );
+	if ( !user ) 
 	{
-		medicalExam.user = user;
-		medicalExam.gynecologist = gyn;
-		await MedicalExamRepository.save( medicalExam );
-		return true;
+		throw new AppError ( 'Unauthorized', 401 );
 	}
-	return false;
+	if( !gyn )
+	{
+		throw new AppError ( 'Gyn not found', 404 );
+	}
+	const medicalExam = await MedicalExamCreateRequest.toEntity( req.body as MedicalExamCreateRequest, user, gyn );
+	await MedicalExamRepository.save( medicalExam )
+		.catch( () =>
+		{
+			throw new AppError( 'Internal Server Error', 500 );
+		} );
 };
 
 export const deleteMedicalExam = async ( examId: string ) => 
 {
-	MedicalExamRepository.delete( examId );
-	return true;
+	const result = await MedicalExamRepository.delete( examId )
+		.catch( () => 
+		{
+			throw new AppError( 'Internal Server Error', 500 );
+		} );
+	if ( result.affected === 0 ) 
+	{
+		throw new AppError( 'Medical exam not found', 404 );
+	}
 };
