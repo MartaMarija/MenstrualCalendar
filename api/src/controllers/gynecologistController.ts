@@ -5,6 +5,8 @@ import * as gynecologistService from '../services/gynecologistService';
 import { authenticateUser } from '../auth/authenticateUser';
 import { AuthRequest } from 'src/model/request/AuthRequest';
 import { GynecologistResponse } from '../model/response/GynecologistResponse';
+import { validationResult, check } from 'express-validator';
+
 const router = express.Router();
 
 router.use( authenticateUser );
@@ -14,7 +16,7 @@ router.get( '/', async ( req: Request, res: Response, next: NextFunction ) =>
 	let gynecologists;
 	try
 	{
-		gynecologists = await gynecologistService.getGynecologist( req as AuthRequest );
+		gynecologists = await gynecologistService.getGynecologists( req as AuthRequest );
 	}
 	catch ( error )
 	{
@@ -23,21 +25,30 @@ router.get( '/', async ( req: Request, res: Response, next: NextFunction ) =>
 	res.json( GynecologistResponse.toDtos( gynecologists ) );
 } );
 
-router.post( '/addGyn', async ( req: Request, res: Response, next: NextFunction ) => 
-{
-	try
+router.post( '/',
+	[
+		check( 'first_name' ).notEmpty()
+	], 
+	async ( req: Request, res: Response, next: NextFunction ) => 
 	{
-		await gynecologistService.insertGynecologist( req as AuthRequest );
+		const errors = validationResult( req );
+		if ( !errors.isEmpty() ) 
+		{
+			return next( new AppError( 'Bad request', 400 ) );
+		}
+		try
+		{
+			await gynecologistService.insertGynecologist( req as AuthRequest );
+		}
+		catch ( error )
+		{
+			return next( new AppError( error.message, error.code ) );
+		}
+		res.status( 201 ).json( { message: 'Gynecologist added successfully!' } );
 	}
-	catch ( error )
-	{
-		return next( new AppError( error.message, error.code ) );
-	}
-	res.json( { message: 'Gynecologist added successfully!' } );
-}
 );
 
-router.delete( '/removeGyn/:gynId', async ( req: Request, res: Response, next: NextFunction ) => 
+router.delete( '/:gynId', async ( req: Request, res: Response, next: NextFunction ) => 
 {
 	try 
 	{
@@ -47,7 +58,7 @@ router.delete( '/removeGyn/:gynId', async ( req: Request, res: Response, next: N
 	{
 		return next( new AppError( error.message, error.code ) );
 	}
-	res.json( { message: 'Gynecologist deleted successfully!' } );
+	res.status( 204 ).json( { message: 'Gynecologist deleted successfully!' } );
 }
 );
 

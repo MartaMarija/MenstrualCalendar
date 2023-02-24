@@ -18,7 +18,7 @@ export class tableData1672247404926 implements MigrationInterface
                 
                 INSERT INTO "gynecologist" VALUES
                 ('dceb1b3e-917f-4adc-b894-a84ef856d90f', default, default, default, 'Dom zdravlja', 'Fiona Horvat', '021/600-600', 'Zagrebačka ulica 3, 10000 Zagreb', '27700306-06aa-4bd1-a3f4-67570384b5e1'),
-                ('d9d38929-4228-4ce8-82b3-3cb2ee651d10', default, default, default, '', 'Goran Anić', '021/700-600', 'Splićanska ulica 3, 21000 Split', '0ff0abcf-519c-4d47-b0f2-f65079284120'),
+                ('d9d38929-4228-4ce8-82b3-3cb2ee651d10', default, default, default, 'Goran Anić', '', '021/700-600', 'Splićanska ulica 3, 21000 Split', '0ff0abcf-519c-4d47-b0f2-f65079284120'),
                 ('0a1f35fe-6b76-45d6-9b0c-c1092e5f4a28', default, default, default, 'Poliklinika Gyn', 'Korana Rić', '021/540-640', 'Varaždinska ulica 3, 42000 Varaždin', '27700306-06aa-4bd1-a3f4-67570384b5e1');
             
                 INSERT INTO "description_type" VALUES

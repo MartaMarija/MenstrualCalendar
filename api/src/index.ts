@@ -18,7 +18,7 @@ const main = async () =>
 	app.use( '/api/users', userRoutes );
 	app.use( '/api/menstrualCycles', menstrualCycleRoutes );
 	app.use( '/api/medicalExams', medicalExamRoutes );
-	app.use( '/api/gyn', gynecologistRoutes );
+	app.use( '/api/gyns', gynecologistRoutes );
 	app.use( '/api/auth', authRoutes );
 
 	//Reached only when no other middleware gives a response. Basically, for handling unsupported routes
