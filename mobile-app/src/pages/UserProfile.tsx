@@ -1,5 +1,5 @@
 import { Text, StyleSheet, Pressable, View } from 'react-native';
-import { useAuth } from '../contexts/Auth';
+import { useAuth } from '../auth/Auth';
 
 const UserProfile = () => 
 {
@@ -19,13 +19,13 @@ const styles = StyleSheet.create( {
 		justifyContent: 'center',
 	},
 	welcomeText: {
-		color: 'red',
+		color: '#D31D1D',
 		fontSize: 30,
 		fontWeight: '600',
 		marginBottom: 20,
 	},
 	input: {
-		borderColor: 'red',
+		borderColor: '#D31D1D',
 		borderWidth: 2,
 		borderRadius: 8,
 		padding: 15,
@@ -44,7 +44,7 @@ const styles = StyleSheet.create( {
 		width: 300,
 		borderRadius: 8,
 		elevation: 3,
-		backgroundColor: 'red',
+		backgroundColor: '#D31D1D',
 		height: 63,
 	},
 } );

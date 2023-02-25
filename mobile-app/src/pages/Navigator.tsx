@@ -4,7 +4,7 @@ import CalendarScreen from './Calendar';
 import MedicalExam from './MedicalExam';
 import UserProfile from './UserProfile';
 import Login from './Login';
-import { useAuth } from '../contexts/Auth';
+import { useAuth } from '../auth/Auth';
 import { Loading } from '../components/Loading';
 
 const Tab = createBottomTabNavigator();
@@ -18,14 +18,14 @@ const Navigator = () =>
 	}
 	return (
 		<NavigationContainer>
-			{authData?.token ? (
+			{authData?.accessToken ? (
 				<Tab.Navigator
 					screenOptions={{
-						tabBarStyle: { height: 60, backgroundColor: 'red' },
-						headerStyle: { height: 80, backgroundColor: 'red' },
+						tabBarStyle: { height: 60, backgroundColor: '#D31D1D' },
+						headerStyle: { height: 80, backgroundColor: '#D31D1D' },
 						headerTintColor: 'white',
 						tabBarInactiveTintColor: 'white',
-						tabBarActiveTintColor: 'red',
+						tabBarActiveTintColor: '#D31D1D',
 						tabBarActiveBackgroundColor: 'white',
 					}}
 				>

@@ -1,14 +1,11 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LoginData } from '../api/request/LoginData';
 import { loginUser } from '../api/users';
+import { AuthData } from '../api/type/AuthData';
+import * as auth from '../api/token';
 
 interface Props {
     children: React.ReactNode
-}
-
-type AuthData = {
-    token: string
 }
 
 type AuthContextData = {
@@ -34,12 +31,8 @@ export const AuthContextProvider: React.FC<Props> = ( { children } ) =>
 	{
 		try 
 		{
-			const authDataSerialized = await AsyncStorage.getItem( '@AuthData' );
-			if ( authDataSerialized ) 
-			{
-				const token: AuthData = JSON.parse( authDataSerialized );
-				setAuthData( token );
-			}
+			const authData = await auth.getTokens();
+			setAuthData( authData );
 		}
 		catch ( error ) 
 		{
@@ -53,23 +46,20 @@ export const AuthContextProvider: React.FC<Props> = ( { children } ) =>
 
 	const signIn = async ( loginData: LoginData ) => 
 	{
-		const jwt = await loginUser( loginData );
-		const token: AuthData = { token: jwt.token };
-		if( token != undefined )
+		const response = await loginUser( loginData );
+		console.log( response );
+		const authData : AuthData = { accessToken: response.accessToken, refreshToken: response.refreshToken };
+		if( authData != undefined )
 		{
-			setAuthData( token );
-			AsyncStorage.setItem( '@AuthData', JSON.stringify( token ) );
+			setAuthData( authData );
+			await auth.setTokens( authData );
 		}
 	};
 
 	const signOut = async () => 
 	{
-		// setAuthData({
-		//     //token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFjZmQxNGU4LWNiYjEtNDBhMy1hODkyLWE0ZjhhMTg1ZjAyNCIsImlhdCI6MTY3MzExMDIzOH0.uY7iHuqyDXRwisW38N3sB05Og_WVf4vwG7E37HMY6hs'
-		//     token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3NzAwMzA2LTA2YWEtNGJkMS1hM2Y0LTY3NTcwMzg0YjVlMSIsImlhdCI6MTY3Mjg0Mzk2OX0.petZj_kEsD294Am1bdeSyuBMCLS7ZCvm1_YHHmVGLHo',
-		// })
 		setAuthData( undefined );
-		await AsyncStorage.removeItem( '@AuthData' );
+		await auth.removeTokens();
 	};
 
 	return (
