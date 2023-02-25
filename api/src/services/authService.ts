@@ -6,7 +6,7 @@ import { LoginResponse } from '../model/response/LoginResponse';
 import jsonwebtoken from 'jsonwebtoken';
 import { UserData } from '../model/request/AuthRequest';
 import * as userService from '../services/userService';
-import sgMail from '@sendgrid/mail';
+// import sgMail from '@sendgrid/mail';
 
 export const loginUser = async ( req: Request ) : Promise<LoginResponse> => 
 {
@@ -98,37 +98,37 @@ async function compareTokens( refreshToken : string, userId : string )
 		{
 			throw new AppError( 'Internal Server Error', 500 );
 		} );
-		const emailSubject = 'Action required: suspicious activity on your account';
-		const emailBody = 'Dear ' + user.first_name 
-		+ ',\n\n'
-		+ 'We hope this email finds you well. We are writing to inform you that we have detected some suspicious activity on your account. We suspect that your account may have been hacked.'
-		+ '\n\n'
-		+ 'As a precautionary measure, we recommend that you contact us as soon as possible to discuss the details of this incident. Please respond to this email and one of our representatives will get back to you promptly.'
-		+ '\n\n'
-		+ 'We take the security of our users` accounts very seriously, and we want to ensure that your account is secure. We apologize for any inconvenience this may have caused you and thank you for your cooperation in this matter.'
-		+ '\n\n'
-		+ 'Best regards,\nMenstrualCalendar';
-		sendEmail( user.email, emailSubject, emailBody );
+		// const emailSubject = 'Action required: suspicious activity on your account';
+		// const emailBody = 'Dear ' + user.first_name 
+		// + ',\n\n'
+		// + 'We hope this email finds you well. We are writing to inform you that we have detected some suspicious activity on your account. We suspect that your account may have been hacked.'
+		// + '\n\n'
+		// + 'As a precautionary measure, we recommend that you contact us as soon as possible to discuss the details of this incident. Please respond to this email and one of our representatives will get back to you promptly.'
+		// + '\n\n'
+		// + 'We take the security of our users` accounts very seriously, and we want to ensure that your account is secure. We apologize for any inconvenience this may have caused you and thank you for your cooperation in this matter.'
+		// + '\n\n'
+		// + 'Best regards,\nMenstrualCalendar';
+		// sendEmail( user.email, emailSubject, emailBody );
 		throw new AppError( 'Unauthorized', 401 );
 	}
 }
 
-function sendEmail( _email : string, emailSubject : string, emailBody : string )
-{
-	if ( !process.env.SENDGRID_API_KEY ) 
-	{
-		throw new AppError( 'Internal Server Error', 500 );
-	}
-	sgMail.setApiKey( process.env.SENDGRID_API_KEY );
-	//to: email
-	const msg = {
-		to: 'picic.marta1@gmail.com',
-		from: 'bibly.knjiznica@gmail.com',
-		subject: emailSubject,
-		text: emailBody
-	};
-	sgMail.send( msg ).catch( () => 
-	{
-		throw new AppError( 'Internal Server Error', 500 );
-	} );
-}
+// function sendEmail( _email : string, emailSubject : string, emailBody : string )
+// {
+// 	if ( !process.env.SENDGRID_API_KEY ) 
+// 	{
+// 		throw new AppError( 'Internal Server Error', 500 );
+// 	}
+// 	sgMail.setApiKey( process.env.SENDGRID_API_KEY );
+// 	//to: email
+// 	const msg = {
+// 		to: 'picic.marta1@gmail.com',
+// 		from: 'bibly.knjiznica@gmail.com',
+// 		subject: emailSubject,
+// 		text: emailBody
+// 	};
+// 	sgMail.send( msg ).catch( () => 
+// 	{
+// 		throw new AppError( 'Internal Server Error', 500 );
+// 	} );
+// }
