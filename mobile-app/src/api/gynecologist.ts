@@ -1,74 +1,49 @@
-import apiOrigin from './api';
+import api from './apiAuth';
 import { Gynecologist } from './response/Gynecologist';
 
-export const delteGynecologist = async ( token: string | undefined,gynId: string ): Promise<boolean> => 
+export const getGynecologists = async (): Promise<Gynecologist[]> => 
 {
-	let data;
 	try 
 	{
-		data = await fetch( `${apiOrigin}/gyn/removeGyn/${gynId}`, {
-			method: 'GET',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-				Authorization: 'Bearer ' + token,
-			}
-		} );
+		const response = await api.get( '/gyns' );
+		return response.data as Gynecologist[];
 	}
 	catch ( error ) 
 	{
 		console.log( error );
 		throw error;
 	}
-	return ( await data.json() ) as boolean;
 };
 
-export const insertGynecologist = async ( token: string | undefined,gynData: Gynecologist ): Promise<boolean> => 
+export const insertGynecologist = async ( gyn: Gynecologist ) => 
 {
-	let data;
 	try 
 	{
-		data = await fetch( `${apiOrigin}/gyn/addGyn`, {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-				Authorization: 'Bearer ' + token,
-			},
-			body: JSON.stringify( {
-				firstName: gynData.first_name,
-				lastName: gynData.last_name,
-				telephone: gynData.telephone,
-				address: gynData.address,
-			} ),
+		const response = await api.post( '/gyns', {
+			first_name: gyn.first_name,
+			last_name: gyn.last_name,
+			telephone: gyn.telephone,
+			address: gyn.address,
 		} );
+		return response.data;
 	}
 	catch ( error ) 
 	{
 		console.log( error );
 		throw error;
 	}
-	return ( await data.json() ) as boolean;
 };
 
-export const getGynecologists = async ( token: string | undefined ): Promise<Gynecologist[]> => 
+export const delteGynecologist = async ( gynId: string ) => 
 {
-	let data;
 	try 
 	{
-		data = await fetch( `${apiOrigin}/gyn`, {
-			method: 'GET',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-				Authorization: 'Bearer ' + token,
-			},
-		} );
+		const response = await api.delete( `/gyns/${gynId}` );
+		return response.data;
 	}
 	catch ( error ) 
 	{
 		console.log( error );
 		throw error;
 	}
-	return ( await data.json() ) as Gynecologist[];
 };

@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import { getGynecologists, delteGynecologist } from '../api/gynecologist';
 import { Gynecologist } from '../api/response/Gynecologist';
-import { useAuth } from '../contexts/Auth';
 
 interface Props {
     setViewGynecologists: (
@@ -23,7 +22,6 @@ const screen = Dimensions.get( 'window' );
 
 const ViewGynecologists: React.FC<Props> = ( { setViewGynecologists } ) => 
 {
-	const auth = useAuth();
 	const [gynecologists, setGynecologists] = useState<Gynecologist[]>();
 
 	useEffect( () => 
@@ -36,16 +34,13 @@ const ViewGynecologists: React.FC<Props> = ( { setViewGynecologists } ) =>
 
 	async function fetchGyns() 
 	{
-		const gynecologists = await getGynecologists( auth.authData?.token );
+		const gynecologists = await getGynecologists();
 		setGynecologists( gynecologists );
 	}
 
 	async function deleteGyn( gynId: string ) 
 	{
-		await delteGynecologist(
-			auth.authData?.token,
-			gynId
-		);
+		await delteGynecologist( gynId );
 	}
 
 	return (
@@ -130,7 +125,7 @@ const styles = StyleSheet.create( {
 	labelTextContainer: {
 		padding: 10,
 		borderRadius: 10,
-		borderColor: 'red',
+		borderColor: '#D31D1D',
 		borderWidth: 3,
 		marginBottom: 10,
 		marginTop: 5,
@@ -146,7 +141,7 @@ const styles = StyleSheet.create( {
 		fontSize: 18,
 	},
 	titleBackground: {
-		backgroundColor: 'red',
+		backgroundColor: '#D31D1D',
 		padding: 15,
 		width: screen.width,
 		marginBottom: 10,
@@ -169,7 +164,7 @@ const styles = StyleSheet.create( {
 		width: 300,
 		borderRadius: 8,
 		elevation: 3,
-		backgroundColor: 'red',
+		backgroundColor: '#D31D1D',
 		height: 63,
 		margin: 10,
 	},
@@ -180,7 +175,7 @@ const styles = StyleSheet.create( {
 		width: 150,
 		borderRadius: 8,
 		elevation: 5,
-		backgroundColor: 'red',
+		backgroundColor: '#D31D1D',
 		height: 53,
 		margin: 10,
 		borderStartColor: 'blue',

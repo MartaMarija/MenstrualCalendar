@@ -12,7 +12,6 @@ import { insertMedicalExam } from '../api/medicalExam';
 import { getGynecologists } from '../api/gynecologist';
 import { MedicalExam } from '../api/response/MedicalExam';
 import { Gynecologist } from '../api/response/Gynecologist';
-import { useAuth } from '../contexts/Auth';
 import { Picker } from '@react-native-picker/picker';
 import { useEffect, useState } from 'react';
 
@@ -26,21 +25,20 @@ const screen = Dimensions.get( 'window' );
 
 const AddMedicalExam: React.FC<Props> = ( { setAddMedicalExam } ) => 
 {
-	const auth = useAuth();
 	const [gynecologists, setGynecologists] = useState<Gynecologist[]>();
 
 	useEffect( () => 
 	{
 		( async () => 
 		{
-			const gynecologists = await getGynecologists( auth.authData?.token );
+			const gynecologists = await getGynecologists();
 			setGynecologists( gynecologists );
 		} )();
 	}, [] );
 
 	async function submit( values: MedicalExam ) 
 	{
-		await insertMedicalExam( auth.authData?.token, values );
+		await insertMedicalExam( values );
 		setAddMedicalExam( false );
 	}
 
@@ -139,7 +137,7 @@ const styles = StyleSheet.create( {
 	labelTextContainer: {
 		padding: 10,
 		borderRadius: 10,
-		borderColor: 'red',
+		borderColor: '#D31D1D',
 		borderWidth: 3,
 		marginBottom: 10,
 		marginTop: 5,
@@ -155,14 +153,14 @@ const styles = StyleSheet.create( {
 		fontWeight: '500',
 	},
 	titleBackground: {
-		backgroundColor: 'red',
+		backgroundColor: '#D31D1D',
 		padding: 15,
 		width: screen.width,
 		marginBottom: 10,
 	},
 	picker: {
 		borderRadius: 10,
-		borderColor: 'red',
+		borderColor: '#D31D1D',
 		borderWidth: 3,
 		marginBottom: 10,
 		marginTop: 5,
@@ -187,7 +185,7 @@ const styles = StyleSheet.create( {
 		width: 300,
 		borderRadius: 8,
 		elevation: 3,
-		backgroundColor: 'red',
+		backgroundColor: '#D31D1D',
 		height: 63,
 		margin: 10,
 	},

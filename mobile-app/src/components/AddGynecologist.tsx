@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import { insertGynecologist } from '../api/gynecologist';
 import { Gynecologist } from '../api/response/Gynecologist';
-import { useAuth } from '../contexts/Auth';
 
 interface Props {
     setAddGynecologist: (
@@ -22,10 +21,9 @@ const screen = Dimensions.get( 'window' );
 
 const AddGynecologist: React.FC<Props> = ( { setAddGynecologist } ) => 
 {
-	const auth = useAuth();
 	async function submit( values: Gynecologist ) 
 	{
-		await insertGynecologist( auth.authData?.token, values );
+		await insertGynecologist( values );
 		setAddGynecologist( false );
 	}
 
@@ -107,7 +105,7 @@ const styles = StyleSheet.create( {
 	labelTextContainer: {
 		padding: 10,
 		borderRadius: 10,
-		borderColor: 'red',
+		borderColor: '#D31D1D',
 		borderWidth: 3,
 		marginBottom: 10,
 		marginTop: 5,
@@ -123,7 +121,7 @@ const styles = StyleSheet.create( {
 		fontWeight: '500',
 	},
 	titleBackground: {
-		backgroundColor: 'red',
+		backgroundColor: '#D31D1D',
 		padding: 15,
 		width: screen.width,
 		marginBottom: 10,
@@ -146,7 +144,7 @@ const styles = StyleSheet.create( {
 		width: 300,
 		borderRadius: 8,
 		elevation: 3,
-		backgroundColor: 'red',
+		backgroundColor: '#D31D1D',
 		height: 63,
 		margin: 10,
 	},

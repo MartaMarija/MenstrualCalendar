@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import { getMedicalExams, delteMedicalExam } from '../api/medicalExam';
 import { MedicalExam } from '../api/response/MedicalExam';
-import { useAuth } from '../contexts/Auth';
 
 interface Props {
     setViewMedicalExams: (
@@ -23,7 +22,6 @@ const screen = Dimensions.get( 'window' );
 
 const ViewMedicalExam: React.FC<Props> = ( { setViewMedicalExams } ) => 
 {
-	const auth = useAuth();
 	const [medicalExams, setMedicalExams] = useState<MedicalExam[]>();
 
 	useEffect( () => 
@@ -36,16 +34,13 @@ const ViewMedicalExam: React.FC<Props> = ( { setViewMedicalExams } ) =>
 
 	async function fetchExams() 
 	{
-		const medicalExams = await getMedicalExams( auth.authData?.token );
+		const medicalExams = await getMedicalExams();
 		setMedicalExams( medicalExams );
 	}
 
 	async function deleteExam( examId: string ) 
 	{
-		await delteMedicalExam(
-			auth.authData?.token,
-			examId
-		);
+		await delteMedicalExam( examId );
 	}
 
 	return (
@@ -122,7 +117,7 @@ const styles = StyleSheet.create( {
 	labelTextContainer: {
 		padding: 10,
 		borderRadius: 10,
-		borderColor: 'red',
+		borderColor: '#D31D1D',
 		borderWidth: 3,
 		marginBottom: 10,
 		marginTop: 5,
@@ -138,7 +133,7 @@ const styles = StyleSheet.create( {
 		fontSize: 18,
 	},
 	titleBackground: {
-		backgroundColor: 'red',
+		backgroundColor: '#D31D1D',
 		padding: 15,
 		width: screen.width,
 		marginBottom: 10,
@@ -161,7 +156,7 @@ const styles = StyleSheet.create( {
 		width: 300,
 		borderRadius: 8,
 		elevation: 3,
-		backgroundColor: 'red',
+		backgroundColor: '#D31D1D',
 		height: 63,
 		margin: 10,
 	},
@@ -172,7 +167,7 @@ const styles = StyleSheet.create( {
 		width: 150,
 		borderRadius: 8,
 		elevation: 5,
-		backgroundColor: 'red',
+		backgroundColor: '#D31D1D',
 		height: 53,
 		margin: 10,
 		borderStartColor: 'blue',
