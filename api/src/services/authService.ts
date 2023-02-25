@@ -78,14 +78,10 @@ async function saveRefreshToken( refreshToken : string, userId : string )
 		throw new AppError( 'Unauthorized', 401 );
 	}
 	user.refresh_token = refreshToken;
-	try
-	{
-		await userService.saveUser( user );
-	}
-	catch
+	await userService.saveUser( user ).catch( ()=>
 	{
 		throw new AppError( 'Internal Server Error', 500 );
-	}
+	} );
 }
 
 async function compareTokens( refreshToken : string, userId : string ) 
@@ -98,14 +94,10 @@ async function compareTokens( refreshToken : string, userId : string )
 	if ( user.refresh_token !== refreshToken )
 	{
 		user.refresh_token = '';
-		try
-		{
-			await userService.saveUser( user );
-		}
-		catch
+		await userService.saveUser( user ).catch( ()=>
 		{
 			throw new AppError( 'Internal Server Error', 500 );
-		}
+		} );
 		const emailSubject = 'Action required: suspicious activity on your account';
 		const emailBody = 'Dear ' + user.first_name 
 		+ ',\n\n'

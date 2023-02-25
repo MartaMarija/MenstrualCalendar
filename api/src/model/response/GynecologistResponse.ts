@@ -3,11 +3,11 @@ import { Gynecologist } from '../entity/Gynecologist';
 export class GynecologistResponse 
 {
 	constructor(
-      public id: string,
-      public first_name: string,
-      public last_name: string,
-      public telephone: string,
-      public address: string
+		public id: string,
+		public first_name: string,
+		public last_name: string,
+		public telephone: string,
+		public address: string
 	) 
 	{}
 
