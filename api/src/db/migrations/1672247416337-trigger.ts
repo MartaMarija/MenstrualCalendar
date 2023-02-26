@@ -22,13 +22,14 @@ export class trigger1672247416337 implements MigrationInterface
       BEGIN
         --update_last_menstrual_cycle
         SELECT * INTO last_cycle FROM  "mencal".menstrual_cycle WHERE "userId" = NEW."userId" ORDER BY cycle_start_date DESC LIMIT 1;
-        
-        IF last_cycle IS NOT NULL THEN    
+        IF last_cycle.cycle_start_date IS NOT NULL THEN    
             UPDATE "mencal".menstrual_cycle
             SET cycle_duration = (NEW.cycle_start_date - last_cycle.cycle_start_date),
                 ovulation_date = NEW.cycle_start_date - last_cycle.luteal_phase_duration
             WHERE "userId" = NEW."userId"
             AND id = last_cycle.id;
+        ELSE
+            RAISE NOTICE 'last_cycle is NULL';
         END IF;
         
         --update_user_avg_durations
