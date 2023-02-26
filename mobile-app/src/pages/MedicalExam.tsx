@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Pressable, Text, View, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
 import AddGynecologist from '../components/AddGynecologist';
 import AddMedicalExam from '../components/AddMedicalExam';
+import ImageButton from '../components/ImageButton';
 import ViewGynecologists from '../components/ViewGynecologists';
 import ViewMedicalExam from '../components/ViewMedicalExam';
 
@@ -17,19 +18,33 @@ const MedicalExam = () =>
 			{addGynecologist && <AddGynecologist setAddGynecologist={setAddGynecologist}/>}
 			{viewGynecologists && <ViewGynecologists setViewGynecologists={setViewGynecologists}/>}
 			{addMedicalExam && <AddMedicalExam setAddMedicalExam={setAddMedicalExam}/>}
-			<View>
-				<Pressable style={styles.button} onPress={()=>setAddGynecologist( true )}>
-					<Text style={styles.buttonText}>Add gynecologist</Text>
-				</Pressable>
-				<Pressable style={styles.button} onPress={()=>setAddMedicalExam( true )}>
-					<Text style={styles.buttonText}>Add medical exam</Text>
-				</Pressable>
-				<Pressable style={styles.button} onPress={()=>setViewGynecologists( true )}>
-					<Text style={styles.buttonText}>View gynecologists</Text>
-				</Pressable>
-				<Pressable style={styles.button} onPress={()=>setViewMedicalExams( true )}>
-					<Text style={styles.buttonText}>View medical exams</Text>
-				</Pressable>
+			<View style={styles.containerButtonsLogo}>
+				<Image
+					source={require ( '../assets/Logo.png' )}
+					style={{ width: 200, height: 50 }}
+				/>	
+				<View style={styles.containerButtons}>
+					<ImageButton
+						text='Add a gynecologist'
+						onPress={setAddGynecologist}
+					/>
+					<ImageButton
+						text='View gynecologists'
+						onPress={setViewGynecologists}
+					/>
+					<View style={line.container}>
+						<View style={line.line} />
+					</View>
+
+					<ImageButton
+						text='Add a medical exam'
+						onPress={setAddMedicalExam}
+					/>
+					<ImageButton
+						text='View medical exams'
+						onPress={setViewMedicalExams}
+					/>
+				</View>
 			</View>
 		</View>
 	);
@@ -41,22 +56,31 @@ const styles = StyleSheet.create( {
 		alignItems:'center',
 		justifyContent:'center'
 	},
-	buttonText: {
-		color: 'white',
-		fontSize: 20,
-		fontWeight: '500',
+	containerButtons: {
+		flex: 1,
+		alignItems:'center',
+		justifyContent:'space-evenly',
+		maxHeight: 380
 	},
-	button: {
+	containerButtonsLogo: {
+		flex: 1,
+		alignItems:'center',
+		justifyContent: 'space-evenly',
+		maxHeight: 525
+	}
+} );
+
+const line = StyleSheet.create( {
+	container: {
+		flexDirection: 'row',
 		alignItems: 'center',
-		justifyContent: 'center',
-		paddingVertical: 12,
-		paddingHorizontal: 32,
-		width: 300,
-		borderRadius: 8,
-		elevation: 3,
+		marginVertical: 10,
+		width: 260,
+	},
+	line: {
+		flex: 1,
+		height: 1.5,
 		backgroundColor: '#D31D1D',
-		height: 63,
-		margin: 10,
 	},
 } );
 

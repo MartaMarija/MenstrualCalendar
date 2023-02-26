@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { LoginData } from '../api/request/LoginData';
 import { useAuth } from '../auth/Auth';
+import ImageButton from '../components/ImageButton';
 
 const Login = () => 
 {
@@ -33,7 +34,10 @@ const Login = () =>
 				{( props ) => (
 					<View style={styles.secondContainer}>
 						<View style={styles.container}>
-							<Text style={styles.welcomeText}>LOGIN</Text>
+							<Image
+								source={require ( '../assets/Logo.png' )}
+								style={{ width: 200, height: 50 }}
+							/>	
 							{error && (
 								<Text style={styles.errors}>
 									<Text style={{ fontWeight: '600' }}>Error: </Text>{' '}
@@ -47,7 +51,7 @@ const Login = () =>
 									onChangeText={props.handleChange( 'email' )}
 									onBlur={props.handleBlur( 'email' )}
 									value={props.values.email}
-									selectionColor="black"
+									selectionColor="#D31D1D"
 									autoCapitalize="none"
 								/>
 								<View style={[styles.containerInput, { marginTop: 20 }]}>
@@ -57,7 +61,7 @@ const Login = () =>
 										onChangeText={props.handleChange( 'password' )}
 										onBlur={props.handleBlur( 'password' )}
 										value={props.values.password}
-										selectionColor="black"
+										selectionColor="#D31D1D"
 										autoCapitalize="none"
 										secureTextEntry={hidePassword}
 									/>
@@ -67,7 +71,8 @@ const Login = () =>
 											setHidePassword( false );
 										}}>
 											<Image
-												source={require ( '../assets/SeePassword.png' )}
+												source={require ( '../assets/hideShowPassword/ShowPasswordRed.png' )}
+												style={{ width: 20, height: 14 }}
 											/>
 										</TouchableOpacity>
 									)}
@@ -77,31 +82,68 @@ const Login = () =>
 											setHidePassword( true );
 										}}>
 											<Image
-												source={require ( '../assets/HidePassword.png' )}
+												source={require ( '../assets/hideShowPassword/HidePasswordRed.png' )}
+												style={{ width: 20, height: 20 }}
 											/>
 										</TouchableOpacity>
 									)}
 								</View>
+								<ImageButton
+									image={require( '../assets/LogInSign.png' )}
+									text='Log in'
+									onPress={props.handleSubmit}
+								/>
 							</View>
 						</View>
-						<TouchableOpacity style={styles.button} onPress={() => 
-						{
-							props.handleSubmit();
-						}}>
-							<Text style={styles.buttonText}>Log in</Text>
-						</TouchableOpacity>
+						<View style={styles.container3}>
+							<TouchableOpacity >
+								{/* onPress={() => navigation.navigate( 'forgotPassword' )}> */}
+								<Text style={styles.textUnder}>Forgot password?</Text>
+							</TouchableOpacity>
+							<TouchableOpacity>
+								{/* onPress={() => navigation.navigate( 'registration' )} */}
+								<Text style={styles.textUnder}>Sign up</Text>
+							</TouchableOpacity>
+						</View>
 					</View>
 				)}
 			</Formik>
 		</View>
 	);
 };
+  
+const stylesButton = StyleSheet.create( {
+	buttonText: {
+		color: 'white',
+		fontWeight: '600',
+		fontSize: 16,
+		marginLeft: 14
+	},
+	button: {
+		flex: 1,
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		marginTop: 20,
+		paddingVertical: 12,
+		width: 272,
+		borderRadius: 20,
+		elevation: 3,
+		backgroundColor: '#D31D1D',
+		maxHeight: 63,
+	},
+	buttonContent: {
+		flexDirection: 'row',
+		alignItems: 'center'
+	}
+} );
 
 const styles = StyleSheet.create( {
 	mainContainer: {
 		flex: 1,
 		alignItems: 'center',
-		justifyContent: 'center'
+		justifyContent: 'center',
+		backgroundColor: '#D31D1D'
 	},
 	secondContainer: {
 		flex: 1,
@@ -112,59 +154,53 @@ const styles = StyleSheet.create( {
 		flex: 1,
 		alignItems: 'center',
 		justifyContent: 'space-evenly',
-		maxHeight: 330,
+		maxHeight: 450,
 		width: 330,
 		borderRadius: 20,
-		backgroundColor: '#D31D1D'
+		backgroundColor: 'white'
 	},
 	containerInput: {
-		borderRadius: 40,
+		borderRadius: 20,
 		backgroundColor: 'white',
+		borderColor: '#D31D1D',
+		borderWidth: 2,
 		width: 272,
 		height: 60,
 		paddingHorizontal: 24,
 		paddingVertical: 12,
 		flexDirection: 'row',
-		alignItems: 'center'
-	},
-	welcomeText: {
-		color: 'white',
-		fontSize: 26,
-		fontWeight: '600'
+		alignItems: 'center',
 	},
 	input: {
-		borderColor: 'white',
+		borderColor: '#D31D1D',
 		borderWidth: 2,
 		borderRadius: 8,
 		padding: 15,
 		fontSize: 12,
 		width: 300
 	},
-	buttonText: {
-		color: 'white',
-		fontWeight: '600',
-		fontSize: 16,
-	},
-	button: {
-		marginTop: 20,
-		alignItems: 'center',
-		justifyContent: 'center',
-		paddingVertical: 12,
-		width: 330,
-		borderRadius: 20,
-		elevation: 3,
-		backgroundColor: '#D31D1D',
-		height: 63,
-	},
 	inputStyle: {
 		flex: 1,
 	},
 	errors: {
 		fontStyle: 'italic',
-		color: 'white',
+		color: '#D31D1D',
 		marginTop: 7,
 		marginLeft: 7,
 		width: 230,
+	},
+	container3: {
+		width: 300,
+		maxHeight: 26,
+		marginTop: 10,
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+	},
+	textUnder: {
+		color: 'white',
+		fontWeight: '500',
+		fontSize: 13
 	},
 } );
 

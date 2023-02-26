@@ -1,22 +1,51 @@
-import { Text, StyleSheet, Pressable, View } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, View, Image, Text } from 'react-native';
 import { useAuth } from '../auth/Auth';
+import ImageButton from '../components/ImageButton';
 
 const UserProfile = () => 
 {
+	const [showEditProfile, setShowEditProfile] = useState( false );
 	const auth = useAuth();
 	return (
-		<View style={styles.container} >
-			<Pressable style={styles.button} onPress={auth.signOut}>
-				<Text style={styles.buttonText}>Log out</Text>
-			</Pressable>
+		<View style={styles.container}>
+			<View  style={styles.containerButtonsLogo}>
+				{showEditProfile &&
+				<View>
+					<Text onPress={()=> setShowEditProfile( false )}>Hi</Text>
+				</View>
+				}
+				<Image
+					source={require ( '../assets/Logo.png' )}
+					style={{ width: 200, height: 100 }}
+				/>
+				<ImageButton
+					image={require( '../assets/menuIcons/UserWhite.png' )}
+					text='Edit profile'
+					onPress={setShowEditProfile}
+				/>
+				<ImageButton
+					image={require( '../assets/LogOutSign.png' )}
+					text='Log out'
+					onPress={auth.signOut}
+				/>
+			</View>
 		</View>
 	);
 };
+
+
 const styles = StyleSheet.create( {
 	container: {
 		flex: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
+	},
+	containerButtonsLogo: {
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'space-evenly',
+		maxHeight: 350
 	},
 	welcomeText: {
 		color: '#D31D1D',
@@ -32,20 +61,6 @@ const styles = StyleSheet.create( {
 		fontSize: 12,
 		width: 300,
 		marginBottom: 20,
-	},
-	buttonText: {
-		color: 'white',
-	},
-	button: {
-		alignItems: 'center',
-		justifyContent: 'center',
-		paddingVertical: 12,
-		paddingHorizontal: 32,
-		width: 300,
-		borderRadius: 8,
-		elevation: 3,
-		backgroundColor: '#D31D1D',
-		height: 63,
 	},
 } );
 export default UserProfile;

@@ -38,20 +38,23 @@ const Navigator = () =>
 						headerShown: false,
 						tabBarLabelStyle: { display: 'none' }, 
 					}}
+					initialRouteName='Calendar'
 				>
 					<Tab.Screen 
-						name="User Profile" 
+						name="UserProfile" 
 						component={UserProfile}
 						options={{
 							tabBarIcon: ( { focused } ) => 
 							{
 								return focused ? (
 									<Image
-										source={require ( '../assets/UserFocused.png' )}
+										source={require ( '../assets/menuIcons/UserFocused.png' )}
+										style={{ width: 60, height: 60, }}
 									/>
 								) : (
 									<Image
-										source={require ( '../assets/UserWhite.png' )}
+										source={require ( '../assets/menuIcons/UserWhite.png' )}
+										style={{ width: 30, height: 30, }}
 									/>
 								);
 							}, 
@@ -65,11 +68,13 @@ const Navigator = () =>
 							{
 								return focused ? (
 									<Image
-										source={require ( '../assets/CalendarFocused.png' )}
+										source={require ( '../assets/menuIcons/CalendarFocused.png' )}
+										style={{ width: 60, height: 60, }}
 									/>
 								) : (
 									<Image
-										source={require ( '../assets/CalendarWhite.png' )}
+										source={require ( '../assets/menuIcons/CalendarWhite.png' )}
+										style={{ width: 30, height: 32, }}
 									/>
 								);
 							}, 
@@ -83,11 +88,13 @@ const Navigator = () =>
 							{
 								return focused ? (
 									<Image
-										source={require ( '../assets/HealthFocused.png' )}
+										source={require ( '../assets/menuIcons/HealthFocused.png' )}
+										style={{ width: 60, height: 60, }}
 									/>
 								) : (
 									<Image
-										source={require ( '../assets/HealthWhite.png' )}
+										source={require ( '../assets/menuIcons/HealthWhite.png' )}
+										style={{ width: 34, height: 31, }}
 									/>
 								);
 							}, 
