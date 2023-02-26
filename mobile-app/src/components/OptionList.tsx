@@ -5,12 +5,13 @@ import { MenstrualCycleDates } from '../api/response/MenstrualCycleDates';
 
 interface Props {
     pressedDate: DateData,
-    menstrualCycleDates: MenstrualCycleDates[],
+    lastMenstrualCycleDates: MenstrualCycleDates,
     setIsPressed: ( isPressed: boolean | ( ( prevIsPressed: boolean ) => boolean ) ) => void
     addPeriod: ( pressedDate : string ) => void
+    removePeriod: () => void
 }
 
-const OptionList: React.FC<Props> = ( { pressedDate, menstrualCycleDates, setIsPressed, addPeriod } ) => 
+const OptionList: React.FC<Props> = ( { pressedDate, lastMenstrualCycleDates, setIsPressed, addPeriod, removePeriod } ) => 
 {
 	const [showRemovePeriod, setShowRemovePeriod] = useState( false );
 	const [showEndPeriod, setShowEndPeriod] = useState( false );
@@ -19,6 +20,7 @@ const OptionList: React.FC<Props> = ( { pressedDate, menstrualCycleDates, setIsP
 	useEffect( () => 
 	{
 		canAddPeriod();
+		canRemovePeriod();
 	}, [] );
     
 
@@ -39,24 +41,48 @@ const OptionList: React.FC<Props> = ( { pressedDate, menstrualCycleDates, setIsP
 
 	function canAddPeriod()
 	{
-		if( !menstrualCycleDates )
+		if( !lastMenstrualCycleDates )
 		{
 			setShowAddPeriod( true );
 			return;
 		}
-		const lastMenstrualCycleDates = menstrualCycleDates
-			.find( menstrualCycleDate => menstrualCycleDate.isInLastCycle );
-		if( lastMenstrualCycleDates )
+		const lastCycleStartDate = new Date( lastMenstrualCycleDates.cycleStart );
+		lastCycleStartDate.setDate( lastCycleStartDate.getDate() + 13 );
+		const today = new Date();
+		const pressedDateString : string = convertPressedDatefromDateDataToString();
+		const pressedDate : Date = new Date( pressedDateString );
+		if ( pressedDate >= lastCycleStartDate && pressedDate <= today ) 
 		{
-			const lastCycleStartDate = new Date( lastMenstrualCycleDates.cycleStart );
-			lastCycleStartDate.setDate( lastCycleStartDate.getDate() + 13 );
-			const today = new Date();
-			const pressedDateString : string = convertPressedDatefromDateDataToString();
-			const pressedDate : Date = new Date( pressedDateString );
-			if ( pressedDate >= lastCycleStartDate && pressedDate <= today ) 
+			setShowAddPeriod( true );
+		}
+	}
+
+	function canRemovePeriod()
+	{
+		if ( !lastMenstrualCycleDates )
+		{
+			return;
+		}
+		const pressedDateString : string = convertPressedDatefromDateDataToString();
+		const pressedDate : Date = new Date( pressedDateString );
+		const cycleStartDate = new Date( lastMenstrualCycleDates.cycleStart );
+		const cycleEndDate = new Date( lastMenstrualCycleDates.cycleEnd );
+		if ( pressedDate.getTime() === cycleStartDate.getTime()
+            || pressedDate.getTime() === cycleEndDate.getTime() )
+		{
+			setShowRemovePeriod( true );
+			return;
+		}
+		const dateBetween = cycleStartDate;
+		dateBetween.setDate( dateBetween.getDate() + 1 );
+		while ( dateBetween < new Date( cycleEndDate ) ) 
+		{
+			if ( pressedDate.getTime() === dateBetween.getTime() )
 			{
-				setShowAddPeriod( true );
+				setShowRemovePeriod( true );
+				return;
 			}
+			dateBetween.setDate( dateBetween.getDate() + 1 );
 		}
 	}
 
@@ -77,12 +103,18 @@ const OptionList: React.FC<Props> = ( { pressedDate, menstrualCycleDates, setIsP
 				<Text style={styles.font} onPress={() => choosenOption( 'endPeriod' )} >
                     End period
 				</Text>
-			)}
-			{showRemovePeriod && (
-				<Text style={styles.font} onPress={() => choosenOption( 'removePeriod' )} >
-                    Remove period
-				</Text>
 			)} */}
+			{showRemovePeriod && (
+				<Text 
+					style={styles.font} 
+					onPress={() => 
+					{
+						setIsPressed( false );
+						removePeriod();
+					}} >
+					Remove period
+				</Text>
+			)}
 			{/* TODO onPress addDescription */}
 			<Text style={styles.font}>Add description</Text>
 		</View>

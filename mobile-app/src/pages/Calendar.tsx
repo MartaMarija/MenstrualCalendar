@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { View, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import { Calendar, DateData } from 'react-native-calendars';
 import { MarkedDates } from 'react-native-calendars/src/types';
-import { getMenstrualCycleDates, insertMenstrualCycle } from '../api/menstrualCycle';
+import { getMenstrualCycleDates, insertMenstrualCycle, deleteMenstrualCycle } from '../api/menstrualCycle';
 import { MenstrualCycleDates } from '../api/response/MenstrualCycleDates';
 import OptionList from '../components/OptionList';
 
@@ -13,7 +13,7 @@ const CalendarScreen = () =>
 	const [isPressed, setIsPressed] = useState( false );
 	const [pressedDate, setPressedDate] = useState<DateData>();
 	const [markedDatesArray, setMarkedDatesArray] = useState<MarkedDates>();
-	const [menstrualCycleDates, setMenstrualCycleDates] = useState<MenstrualCycleDates[]>();
+	const [lastMenstrualCycleDates, setLastMenstrualCycleDates] = useState<MenstrualCycleDates>();
 
 	useEffect( () => 
 	{
@@ -29,7 +29,9 @@ const CalendarScreen = () =>
 		//check error
 		if ( response ) 
 		{
-			setMenstrualCycleDates( response );
+			const lastMenstrualCycleDates = response
+				.find( menstrualCycleDate => menstrualCycleDate.isInLastCycle );
+			setLastMenstrualCycleDates( lastMenstrualCycleDates );
 			const markedDates: MarkedDates = {};
 			response.forEach( menstrualCycleDates => 
 			{
@@ -127,6 +129,13 @@ const CalendarScreen = () =>
 		await getDateSettings();
 	}
 
+	async function removePeriod() 
+	{
+		const response = await deleteMenstrualCycle();
+		console.log( response );
+		await getDateSettings();
+	}
+
 	return (
 		<View>
 			<Calendar
@@ -148,7 +157,7 @@ const CalendarScreen = () =>
 				}}
 				headerStyle={{ backgroundColor: '#D31D1D' }}
 			/> 
-			{isPressed && pressedDate && menstrualCycleDates && (
+			{isPressed && pressedDate && lastMenstrualCycleDates && (
 				<TouchableOpacity
 					style={styles.container}
 					onPress={() => setIsPressed( false )}
@@ -156,9 +165,10 @@ const CalendarScreen = () =>
 					<View style={styles.container2}>
 						<OptionList
 							pressedDate={pressedDate}
-							menstrualCycleDates={menstrualCycleDates}
+							lastMenstrualCycleDates={lastMenstrualCycleDates}
 							setIsPressed={setIsPressed}
 							addPeriod={addPeriod}
+							removePeriod={removePeriod}
 						/>
 					</View>
 				</TouchableOpacity>

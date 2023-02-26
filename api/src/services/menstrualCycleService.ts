@@ -55,6 +55,40 @@ export const insertMenstrualCycle = async ( req : AuthRequest ) =>
 		} );
 };
 
+export const deleteMenstrualCycle = async ( req : AuthRequest ) => 
+{
+	const lastMenstrualCycle = await getLastMenstrualCycleId( req.userData.id );
+	if	( lastMenstrualCycle )
+	{
+		const result = await MenstrualCycleRepository.delete( lastMenstrualCycle.id )
+			.catch( () => 
+			{
+				throw new AppError( 'Internal Server Error', 500 );
+			} );
+		if ( result.affected === 0 ) 
+		{
+			throw new AppError( 'Menstrual cycle not found', 404 );
+		}
+	}
+	else
+	{
+		throw new AppError( 'Menstrual cycle not found', 404 );
+	}
+};
+
+async function getLastMenstrualCycleId( id: string ) 
+{
+	return await MenstrualCycleRepository.createQueryBuilder( 'mc' )
+		.select( 'mc.id' )
+		.where( 'mc.user.id = :userId', { userId: id } )
+		.orderBy( 'mc.cycle_start_date', 'DESC' )
+		.getOne()
+		.catch( () => 
+		{
+			throw new AppError( 'Internal Server Error', 500 );
+		} );
+}
+
 function addDaysToDate( date : Date, daysToAdd : number )
 {
 	const newDate = new Date( date );

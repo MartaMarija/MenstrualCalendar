@@ -39,4 +39,18 @@ router.post( '/', async ( req: Request, res: Response, next: NextFunction ) =>
 }
 );
 
+router.delete( '/lastMenstrualCycle', async ( req: Request, res: Response, next: NextFunction ) => 
+{
+	try 
+	{
+		await menstrualCycleService.deleteMenstrualCycle( req as AuthRequest );
+	}
+	catch ( error )
+	{
+		return next( new AppError( error.message, error.code ) );
+	}
+	res.status( 204 ).send();
+}
+);
+
 export default router;
