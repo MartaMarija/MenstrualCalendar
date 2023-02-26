@@ -18,7 +18,7 @@ const CalendarScreen = () =>
 	{
 		( async () => 
 		{
-			getDateSettings();
+			// getDateSettings();
 		} )();
 	}, [] );
 
@@ -61,7 +61,7 @@ const CalendarScreen = () =>
 				};
 				markedDates[menstrualCycleDates.ovulation] =
 				{
-					'color': '#eb34e5',
+					'color': '#7B287D',
 					'textColor': 'white',
 					'startingDay': true,
 					'endingDay': true
@@ -73,7 +73,7 @@ const CalendarScreen = () =>
 			const ovulation : string = ( response[response.length-1].ovulation ).substring( 0,10 );
 			markedDates[startDate] =
 			{
-				'color': '#201dd3',
+				'color': '#DA5959',
 				'textColor': 'white',
 				'startingDay': true,
 				'endingDay': false
@@ -85,7 +85,7 @@ const CalendarScreen = () =>
 				const _dateBetween: string = dateBetween.toISOString().substring( 0, 10 );
 				markedDates[_dateBetween] =
 					{
-						'color': '#201dd3',
+						'color': '#DA5959',
 						'textColor': 'white',
 						'startingDay': false,
 						'endingDay': false
@@ -94,14 +94,22 @@ const CalendarScreen = () =>
 			}
 			markedDates[endDate] =
 			{
-				'color': '#201dd3',
+				'color': '#DA5959',
 				'textColor': 'white',
 				'startingDay': false,
 				'endingDay': true
 			};
 			markedDates[ovulation] =
 			{
-				'color': '#541dd3',
+				'color': '#BE8DBF',
+				'textColor': 'white',
+				'startingDay': true,
+				'endingDay': true
+			};
+			const today : string = ( new Date( ) ).toISOString().substring( 0,10 );
+			markedDates[today] =
+			{
+				'color': '#587D71',
 				'textColor': 'white',
 				'startingDay': true,
 				'endingDay': true
@@ -113,31 +121,41 @@ const CalendarScreen = () =>
 	return (
 		<View>
 			<Calendar
+				style={{ paddingLeft:0, paddingRight:0 }}
 				onDayPress={date => 
 				{
 					setDayPressed( date );
 					setPressed( true );
 				}}
-				markingType={'period'}
 				markedDates={markedDatesArray}
+				markingType={'period'}
 				enableSwipeMonths
-			/>
-			{pressed && dayPressed && (
-				<TouchableOpacity
-					style={styles.container}
-					onPress={() => setPressed( false )}
-				>
-					<View style={styles.container2}>
-						{/* <OptionList
-							date={dayPressed}
-							setPressed={setPressed}
-							getDateSettings={getDateSettings}
-						/> */}
-					</View>
-				</TouchableOpacity>
-			)}
+				theme={{
+					monthTextColor: 'white',
+					arrowColor: 'white',
+					textSectionTitleColor: 'white',
+					textMonthFontWeight: 'bold',
+					textDayHeaderFontWeight: 'bold',
+				}}
+				headerStyle={{ backgroundColor: '#D31D1D' }}
+			/> 
 		</View>
 	);
+	// {pressed && dayPressed && (
+	// 	<TouchableOpacity
+	// 		style={styles.container}
+	// 		onPress={() => setPressed( false )}
+	// 	>
+	// 		<View style={styles.container2}>
+	// 			{/* <OptionList
+	// 				date={dayPressed}
+	// 				setPressed={setPressed}
+	// 				getDateSettings={getDateSettings}
+	// 			/> */}
+	// 		</View>
+	// 	</TouchableOpacity>
+	// )}
+
 };
 
 const styles = StyleSheet.create( {
