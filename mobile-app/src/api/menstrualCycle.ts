@@ -31,12 +31,27 @@ export const insertMenstrualCycle = async ( cycleStartDate : string ) =>
 	}
 };
 
+export const updateMenstrualCycle = async ( periodEndDate : string ) => 
+{
+	try 
+	{
+		const response = await api.patch( '/menstrualCycles/endOfPeriod', {
+			periodEndDate: periodEndDate
+		} );
+		return response.status;
+	}
+	catch ( error ) 
+	{
+		console.log( error );
+		throw error;
+	}
+};
+
 export const deleteMenstrualCycle = async () => 
 {
 	try 
 	{
 		const response = await api.delete( '/menstrualCycles/lastMenstrualCycle' );
-		console.log( response.status );
 		return response.status;
 	}
 	catch ( error ) 

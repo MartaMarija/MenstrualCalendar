@@ -8,10 +8,11 @@ interface Props {
     lastMenstrualCycleDates: MenstrualCycleDates,
     setIsPressed: ( isPressed: boolean | ( ( prevIsPressed: boolean ) => boolean ) ) => void
     addPeriod: ( pressedDate : string ) => void
+	updatePeriod: ( pressedDate : string ) => void
     removePeriod: () => void
 }
 
-const OptionList: React.FC<Props> = ( { pressedDate, lastMenstrualCycleDates, setIsPressed, addPeriod, removePeriod } ) => 
+const OptionList: React.FC<Props> = ( { pressedDate, lastMenstrualCycleDates, setIsPressed, addPeriod, updatePeriod, removePeriod } ) => 
 {
 	const [showRemovePeriod, setShowRemovePeriod] = useState( false );
 	const [showEndPeriod, setShowEndPeriod] = useState( false );
@@ -21,6 +22,7 @@ const OptionList: React.FC<Props> = ( { pressedDate, lastMenstrualCycleDates, se
 	{
 		canAddPeriod();
 		canRemovePeriod();
+		canChangePeriodEndDate();
 	}, [] );
     
 
@@ -54,6 +56,24 @@ const OptionList: React.FC<Props> = ( { pressedDate, lastMenstrualCycleDates, se
 		if ( pressedDate >= lastCycleStartDate && pressedDate <= today ) 
 		{
 			setShowAddPeriod( true );
+		}
+	}
+
+	function canChangePeriodEndDate()
+	{
+		if( !lastMenstrualCycleDates )
+		{
+			return;
+		}
+		const pressedDateString : string = convertPressedDatefromDateDataToString();
+		const pressedDate : Date = new Date( pressedDateString );
+		const lastCycleStartDate = new Date( lastMenstrualCycleDates.cycleStart );
+		const lastDatePeriodCanEnd = new Date( lastCycleStartDate );
+		lastDatePeriodCanEnd.setDate( lastCycleStartDate.getDate() + 12 );
+		if ( pressedDate.getTime() >= lastCycleStartDate.getTime() 
+			&& pressedDate.getTime() <= lastDatePeriodCanEnd.getTime() )
+		{
+			setShowEndPeriod( true );
 		}
 	}
 
@@ -99,11 +119,17 @@ const OptionList: React.FC<Props> = ( { pressedDate, lastMenstrualCycleDates, se
                     Add period
 				</Text>
 			)}
-			{/* {showEndPeriod && (
-				<Text style={styles.font} onPress={() => choosenOption( 'endPeriod' )} >
+			{showEndPeriod && (
+				<Text 
+					style={styles.font} 
+					onPress={() => 
+					{
+						setIsPressed( false );
+						updatePeriod( convertPressedDatefromDateDataToString() );
+					}} >
                     End period
 				</Text>
-			)} */}
+			)}
 			{showRemovePeriod && (
 				<Text 
 					style={styles.font} 

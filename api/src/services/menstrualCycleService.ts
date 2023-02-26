@@ -4,6 +4,7 @@ import { AuthRequest } from '../model/request/AuthRequest';
 import { AppError } from '../model/constants/AppError';
 import { MenstrualCycleDatesResponse } from '../model/response/MenstrualCyclesDates';
 import { MenstrualCycleCreateRequest } from '../model/request/MenstrualCycleCreateRequest';
+import { MenstrualCycleUpdateRequest } from '../model/request/MenstrualCycleUpdateRequest';
 
 export const getMenstrualCycles = async ( req : AuthRequest ) => 
 {
@@ -53,6 +54,24 @@ export const insertMenstrualCycle = async ( req : AuthRequest ) =>
 		{
 			throw new AppError( 'Internal Server Error', 500 );
 		} );
+};
+
+export const updateMenstrualCyclePeriodEndDate = async ( req : AuthRequest ) => 
+{
+	const lastMenstrualCycle = await getLastMenstrualCycleId( req.userData.id );
+	if	( lastMenstrualCycle )
+	{
+		const updatedLastMenstrualCycle = await MenstrualCycleUpdateRequest.toEntity( req.body as MenstrualCycleUpdateRequest, lastMenstrualCycle.id );
+		await MenstrualCycleRepository.save( updatedLastMenstrualCycle )
+			.catch( () => 
+			{
+				throw new AppError( 'Internal Server Error', 500 );
+			} );
+	}
+	else
+	{
+		throw new AppError( 'Menstrual cycle not found', 404 );
+	}
 };
 
 export const deleteMenstrualCycle = async ( req : AuthRequest ) => 

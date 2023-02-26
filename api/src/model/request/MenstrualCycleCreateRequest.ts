@@ -11,6 +11,8 @@ export class MenstrualCycleCreateRequest
 	public static async toEntity( menstrualCycleCreateRequest: MenstrualCycleCreateRequest, user: User ): Promise<MenstrualCycle> 
 	{
 		return new MenstrualCycle(
+			undefined,
+			undefined,
 			menstrualCycleCreateRequest.cycleStartDate,
 			user
 		);

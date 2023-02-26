@@ -27,12 +27,28 @@ export class MenstrualCycle extends TemporalEntity
 		user: User;
 
 	constructor(
-		cycleStartDat: Date,
-		user: User
+		id?: string,
+		periodEndDate?: Date,
+		cycleStartDate?: Date,
+		user?: User
 	) 
 	{
 		super();
-		this.cycle_start_date = cycleStartDat;
-		this.user = user;
+		if( id )
+		{
+			this.id = id;
+		}
+		if( periodEndDate )
+		{
+			this.menstruation_end_date = periodEndDate;
+		}
+		if( cycleStartDate )
+		{
+			this.cycle_start_date = cycleStartDate;
+		}
+		if( user )
+		{
+			this.user = user;
+		}
 	}
 }

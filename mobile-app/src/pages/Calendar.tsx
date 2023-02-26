@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { View, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import { Calendar, DateData } from 'react-native-calendars';
 import { MarkedDates } from 'react-native-calendars/src/types';
-import { getMenstrualCycleDates, insertMenstrualCycle, deleteMenstrualCycle } from '../api/menstrualCycle';
+import { getMenstrualCycleDates, insertMenstrualCycle, deleteMenstrualCycle, updateMenstrualCycle } from '../api/menstrualCycle';
 import { MenstrualCycleDates } from '../api/response/MenstrualCycleDates';
 import OptionList from '../components/OptionList';
 
@@ -35,13 +35,33 @@ const CalendarScreen = () =>
 			const markedDates: MarkedDates = {};
 			response.forEach( menstrualCycleDates => 
 			{
-				markedDates[menstrualCycleDates.cycleStart] =
+				if( menstrualCycleDates.cycleStart === menstrualCycleDates.cycleEnd )
+				{
+					markedDates[menstrualCycleDates.cycleEnd] =
+					{
+						'color': '#D31D1D',
+						'textColor': 'white',
+						'startingDay': true,
+						'endingDay': true
+					};
+				}
+				else
+				{
+					markedDates[menstrualCycleDates.cycleStart] =
 					{
 						'color': '#D31D1D',
 						'textColor': 'white',
 						'startingDay': true,
 						'endingDay': false
 					};
+					markedDates[menstrualCycleDates.cycleEnd] =
+					{
+						'color': '#D31D1D',
+						'textColor': 'white',
+						'startingDay': false,
+						'endingDay': true
+					};
+				}
 				const dateBetween = new Date( menstrualCycleDates.cycleStart );
 				dateBetween.setDate( dateBetween.getDate() + 1 );
 				while ( dateBetween < new Date( menstrualCycleDates.cycleEnd ) ) 
@@ -56,13 +76,6 @@ const CalendarScreen = () =>
 					};
 					dateBetween.setDate( dateBetween.getDate() + 1 );
 				}
-				markedDates[menstrualCycleDates.cycleEnd] =
-				{
-					'color': '#D31D1D',
-					'textColor': 'white',
-					'startingDay': false,
-					'endingDay': true
-				};
 				markedDates[menstrualCycleDates.ovulation] =
 				{
 					'color': '#7B287D',
@@ -129,6 +142,13 @@ const CalendarScreen = () =>
 		await getDateSettings();
 	}
 
+	async function updatePeriod( pressedDate : string ) 
+	{
+		const response = await updateMenstrualCycle( pressedDate );
+		console.log( response );
+		await getDateSettings();
+	}
+
 	async function removePeriod() 
 	{
 		const response = await deleteMenstrualCycle();
@@ -168,6 +188,7 @@ const CalendarScreen = () =>
 							lastMenstrualCycleDates={lastMenstrualCycleDates}
 							setIsPressed={setIsPressed}
 							addPeriod={addPeriod}
+							updatePeriod={updatePeriod}
 							removePeriod={removePeriod}
 						/>
 					</View>

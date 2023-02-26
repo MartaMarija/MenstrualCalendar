@@ -39,6 +39,20 @@ router.post( '/', async ( req: Request, res: Response, next: NextFunction ) =>
 }
 );
 
+router.patch( '/endOfPeriod', async ( req: Request, res: Response, next: NextFunction ) => 
+{
+	try 
+	{
+		await menstrualCycleService.updateMenstrualCyclePeriodEndDate( req as AuthRequest );
+	}
+	catch ( error )
+	{
+		return next( new AppError( error.message, error.code ) );
+	}
+	res.json( { message: 'Menstrual Cycle updated successfully!' } );
+}
+);
+
 router.delete( '/lastMenstrualCycle', async ( req: Request, res: Response, next: NextFunction ) => 
 {
 	try 
