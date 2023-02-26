@@ -25,45 +25,18 @@ router.get( '/', async ( req: Request, res: Response, next: NextFunction ) =>
 	res.json( menstrualCycleDatesResponse );
 } );
 
-// router.delete( '/:date',
-// 	async ( req: Request, res: Response, next: NextFunction ) => 
-// 	{
-// 		const jwt = jwtService.authenticateToken( req );
-// 		if ( jwt ) 
-// 		{
-// 			return res.json( await menstrualCycleService.RemovePeriod( jwt.id ) );
-// 		}
-// 		return next( new AppError( 'Invalid token!', 400 ) );
-// 	}
-// );
-
-// router.patch(
-// 	'/endPeriod/:date',
-// 	async ( req: Request, res: Response, next: NextFunction ) => 
-// 	{
-// 		const jwt = jwtService.authenticateToken( req );
-// 		if ( jwt ) 
-// 		{
-// 			return res.json(
-// 				await menstrualCycleService.EndPeriod( jwt.id, new Date( req.params.date ) )
-// 			);
-// 		}
-// 		return next( new AppError( 'Invalid token!', 400 ) );
-// 	}
-// );
-
-// router.post( '/:date',
-// 	async ( req: Request, res: Response, next: NextFunction ) => 
-// 	{
-// 		const jwt = jwtService.authenticateToken( req );
-// 		if ( jwt ) 
-// 		{
-// 			return res.json(
-// 				await menstrualCycleService.AddPeriod( jwt.id, new Date( req.params.date ) )
-// 			);
-// 		}
-// 		return next( new AppError( 'Invalid token!', 400 ) );
-// 	}
-// );
+router.post( '/', async ( req: Request, res: Response, next: NextFunction ) => 
+{
+	try
+	{
+		await menstrualCycleService.insertMenstrualCycle( req as AuthRequest );
+	}
+	catch ( error )
+	{
+		return next( new AppError( error.message, error.code ) );
+	}
+	res.status( 201 ).json( { message: 'Menstrual Cycle added successfully!' } );
+}
+);
 
 export default router;

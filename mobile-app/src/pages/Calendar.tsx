@@ -2,23 +2,24 @@ import { useEffect, useState } from 'react';
 import { View, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import { Calendar, DateData } from 'react-native-calendars';
 import { MarkedDates } from 'react-native-calendars/src/types';
-import { getMenstrualCycleDates } from '../api/menstrualCycle';
-// import { MenstrualCycleDates } from '../api/response/MenstrualCycleDates';
-// import OptionList from '../components/OptionList';
+import { getMenstrualCycleDates, insertMenstrualCycle } from '../api/menstrualCycle';
+import { MenstrualCycleDates } from '../api/response/MenstrualCycleDates';
+import OptionList from '../components/OptionList';
 
 const screen = Dimensions.get( 'window' );
 
 const CalendarScreen = () => 
 {
-	const [pressed, setPressed] = useState( false );
-	const [dayPressed, setDayPressed] = useState<DateData>();
+	const [isPressed, setIsPressed] = useState( false );
+	const [pressedDate, setPressedDate] = useState<DateData>();
 	const [markedDatesArray, setMarkedDatesArray] = useState<MarkedDates>();
+	const [menstrualCycleDates, setMenstrualCycleDates] = useState<MenstrualCycleDates[]>();
 
 	useEffect( () => 
 	{
 		( async () => 
 		{
-			// getDateSettings();
+			await getDateSettings();
 		} )();
 	}, [] );
 
@@ -28,6 +29,7 @@ const CalendarScreen = () =>
 		//check error
 		if ( response ) 
 		{
+			setMenstrualCycleDates( response );
 			const markedDates: MarkedDates = {};
 			response.forEach( menstrualCycleDates => 
 			{
@@ -118,14 +120,21 @@ const CalendarScreen = () =>
 		}
 	}
 
+	async function addPeriod( pressedDate : string ) 
+	{
+		const response = await insertMenstrualCycle( pressedDate );
+		console.log( response );
+		await getDateSettings();
+	}
+
 	return (
 		<View>
 			<Calendar
-				style={{ paddingLeft:0, paddingRight:0 }}
+				style={{ paddingLeft: 0, paddingRight: 0 }}
 				onDayPress={date => 
 				{
-					setDayPressed( date );
-					setPressed( true );
+					setPressedDate( date );
+					setIsPressed( true );
 				}}
 				markedDates={markedDatesArray}
 				markingType={'period'}
@@ -139,30 +148,30 @@ const CalendarScreen = () =>
 				}}
 				headerStyle={{ backgroundColor: '#D31D1D' }}
 			/> 
+			{isPressed && pressedDate && menstrualCycleDates && (
+				<TouchableOpacity
+					style={styles.container}
+					onPress={() => setIsPressed( false )}
+				>
+					<View style={styles.container2}>
+						<OptionList
+							pressedDate={pressedDate}
+							menstrualCycleDates={menstrualCycleDates}
+							setIsPressed={setIsPressed}
+							addPeriod={addPeriod}
+						/>
+					</View>
+				</TouchableOpacity>
+			)}
 		</View>
 	);
-	// {pressed && dayPressed && (
-	// 	<TouchableOpacity
-	// 		style={styles.container}
-	// 		onPress={() => setPressed( false )}
-	// 	>
-	// 		<View style={styles.container2}>
-	// 			{/* <OptionList
-	// 				date={dayPressed}
-	// 				setPressed={setPressed}
-	// 				getDateSettings={getDateSettings}
-	// 			/> */}
-	// 		</View>
-	// 	</TouchableOpacity>
-	// )}
-
 };
 
 const styles = StyleSheet.create( {
 	container: {
 		position: 'absolute',
 		width: screen.width,
-		height: screen.height - 100,
+		height: screen.height,
 		backgroundColor: 'rgba(0,0,0,0.4)',
 	},
 	container2: {

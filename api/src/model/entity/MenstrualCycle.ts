@@ -25,4 +25,14 @@ export class MenstrualCycle extends TemporalEntity
 
 	@ManyToOne( () => User, ( user ) => user.menstrualCycles )
 		user: User;
+
+	constructor(
+		cycleStartDat: Date,
+		user: User
+	) 
+	{
+		super();
+		this.cycle_start_date = cycleStartDat;
+		this.user = user;
+	}
 }
