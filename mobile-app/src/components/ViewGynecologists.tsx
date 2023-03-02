@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import {
-	Pressable,
 	Text,
 	View,
 	StyleSheet,
@@ -8,6 +7,8 @@ import {
 	FlatList,
 	Dimensions,
 	TouchableWithoutFeedback,
+	Image,
+	Pressable
 } from 'react-native';
 import { getGynecologists, delteGynecologist } from '../api/gynecologist';
 import { Gynecologist } from '../api/response/Gynecologist';
@@ -28,9 +29,9 @@ const ViewGynecologists: React.FC<Props> = ( { setViewGynecologists } ) =>
 	{
 		( async () => 
 		{
-			fetchGyns();
+			await fetchGyns();
 		} )();
-	}, [deleteGyn] );
+	}, [] );
 
 	async function fetchGyns() 
 	{
@@ -41,145 +42,145 @@ const ViewGynecologists: React.FC<Props> = ( { setViewGynecologists } ) =>
 	async function deleteGyn( gynId: string ) 
 	{
 		await delteGynecologist( gynId );
+		await fetchGyns();
 	}
 
 	return (
 		<Modal>
-			<View style={styles.container}>
-				<View style={styles.titleBackground}>
-					<Text style={styles.title}>Gynecologist</Text>
+			<View style={styles.mainContainer}>
+				<View>
+					<View style={styles.titleBackground}>
+						<Text style={styles.titleText}>Gynecologists</Text>
+						<Pressable onPress={() => setViewGynecologists( false )}>
+							<Image source={require( '../assets/ExitX.png' )} 
+								style={{ width: 20, height: 20, }} />
+						</Pressable>
+					</View>
 				</View>
-				<FlatList
-					style={styles.flatList}
-					data={gynecologists}
-					renderItem={( { item } ) => (
-						<TouchableWithoutFeedback>
-							<View style={styles.labelTextContainer}>
-								<View style={styles.labelTextContainer2}>
-									<Text style={styles.label}>
-                                        First name::{' '}
-									</Text>
-									<Text style={styles.text}>
-										{item.first_name}
-									</Text>
-								</View>
-								<View style={styles.labelTextContainer2}>
-									<Text style={styles.label}>
+				{( gynecologists && gynecologists.length == 0 ) ?
+					( <Text style={{ marginTop: 20 }}>There are no gynecologists to show!</Text> )
+					:
+					( <FlatList
+						style={styles.flatList}
+						data={gynecologists}
+						renderItem={( { item } ) => (
+							<TouchableWithoutFeedback>
+								<View style={styles.buttonAndInfo}>
+									<View style={{ flex: 1 , alignContent: 'center', justifyContent: 'center' }}>
+										<View style={styles.labelTextContainer2}>
+											<Text style={styles.label}>
+                                        First name:{' '}
+											</Text>
+											<Text style={styles.text}>
+												{item.first_name}
+											</Text>
+										</View>
+										<View style={styles.labelTextContainer2}>
+											<Text style={styles.label}>
                                         Last name:{' '}
-									</Text>
-									<Text style={styles.text}>
-										{item.last_name}
-									</Text>
-								</View>
-								<View style={styles.labelTextContainer2}>
-									<Text style={styles.label}>Address: </Text>
-									<Text style={styles.text}>
-										{item.address}
-									</Text>
-								</View>
-								<View style={styles.labelTextContainer2}>
-									<Text style={styles.label}>
+											</Text>
+											<Text style={styles.text}>
+												{item.last_name}
+											</Text>
+										</View>
+										<View style={styles.labelTextContainer2}>
+											<Text style={styles.label}>Address: </Text>
+											<Text style={styles.text}>
+												{item.address}
+											</Text>
+										</View>
+										<View style={styles.labelTextContainer2}>
+											<Text style={styles.label}>
                                         Telephone:{' '}
-									</Text>
-									<Text style={styles.text}>
-										{item.telephone}
-									</Text>
+											</Text>
+											<Text style={styles.text}>
+												{item.telephone}
+											</Text>
+										</View>
+									</View>
+									<View style={stylesButton.container}>
+										<View style={stylesButton.iconContainer}>
+											<TouchableWithoutFeedback
+												onPress={() => deleteGyn( item.id )}
+											>
+												<Image source={require( '../assets/TrashCan.png' )}
+													style={{ width: 25, height: 28,  }}
+												/>
+											</TouchableWithoutFeedback>
+										</View>
+									</View>
 								</View>
-
-								<TouchableWithoutFeedback
-									onPress={() => deleteGyn( item.id )}
-								>
-									<Pressable
-										style={styles.buttonSmall}
-										onPress={() => deleteGyn( item.id )}
-									>
-										<Text style={styles.buttonText}>
-                                            Delete
-										</Text>
-									</Pressable>
-								</TouchableWithoutFeedback>
-							</View>
-						</TouchableWithoutFeedback>
-					)}
-					keyExtractor={item => item.id}
-				/>
-				<Pressable
-					style={styles.button}
-					onPress={() => setViewGynecologists( false )}
-				>
-					<Text style={styles.buttonText}>Cancel</Text>
-				</Pressable>
+							</TouchableWithoutFeedback>
+						)}
+						keyExtractor={item => item.id}
+					/> )}
 			</View>
 		</Modal>
 	);
 };
 
+
+const stylesButton = StyleSheet.create( {
+	container: {
+		flex: 1,
+		alignItems: 'flex-end',
+		// marginTop: 5,
+		// marginRight: 5
+	},
+	iconContainer: {
+		borderWidth: 2, 
+		borderRadius: 5, 
+		borderColor:'#D31D1D',
+		padding: 6
+	}
+} );
+
 const styles = StyleSheet.create( {
 	flatList: {
-		width: screen.width - 30,
+		
 	},
-	container: {
+	mainContainer: {
 		flex: 1,
 		alignItems: 'center',
 	},
-	labelTextContainer: {
-		padding: 10,
+	buttonAndInfo: {
+		padding: 15,
 		borderRadius: 10,
 		borderColor: '#D31D1D',
-		borderWidth: 3,
-		marginBottom: 10,
-		marginTop: 5,
+		borderWidth: 2,
+		// marginBottom: 10,
+		marginTop: 15,
+		flex: 1 , 
+		flexDirection: 'row',
+		width: 320,
+		marginLeft: ( screen.width-320 )/2,
+		marginRight: ( screen.width-320 )/2,
 	},
 	labelTextContainer2: {
-		margin: 5,
+		width: 320
 	},
 	label: {
-		fontSize: 18,
+		fontSize: 16,
 		fontWeight: '600',
 	},
 	text: {
-		fontSize: 18,
+		fontSize: 14,
 	},
 	titleBackground: {
 		backgroundColor: '#D31D1D',
 		padding: 15,
+		paddingRight: 20,
 		width: screen.width,
-		marginBottom: 10,
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		maxHeight: 63
 	},
-	title: {
-		color: 'white',
-		fontSize: 20,
-		fontWeight: '600',
-	},
-	buttonText: {
+	titleText: {
 		color: 'white',
 		fontSize: 20,
 		fontWeight: '500',
-	},
-	button: {
-		alignItems: 'center',
-		justifyContent: 'center',
-		paddingVertical: 12,
-		paddingHorizontal: 32,
-		width: 300,
-		borderRadius: 8,
-		elevation: 3,
-		backgroundColor: '#D31D1D',
-		height: 63,
-		margin: 10,
-	},
-	buttonSmall: {
-		alignItems: 'center',
-		justifyContent: 'center',
-		paddingHorizontal: 32,
-		width: 150,
-		borderRadius: 8,
-		elevation: 5,
-		backgroundColor: '#D31D1D',
-		height: 53,
-		margin: 10,
-		borderStartColor: 'blue',
-		zIndex: 5,
 	},
 } );
 

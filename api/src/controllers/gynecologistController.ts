@@ -58,7 +58,7 @@ router.delete( '/:gynId', async ( req: Request, res: Response, next: NextFunctio
 	{
 		return next( new AppError( error.message, error.code ) );
 	}
-	res.status( 204 );
+	res.json( { message: 'Gynecologist deleted successfully!' } );
 }
 );
 
