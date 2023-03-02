@@ -6,17 +6,23 @@ interface Props {
     onPress: any;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     image?: any;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	styleButton?: any; 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	styleButtonContent?: any; 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	styleButtonText?: any; 
 }
 
-const ImageButton: React.FC<Props> = ( { text, onPress, image } ) => 
+const ImageButton: React.FC<Props> = ( { text, onPress, image, styleButton, styleButtonContent, styleButtonText } ) => 
 {
 	return (
-		<TouchableOpacity style={stylesButton.button} onPress={onPress}>
-			<View style={stylesButton.buttonContent}>
+		<TouchableOpacity style={styleButton || stylesButton.button} onPress={onPress}>
+			<View style={styleButtonContent || stylesButton.buttonContent}>
 				{image &&
-                    <Image source={image} style={{ width: 20, height: 20, }} />
+                    <Image source={image} style={{ width: 20, height: 20, marginRight: 15 }} />
 				}
-				<Text style={stylesButton.buttonText}>{text}</Text>
+				<Text style={styleButtonText || stylesButton.buttonText}>{text}</Text>
 			</View>
 		</TouchableOpacity>
 	);
@@ -28,7 +34,6 @@ const stylesButton = StyleSheet.create( {
 		color: 'white',
 		fontWeight: '600',
 		fontSize: 16,
-		marginLeft: 14
 	},
 	button: {
 		flex: 1,
