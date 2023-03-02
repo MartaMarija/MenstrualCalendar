@@ -88,12 +88,12 @@ const Login = () =>
 										</TouchableOpacity>
 									)}
 								</View>
-								<ImageButton
-									image={require( '../assets/LogInSign.png' )}
-									text='Log in'
-									onPress={props.handleSubmit}
-								/>
 							</View>
+							<ImageButton
+								image={require( '../assets/LogInSign.png' )}
+								text='Log in'
+								onPress={props.handleSubmit}
+							/>
 						</View>
 						<View style={styles.container3}>
 							<TouchableOpacity >
@@ -111,32 +111,6 @@ const Login = () =>
 		</View>
 	);
 };
-  
-const stylesButton = StyleSheet.create( {
-	buttonText: {
-		color: 'white',
-		fontWeight: '600',
-		fontSize: 16,
-		marginLeft: 14
-	},
-	button: {
-		flex: 1,
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'center',
-		marginTop: 20,
-		paddingVertical: 12,
-		width: 272,
-		borderRadius: 20,
-		elevation: 3,
-		backgroundColor: '#D31D1D',
-		maxHeight: 63,
-	},
-	buttonContent: {
-		flexDirection: 'row',
-		alignItems: 'center'
-	}
-} );
 
 const styles = StyleSheet.create( {
 	mainContainer: {
