@@ -25,7 +25,7 @@ export class MedicalExam extends TemporalEntity
 	constructor(
 		date: Date,
 		description: string,
-		gynecologist: Gynecologist,
+		gynecologist: Gynecologist | null,
 		user: User
 	) 
 	{

@@ -1,4 +1,5 @@
 import { MedicalExam } from '../entity/MedicalExam';
+import { GynecologistResponse } from './GynecologistResponse';
 
 export class MedicalExamResponse 
 {
@@ -6,17 +7,18 @@ export class MedicalExamResponse
 		public id: string,
 		public date: Date,
 		public description: string,
-		public gynName: string | undefined
+		public gynecologist: GynecologistResponse | undefined
 	) 
 	{}
 
 	public static toDto( medicalExam: MedicalExam ): MedicalExamResponse 
 	{
+		const gynecologist = medicalExam.gynecologist ? GynecologistResponse.toDto( medicalExam.gynecologist ) : undefined; 
 		return new MedicalExamResponse(
 			medicalExam.id,
 			medicalExam.date,
 			medicalExam.description,
-			medicalExam.gynecologist?.first_name
+			gynecologist
 		);
 	}
 

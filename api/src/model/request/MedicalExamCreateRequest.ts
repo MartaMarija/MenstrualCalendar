@@ -10,7 +10,7 @@ export class MedicalExamCreateRequest
 	) 
 	{}
   
-	public static async toEntity( medicalExamCreateRequest: MedicalExamCreateRequest, user: User, gyn: Gynecologist ): Promise<MedicalExam> 
+	public static async toEntity( medicalExamCreateRequest: MedicalExamCreateRequest, user: User, gyn: Gynecologist | null ): Promise<MedicalExam> 
 	{
 		return new MedicalExam(
 			medicalExamCreateRequest.date,

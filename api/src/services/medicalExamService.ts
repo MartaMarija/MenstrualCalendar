@@ -22,14 +22,15 @@ export const getMedicalExams = async ( req : AuthRequest ): Promise<MedicalExam[
 export const insertMedicalExam = async ( req : AuthRequest ) => 
 {
 	const user = await userService.getUserbyId( req.userData.id );
-	const gyn = await gynecologistService.getGynecologistbyId( req.body.gynId );
+	let gyn = null;
+	if ( req.body.gynecologistId )
+	{
+
+		gyn = await gynecologistService.getGynecologistbyId( req.body.gynecologistId );
+	}
 	if ( !user ) 
 	{
 		throw new AppError ( 'Unauthorized', 401 );
-	}
-	if( !gyn )
-	{
-		throw new AppError ( 'Gyn not found', 404 );
 	}
 	const medicalExam = await MedicalExamCreateRequest.toEntity( req.body as MedicalExamCreateRequest, user, gyn );
 	await MedicalExamRepository.save( medicalExam )

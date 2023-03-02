@@ -26,6 +26,7 @@ const screen = Dimensions.get( 'window' );
 const AddMedicalExam: React.FC<Props> = ( { setAddMedicalExam } ) => 
 {
 	const [gynecologists, setGynecologists] = useState<Gynecologist[]>();
+	const [error, setError] = useState( '' );
 
 	useEffect( () => 
 	{
@@ -38,8 +39,20 @@ const AddMedicalExam: React.FC<Props> = ( { setAddMedicalExam } ) =>
 
 	async function submit( values: MedicalExam ) 
 	{
-		await insertMedicalExam( values );
-		setAddMedicalExam( false );
+		const response = await insertMedicalExam( values ).catch( ( error )=>
+		{
+			switch( error.response.status )
+			{
+			case 400:
+				setError( 'Description is required!' );
+				break;
+			case 500:
+				setError( 'Internal server error!' );
+				break;
+			}
+		} );
+		console.log( response );
+		// setAddMedicalExam( false );
 	}
 
 	return (
@@ -51,14 +64,18 @@ const AddMedicalExam: React.FC<Props> = ( { setAddMedicalExam } ) =>
 						date: new Date(),
 						description: '',
 						gynecologist: {
-							id: '',
-							first_name: '',
-							last_name: '',
-							address: '',
-							telephone: '',
+							id: gynecologists[0].id || '',
+							first_name: gynecologists[0].first_name || '',
+							last_name: gynecologists[0].last_name || '',
+							address: gynecologists[0].address || '',
+							telephone: gynecologists[0].telephone || '',
 						},
 					}}
-					onSubmit={( values: MedicalExam ) => submit( values )}
+					onSubmit={( values: MedicalExam ) => 
+					{
+						values.gynecologist.id = values.gynecologist.id || '';
+						submit( values );
+					}}
 				>
 					{props => (
 						<View style={styles.container}>
@@ -89,15 +106,14 @@ const AddMedicalExam: React.FC<Props> = ( { setAddMedicalExam } ) =>
 								<Text style={styles.text}>Gyn:</Text>
 								<View style={styles.picker}>
 									<Picker
-										selectedValue={
-											props.values.gynecologist.id
-										}
-										onValueChange={value =>
-											props.setFieldValue(
-												'gynecologist.id',
-												value
-											)
-										}
+										selectedValue={props.values.gynecologist.id}
+										onValueChange={value => 
+										{
+											const selectedGynecologist = gynecologists.find(
+												gynecologist => gynecologist.id === value
+											);
+											props.setFieldValue( 'gynecologist', selectedGynecologist );
+										}}
 									>
 										{gynecologists.map( gynecologist => (
 											<Picker.Item
@@ -108,6 +124,12 @@ const AddMedicalExam: React.FC<Props> = ( { setAddMedicalExam } ) =>
 										) )}
 									</Picker>
 								</View>
+								{error && (
+									<Text style={styles.errors}>
+										<Text style={{ fontWeight: '600' }}>Error: </Text>{' '}
+										{error}
+									</Text>
+								)}
 							</View>
 							<Pressable
 								style={styles.button}
@@ -189,6 +211,13 @@ const styles = StyleSheet.create( {
 		height: 63,
 		margin: 10,
 	},
+	errors: {
+		fontStyle: 'italic',
+		color: '#D31D1D',
+		marginTop: 7,
+		marginLeft: 7,
+		marginBottom: 10
+	}
 } );
 
 export default AddMedicalExam;
