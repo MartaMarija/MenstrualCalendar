@@ -24,7 +24,7 @@ const MedicalExam = () =>
 	return (
 		<View style={styles.container}>
 			{viewMedicalExams && <ViewMedicalExam setViewMedicalExams={setViewMedicalExams}/>}
-			{addGynecologist && <AddGynecologist setAddGynecologist={setAddGynecologist}/>}
+			{addGynecologist && <AddGynecologist setAddGynecologist={setAddGynecologist} showToast={showToast}/>}
 			{viewGynecologists && <ViewGynecologists setViewGynecologists={setViewGynecologists}/>}
 			{addMedicalExam && <AddMedicalExam setAddMedicalExam={setAddMedicalExam} showToast={showToast}/>}
 			<View style={styles.containerButtonsLogo}>
