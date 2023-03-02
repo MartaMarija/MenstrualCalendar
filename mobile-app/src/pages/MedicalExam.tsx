@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet, ToastAndroid } from 'react-native';
 import AddGynecologist from '../components/AddGynecologist';
 import AddMedicalExam from '../components/AddMedicalExam';
 import ImageButton from '../components/ImageButton';
@@ -12,12 +12,21 @@ const MedicalExam = () =>
 	const [addGynecologist, setAddGynecologist] = useState( false );
 	const [viewGynecologists, setViewGynecologists] = useState( false );
 	const [addMedicalExam, setAddMedicalExam] = useState( false );
+	
+	const showToast = ( message: string ) => 
+	{
+		ToastAndroid.show(
+			message,
+			ToastAndroid.SHORT
+		);
+	};
+	
 	return (
 		<View style={styles.container}>
 			{viewMedicalExams && <ViewMedicalExam setViewMedicalExams={setViewMedicalExams}/>}
 			{addGynecologist && <AddGynecologist setAddGynecologist={setAddGynecologist}/>}
 			{viewGynecologists && <ViewGynecologists setViewGynecologists={setViewGynecologists}/>}
-			{addMedicalExam && <AddMedicalExam setAddMedicalExam={setAddMedicalExam}/>}
+			{addMedicalExam && <AddMedicalExam setAddMedicalExam={setAddMedicalExam} showToast={showToast}/>}
 			<View style={styles.containerButtonsLogo}>
 				<Image
 					source={require ( '../assets/Logo.png' )}

@@ -23,12 +23,13 @@ import ImageButton from './ImageButton';
 interface Props {
     setAddMedicalExam: (
         pressed: boolean | ( ( prevPressed: boolean ) => boolean )
-    ) => void
+    ) => void,
+	showToast : ( message : string ) => void
 }
 
 const screen = Dimensions.get( 'window' );
 
-const AddMedicalExam: React.FC<Props> = ( { setAddMedicalExam } ) => 
+const AddMedicalExam: React.FC<Props> = ( { setAddMedicalExam, showToast } ) => 
 {
 	const [gynecologists, setGynecologists] = useState<Gynecologist[]>();
 	const [error, setError] = useState( '' );
@@ -62,6 +63,7 @@ const AddMedicalExam: React.FC<Props> = ( { setAddMedicalExam } ) =>
 		} );
 		if ( response )
 		{
+			showToast( response.message );
 			setAddMedicalExam( false );
 		}
 	}
