@@ -1,14 +1,6 @@
 import { useEffect, useState } from 'react';
-import {
-	Text,
-	View,
-	StyleSheet,
-	Modal,
-	FlatList,
-	Dimensions,
-	TouchableWithoutFeedback,
-	Image,
-	Pressable
+import { Pressable, Text, View, StyleSheet, Modal, FlatList, 
+	Dimensions, TouchableWithoutFeedback, Image, ToastAndroid
 } from 'react-native';
 import { getGynecologists, delteGynecologist } from '../api/gynecologist';
 import { Gynecologist } from '../api/response/Gynecologist';
@@ -39,10 +31,37 @@ const ViewGynecologists: React.FC<Props> = ( { setViewGynecologists } ) =>
 		setGynecologists( gynecologists );
 	}
 
+	const showToast = ( message: string ) => 
+	{
+		ToastAndroid.show(
+			message,
+			ToastAndroid.SHORT
+		);
+	};
+
 	async function deleteGyn( gynId: string ) 
 	{
-		await delteGynecologist( gynId );
-		await fetchGyns();
+		const response = await delteGynecologist( gynId ).catch( ( error ) =>
+		{
+			switch( error.response.status )
+			{
+			case 404:
+				showToast( 'Gynecologist not found!' );
+				break;
+			case 500:
+				showToast( 'Internal server error' );
+				break;
+			default:
+				showToast( 'Unknown error occured!' );
+				break;
+			}
+		}
+		);
+		if ( response )
+		{
+			await fetchGyns();
+			showToast( response.message );
+		}
 	}
 
 	return (
@@ -61,41 +80,26 @@ const ViewGynecologists: React.FC<Props> = ( { setViewGynecologists } ) =>
 					( <Text style={{ marginTop: 20 }}>There are no gynecologists to show!</Text> )
 					:
 					( <FlatList
-						style={styles.flatList}
 						data={gynecologists}
 						renderItem={( { item } ) => (
 							<TouchableWithoutFeedback>
 								<View style={styles.buttonAndInfo}>
 									<View style={{ flex: 1 , alignContent: 'center', justifyContent: 'center' }}>
 										<View style={styles.labelTextContainer2}>
-											<Text style={styles.label}>
-                                        First name:{' '}
-											</Text>
-											<Text style={styles.text}>
-												{item.first_name}
-											</Text>
+											<Text style={styles.label}>First name:</Text>
+											<Text style={styles.text}>{item.first_name} </Text>
 										</View>
 										<View style={styles.labelTextContainer2}>
-											<Text style={styles.label}>
-                                        Last name:{' '}
-											</Text>
-											<Text style={styles.text}>
-												{item.last_name}
-											</Text>
+											<Text style={styles.label}>Last name:</Text>
+											<Text style={styles.text}>{item.last_name} </Text>
 										</View>
 										<View style={styles.labelTextContainer2}>
-											<Text style={styles.label}>Address: </Text>
-											<Text style={styles.text}>
-												{item.address}
-											</Text>
+											<Text style={styles.label}>Address:</Text>
+											<Text style={styles.text}>{item.address} </Text>
 										</View>
 										<View style={styles.labelTextContainer2}>
-											<Text style={styles.label}>
-                                        Telephone:{' '}
-											</Text>
-											<Text style={styles.text}>
-												{item.telephone}
-											</Text>
+											<Text style={styles.label}>Telephone:</Text>
+											<Text style={styles.text}>{item.telephone} </Text>
 										</View>
 									</View>
 									<View style={stylesButton.container}>
@@ -136,9 +140,6 @@ const stylesButton = StyleSheet.create( {
 } );
 
 const styles = StyleSheet.create( {
-	flatList: {
-		
-	},
 	mainContainer: {
 		flex: 1,
 		alignItems: 'center',
@@ -148,7 +149,6 @@ const styles = StyleSheet.create( {
 		borderRadius: 10,
 		borderColor: '#D31D1D',
 		borderWidth: 2,
-		// marginBottom: 10,
 		marginTop: 15,
 		flex: 1 , 
 		flexDirection: 'row',
@@ -165,6 +165,8 @@ const styles = StyleSheet.create( {
 	},
 	text: {
 		fontSize: 14,
+		width: 290,
+		marginBottom: 5
 	},
 	titleBackground: {
 		backgroundColor: '#D31D1D',
