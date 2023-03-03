@@ -56,7 +56,7 @@ router.delete( '/:medicalExamId', async ( req: Request, res: Response, next: Nex
 	{
 		return next( new AppError( error.message, error.code ) );
 	}
-	res.status( 204 ).send();
+	res.json( { message: 'Medical exam deleted successfully!' } );
 }
 );
 
