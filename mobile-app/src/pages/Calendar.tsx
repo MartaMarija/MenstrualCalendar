@@ -33,6 +33,11 @@ const CalendarScreen = () =>
 				.find( menstrualCycleDate => menstrualCycleDate.isInLastCycle );
 			setLastMenstrualCycleDates( lastMenstrualCycleDates );
 			const markedDates: MarkedDates = {};
+			const today : string = ( new Date( ) ).toISOString().substring( 0,10 );
+			markedDates[today] =
+			{
+				'textColor': '#D31D1D'
+			};
 			response.forEach( menstrualCycleDates => 
 			{
 				if( menstrualCycleDates.cycleStart === menstrualCycleDates.cycleEnd )
@@ -123,14 +128,6 @@ const CalendarScreen = () =>
 				'startingDay': true,
 				'endingDay': true
 			};
-			const today : string = ( new Date( ) ).toISOString().substring( 0,10 );
-			markedDates[today] =
-			{
-				'color': '#587D71',
-				'textColor': 'white',
-				'startingDay': true,
-				'endingDay': true
-			};
 			setMarkedDatesArray( markedDates );
 		}
 	}
@@ -176,6 +173,8 @@ const CalendarScreen = () =>
 					textDayHeaderFontWeight: 'bold',
 				}}
 				headerStyle={{ backgroundColor: '#D31D1D' }}
+				markingStyle={{ borderRadius: 0 }} 
+				firstDay={1}
 			/> 
 			{isPressed && pressedDate && lastMenstrualCycleDates && (
 				<TouchableOpacity
