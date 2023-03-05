@@ -70,3 +70,7 @@ To start the server, follow these steps:
 3. Create a Docker container by running `./restart_docker_db.sh`.
 4. Compile TypeScript to JavaScript by running `yarn watch`.
 5. Start the server by running `yarn start`.
+
+Testing data:
+* e-mail: ana@gmail.com
+* password: password
