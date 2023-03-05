@@ -178,7 +178,7 @@ const CalendarScreen = () =>
 			/> 
 			{isPressed && pressedDate && lastMenstrualCycleDates && (
 				<TouchableOpacity
-					style={styles.container}
+					// style={styles.container}
 					onPress={() => setIsPressed( false )}
 				>
 					<View style={styles.container2}>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Modal, Pressable } from 'react-native';
 import { DateData } from 'react-native-calendars';
 import { MenstrualCycleDates } from '../api/response/MenstrualCycleDates';
 
@@ -107,56 +107,71 @@ const OptionList: React.FC<Props> = ( { pressedDate, lastMenstrualCycleDates, se
 	}
 
 	return (
-		<View style={styles.container}>
-			{showAddPeriod && (
-				<Text 
-					style={styles.font} 
-					onPress={() => 
-					{
-						setIsPressed( false );
-						addPeriod( convertPressedDatefromDateDataToString() );
-					}} >
+		<Modal transparent statusBarTranslucent>
+			<Pressable style={styles.opacityAndPosition}
+				onPress={() => 
+				{
+					setIsPressed( false );
+				}}>
+				<View style={styles.container}>
+					{showAddPeriod && (
+						<Text 
+							style={styles.font} 
+							onPress={() => 
+							{
+								setIsPressed( false );
+								addPeriod( convertPressedDatefromDateDataToString() );
+							}} >
                     Add period
-				</Text>
-			)}
-			{showEndPeriod && (
-				<Text 
-					style={styles.font} 
-					onPress={() => 
-					{
-						setIsPressed( false );
-						updatePeriod( convertPressedDatefromDateDataToString() );
-					}} >
+						</Text>
+					)}
+					{showEndPeriod && (
+						<Text 
+							style={styles.font} 
+							onPress={() => 
+							{
+								setIsPressed( false );
+								updatePeriod( convertPressedDatefromDateDataToString() );
+							}} >
                     End period
-				</Text>
-			)}
-			{showRemovePeriod && (
-				<Text 
-					style={styles.font} 
-					onPress={() => 
-					{
-						setIsPressed( false );
-						removePeriod();
-					}} >
+						</Text>
+					)}
+					{showRemovePeriod && (
+						<Text 
+							style={styles.font} 
+							onPress={() => 
+							{
+								setIsPressed( false );
+								removePeriod();
+							}} >
 					Remove period
-				</Text>
-			)}
-			{/* TODO onPress addDescription */}
-			<Text style={styles.font}>Add description</Text>
-		</View>
+						</Text>
+					)}
+					{/* TODO onPress addDescription */}
+					<Text style={[styles.font, { marginBottom: 0 }]}>Add description</Text>
+				</View>
+			</Pressable>
+		</Modal>
 	);
 };
 
 const styles = StyleSheet.create( {
+	opacityAndPosition: {
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: 'rgba(0,0,0,0.5)',
+	},
 	container: {
 		backgroundColor: '#D31D1D',
 		padding: 18,
 		borderRadius: 20,
 	},
 	font: {
-		fontSize: 20,
+		fontSize: 16,
 		padding: 5,
 		color: 'white',
+		marginBottom: 9
 	},
 } );
 
