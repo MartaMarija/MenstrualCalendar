@@ -51,8 +51,8 @@ export const refreshToken = async ( req: Request ) : Promise<LoginResponse> =>
 	catch ( error )
 	{
 		const errorMessage = ( error instanceof AppError ) ? error.message : 'Unauthorized';		
-		const errorCode = ( error instanceof AppError ) ? error.code : 401;	
-		throw new AppError( errorMessage, errorCode );
+		// const errorCode = ( error instanceof AppError ) ? error.code : 400;	
+		throw new AppError( errorMessage, 400 );
 	}
 };
 
