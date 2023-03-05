@@ -26,6 +26,13 @@ The application is designed as a tool that based on previously entered menstrual
 | <a href="#add-a-medical-exam">Add a medical exam</a> | A new medical exam can be added. The date is by default set to today's date but can be changed by pressing another date on the calendar. Description is required, but the gynecologist doesn't have to be added. |
 | <a href="#view-medical-exams">View medical exams</a> | The user can see all added medical exams. By pressing a trash icon, a medical exam can be deleted. |
 
+TODO list:
+* Adding descriptions to days
+* Edit profile
+* Sign up
+* Forgot password
+* When refresh token isn't valid, log out user
+
 
 ## Application screenshots
 
